@@ -44,7 +44,7 @@ class ProductControllerTest {
 	 * 
 	 */
 	@Test
-	void testOnSuccessSaveProduct() {
+	void testSaveProductWhenSuccess() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         ProductModel productModel = new ProductModel(12, "Lemon", 455.55, "dafkdasfadso", "H", 21);

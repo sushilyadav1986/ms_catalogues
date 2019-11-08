@@ -19,16 +19,15 @@ import com.hcl.ms.cat.utils.StringUtils;
  *
  */
 public class BusinessValidator implements Validator {
-
 	@Override
 	public ResponseEntity<Object> validateProduct(ProductModel productModel) {
-		if (String.valueOf(productModel.getCatalogueId()) != null
-				&& String.valueOf(productModel.getCatalogueId()).length() > 0) {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "catlogue id can not empty"), HttpStatus.OK);
+		if (String.valueOf(productModel.getCatalogueId()) == null
+				&& String.valueOf(productModel.getCatalogueId()).length() <1) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
 		} else if (productModel.getCatalogueId() == 0) {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "catlogue id can not 0"), HttpStatus.OK);
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_0), HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(productModel.getProductName())) {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "Product name can not blank"), HttpStatus.OK);
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PROD_NAME_BLANK), HttpStatus.OK);
 		} else {
 			return null;
 		}
@@ -43,7 +42,7 @@ public class BusinessValidator implements Validator {
 	}
 
 	public ResponseEntity<Object> isIdEmpty(long proId) {
-		if (StringUtils.isNullOrEmpty(String.valueOf(proId))) {
+		if (!StringUtils.isNullOrEmpty(String.valueOf(proId))) {
 			if (isEmailValid(proId)) {
 				return null;
 			} else {
@@ -80,7 +79,7 @@ public class BusinessValidator implements Validator {
 
 	public ResponseEntity<Object> isProdModelNull(ProductModel productModel) {
 		if (productModel != null) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.SUCCESS, productModel),
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, productModel),
 					HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
@@ -90,7 +89,7 @@ public class BusinessValidator implements Validator {
 
 	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList) {
 		if (!pModelList.isEmpty() && pModelList.size() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.SUCCESS, pModelList), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, pModelList), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);

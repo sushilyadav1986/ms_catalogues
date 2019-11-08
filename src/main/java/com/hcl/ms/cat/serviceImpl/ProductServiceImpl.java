@@ -1,5 +1,6 @@
 package com.hcl.ms.cat.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,36 +20,40 @@ import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.ProductServiceImplUtils;
 
-/**Create Service class
- * Single point of content for All product related operations in DB
+/**
+ * Create Service class Single point of content for All product related
+ * operations in DB
+ * 
  * @author SushilY
  *
  */
 @Service
 @Transactional
-public class ProductServiceImpl  implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired(required = true)
 	ProductServiceImplUtils productServiceImplUtils;
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
 
 	/**
 	 * This function is used to save Product details
 	 */
 	@Override
 	public String saveProduct(ProductModel productModel) {
-		Product product=productRepository.save(productServiceImplUtils.getProduct(productModel));
-		productModel=productServiceImplUtils.getProductModel(product);
-		if(productModel.getProductId()>0) {
-			return AppConstant.SUCCESS;
-		}
-		else {
-			return null;
+		try {
+			Product product = productRepository.save(productServiceImplUtils.getProduct(productModel));
+			productModel = productServiceImplUtils.getProductModel(product);
+			if (productModel.getProductId() > 0) {
+				return AppConstant.PRODUCT_ADDED_SUCCESSFULLY;
+			} else {
+				return AppConstant.PRODUCT_DOES_NOT_ADDED;
+			}
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 	}
 
@@ -57,15 +62,20 @@ public class ProductServiceImpl  implements ProductService {
 	 */
 	@Override
 	public ProductModel findProductDetails(long productId) {
-		Optional<Product> productOptional = productRepository.findById(productId);
-		if (!productOptional.isPresent()) {
-			return null;
-		}
-		Product product = productOptional.get();
-		if (product != null) {
-			return product.getModel();
-		} else {
-			return null;
+		try {
+			Optional<Product> productOptional = productRepository.findById(productId);
+			if (!productOptional.isPresent()) {
+				return null;
+			}
+			Product product = productOptional.get();
+			if (product != null) {
+				return product.getModel();
+			} else {
+				return null;
+			}
+
+		} catch (Exception e) {
+			return new ProductModel();
 		}
 	}
 
@@ -74,12 +84,17 @@ public class ProductServiceImpl  implements ProductService {
 	 */
 	@Override
 	public List<ProductModel> findAllProductListByUserId(long userId) {
-		User user = userRepository.findUserById(userId);
-		if (user == null) {
-			return null;
-		} else {
-			List<Product> pList = productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
-			return productServiceImplUtils.getAllProdModel(pList);
+		List<Product> pList = new ArrayList<Product>();
+		try {
+			User user = userRepository.findUserById(userId);
+			if (user == null) {
+				return null;
+			} else {
+				pList = productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
+				return productServiceImplUtils.getAllProdModel(pList);
+			}
+		} catch (Exception e) {
+			return new ArrayList<ProductModel>();
 		}
 	}
 
@@ -88,14 +103,18 @@ public class ProductServiceImpl  implements ProductService {
 	 */
 	@Override
 	public String updateProductDetails(ProductModel productModel) {
-		Optional<Product> productOptional = productRepository.findById(productModel.getProductId());
-		if (!productOptional.isPresent()) {
-			return AppConstant.PRODUCT_UPDATED_FAILED;
-		} else {
-			Product product = productOptional.get();
-			product=productServiceImplUtils.getProduct(productModel);
-			productRepository.save(product);
-			return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
+		try {
+			Optional<Product> productOptional = productRepository.findById(productModel.getProductId());
+			if (!productOptional.isPresent()) {
+				return AppConstant.PRODUCT_UPDATED_FAILED;
+			} else {
+				Product product = productOptional.get();
+				product = productServiceImplUtils.getProduct(productModel);
+				productRepository.save(product);
+				return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
+			}
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 	}
 
@@ -104,12 +123,16 @@ public class ProductServiceImpl  implements ProductService {
 	 */
 	@Override
 	public String deleteByProductId(long productId) {
-		productRepository.deleteById(productId);
-		Optional<Product> productOptional = productRepository.findById(productId);
-		if (!productOptional.isPresent()) {
-			return "Product successfully deleted";
-		} else {
-			return "Product can not delete. Please try again.";
+		try {
+			productRepository.deleteById(productId);
+			Optional<Product> productOptional = productRepository.findById(productId);
+			if (!productOptional.isPresent()) {
+				return AppConstant.PRODUCT_DELETED;
+			} else {
+				return AppConstant.PRODUCT_NOT_DELETED;
+			}
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 	}
 
@@ -119,9 +142,13 @@ public class ProductServiceImpl  implements ProductService {
 	 */
 	@Override
 	public List<ProductModel> findAllProduct(int pageNumber, int noOfProducts) {
-		Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
-		Page<Product> pageList = productRepository.findAll(pageable);
-		return productServiceImplUtils.getAllProductByPageNumber(pageList);
+		try {
+			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
+			Page<Product> pageList = productRepository.findAll(pageable);
+			return productServiceImplUtils.getAllProductByPageNumber(pageList);
+		} catch (Exception e) {
+			return new ArrayList<ProductModel>();
+		}
 	}
 
 }
