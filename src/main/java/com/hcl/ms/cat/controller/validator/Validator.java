@@ -36,6 +36,8 @@ public interface Validator {
 	public ResponseEntity<Object> isProdModelNull(ProductModel productModel);
 	
 	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList);
+
+	ResponseEntity<Object> validateProductWithProdId(ProductModel productModel);
 	
 
 }

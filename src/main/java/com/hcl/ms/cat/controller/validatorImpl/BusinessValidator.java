@@ -32,8 +32,25 @@ public class BusinessValidator implements Validator {
 			return null;
 		}
 	}
+	
+	@Override
+	public ResponseEntity<Object> validateProductWithProdId(ProductModel productModel) {
+		if(!isIdValid(productModel.getProductId())) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PROD_ID_0), HttpStatus.OK);
+		}else if (String.valueOf(productModel.getCatalogueId()) == null
+				&& String.valueOf(productModel.getCatalogueId()).length() <1) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
+		} else if (!isIdValid(productModel.getCatalogueId())) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_0), HttpStatus.OK);
+		} else if (StringUtils.isNullOrEmpty(productModel.getProductName())) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PROD_NAME_BLANK), HttpStatus.OK);
+		} else {
+			return null;
+		}
+		
+	}
 
-	private boolean isEmailValid(long id) {
+	private boolean isIdValid(long id) {
 		if (id > 0) {
 			return true;
 		} else {
@@ -43,7 +60,7 @@ public class BusinessValidator implements Validator {
 
 	public ResponseEntity<Object> isIdEmpty(long proId) {
 		if (!StringUtils.isNullOrEmpty(String.valueOf(proId))) {
-			if (isEmailValid(proId)) {
+			if (isIdValid(proId)) {
 				return null;
 			} else {
 				return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PROD_ID_0), HttpStatus.OK);

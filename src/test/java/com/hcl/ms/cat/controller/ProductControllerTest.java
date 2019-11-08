@@ -3,6 +3,8 @@ package com.hcl.ms.cat.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.model.ProductModel;
+import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
+import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.test.ProdControllerJUtils;
 
@@ -31,6 +35,9 @@ class ProductControllerTest extends ProdControllerJUtils {
 
 	@Mock
 	ProductService productService;
+	
+	@Mock
+	UserService userService;
 
 	@InjectMocks
 	ProductController productController;
@@ -47,7 +54,7 @@ class ProductControllerTest extends ProdControllerJUtils {
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
-		Mockito.when(productService.saveProduct(productModel)).thenReturn(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY);
+		Mockito.when(productService.saveProduct(productModel)).thenReturn(AppConstant.PRODUCT_ADDED_SUCCESSFULLY);
 		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
@@ -89,83 +96,123 @@ class ProductControllerTest extends ProdControllerJUtils {
 
 	@Test
 	void testFindProductDetailsWhenFailure() {
-		ProductModel productModel = findProdModelWithoutCatId();
+		ProductModel productModel = findProdModelWithId();
 		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
-		
 		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(responseEntity);
 		ResponseEntity<Object> entity = productController.findProductDetails(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
-
 	}
 
 	@Test
 	void testFindProductDetailsWhenException() {
-		ProductModel productModel = new ProductModel(12, "Lemon", 455.55, "dafkdasfadso", "H", 21);
+		ProductModel productModel = findProdModelWithId();
 		Throwable exception = findException();
 		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
-		Mockito.when(productService.saveProduct(productModel)).thenThrow(exception);
+		Mockito.when(productService.findProductDetails(productModel.getProductId())).thenThrow(exception);
 		ResponseEntity<Object> responseEntity = productController.findProductDetails(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 	@Test
 	void testFindAllProductListByUserIdWhenSuccess() {
-		fail("Not yet implemented"); // TODO
+		UserModel userModel=findUserModelWithUserId();
+		List<ProductModel>pModelList=findAllProducts();
+		ResponseEntity<Object> responseEntity=findProductResponse() ;
+		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
+		Mockito.when(businessValidator.isProdModelListEmpty(pModelList)).thenReturn(responseEntity);
+		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenReturn(pModelList);
+		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
-		fail("Not yet implemented"); // TODO
+		UserModel userModel=findUserModelWithUserId();
+		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
+		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(responseEntity);
+		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testFindAllProductListByUserIdWhenException() {
-		fail("Not yet implemented"); // TODO
+		UserModel userModel=findUserModelWithUserId();
+		Throwable exception = findException();
+		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
+		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenThrow(exception);
+		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 	@Test
 	void testUpdateProductDetailWhenSuccess() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithId();
+		Mockito.when(businessValidator.validateProductWithProdId(productModel)).thenReturn(null);
+		Mockito.when(productService.updateProductDetails(productModel)).thenReturn(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY);
+		ResponseEntity<Object> responseEntity = productController.updateProductDetail(productModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testUpdateProductDetailWhenFailure() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithoutCatId();
+		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
+		Mockito.when(businessValidator.validateProductWithProdId(productModel)).thenReturn(responseEntity);
+		ResponseEntity<Object> entity = productController.updateProductDetail(productModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testUpdateProductDetailWhenException() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithId();
+		Throwable exception = findException();
+		Mockito.when(businessValidator.validateProductWithProdId(productModel)).thenReturn(null);
+		Mockito.when(productService.updateProductDetails(productModel)).thenThrow(exception);
+		ResponseEntity<Object> responseEntity = productController.updateProductDetail(productModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 	@Test
 	void testDeleteProductDetailWhenSuccess() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithId();
+		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
+		Mockito.when(productService.deleteByProductId(productModel.getProductId())).thenReturn(AppConstant.PRODUCT_DELETED_SUCCESSFULLY);
+		ResponseEntity<Object> responseEntity = productController.deleteProductDetail(productModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testDeleteProductDetailWhenFailure() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithoutProdId();
+		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
+		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(responseEntity);
+		ResponseEntity<Object> entity = productController.deleteProductDetail(productModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testDeleteProductDetailWhenException() {
-		fail("Not yet implemented"); // TODO
+		ProductModel productModel = findProdModelWithId();
+		Throwable exception = findException();
+		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
+		Mockito.when(productService.deleteByProductId(productModel.getProductId())).thenThrow(exception);
+		ResponseEntity<Object> responseEntity = productController.deleteProductDetail(productModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 	@Test
-	void testGetPaginationWhenSuccess() {
-		fail("Not yet implemented"); // TODO
+	void testfindAllProductByPaginationWhenSuccess() {
+		fail("Not yet implemented"); // TODO10
 	}
 
 	@Test
-	void testGetPaginationWhenFailure() {
-		fail("Not yet implemented"); // TODO
+	void testfindAllProductByPaginationWhenFailure() {
+		fail("Not yet implemented"); // TODO1
 	}
 
 	@Test
-	void testGetPaginationWhenException() {
-		fail("Not yet implemented"); // TODO
+	void testfindAllProductByPaginationWhenException() {
+		fail("Not yet implemented"); // TODO2
 	}
 
 }

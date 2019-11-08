@@ -22,7 +22,7 @@ public class UserControllerJUtils {
 	 * @return
 	 */
 	public UserModel findDummyUserModel(){
-		UserModel userModel=new UserModel("firstName", "lastName", "M", "test@gmail.com", 78940623145L);
+		UserModel userModel=new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L);
 		return userModel;
 		
 	}
@@ -30,7 +30,7 @@ public class UserControllerJUtils {
 	 * @return
 	 */
 	public UserModel findDummyUserModelWithoutEmail(){
-		UserModel userModel=new UserModel("firstName", "lastName", "M", "", 78940623145L);
+		UserModel userModel=new UserModel("Sushil", "Yadav", "M", "", 8130834214L);
 		return userModel;
 	}
 	

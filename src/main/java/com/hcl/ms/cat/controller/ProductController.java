@@ -102,7 +102,7 @@ public class ProductController {
 	 */
 	@PostMapping("/updateProductDetails")
 	public ResponseEntity<Object> updateProductDetail(@RequestBody ProductModel productModel) {
-		ResponseEntity<Object> responseEntity = businessValidator.validateProduct(productModel);
+		ResponseEntity<Object> responseEntity = businessValidator.validateProductWithProdId(productModel);
 		if (responseEntity == null) {
 			try {
 				String hasUpdated = productService.updateProductDetails(productModel);
@@ -126,9 +126,9 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				String hasDeleted = productService.deleteByProductId(productModel.getProductId());
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, hasDeleted), HttpStatus.CREATED);
+				return new ResponseEntity<Object>(new NoObjRespnseModel(true, hasDeleted), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()), HttpStatus.OK);
+				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
 			return responseEntity;
@@ -140,7 +140,7 @@ public class ProductController {
 	 * @return
 	 */
 	@PostMapping("/getByPagination")
-	public ResponseEntity<Object> getPagination(@RequestBody PageModel pageModel) {
+	public ResponseEntity<Object> findAllProductByPagination(@RequestBody PageModel pageModel) {
 		ResponseEntity<Object> responseEntity = businessValidator.isValidPage(pageModel);
 		if (responseEntity == null) {
 			try {
