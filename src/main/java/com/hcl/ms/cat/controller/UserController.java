@@ -41,18 +41,29 @@ public class UserController {
 	 */
 	@PostMapping("/add_user")
 	public ResponseEntity<Object> saveUser(@Valid @RequestBody UserModel userModel) {
-		try {
-			
-			UserModel insertedUserModel=iUserService.saveUser(userModel);
-			if (insertedUserModel.getUserId()>0) {
-				return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY, insertedUserModel), HttpStatus.OK);
-			} else {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.USER_DOES_NOT_ADDED),
-						HttpStatus.NOT_ACCEPTABLE);
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
-					HttpStatus.INTERNAL_SERVER_ERROR);
+		if(userModel!=null) {
+			String isObjValid=businessValidator.validUserDetails(userModel);
+				if(isObjValid==null) {
+
+					try {
+						
+						UserModel insertedUserModel=iUserService.saveUser(userModel);
+						if (insertedUserModel.getUserId()>0) {
+							return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY, insertedUserModel), HttpStatus.OK);
+						} else {
+							return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.USER_DOES_NOT_ADDED),
+									HttpStatus.NOT_ACCEPTABLE);
+						}
+					} catch (Exception e) {
+						return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+								HttpStatus.INTERNAL_SERVER_ERROR);
+					}
+				}else {
+					return new ResponseEntity<Object>(new ResponseModel(true, isObjValid, null), HttpStatus.OK);
+				}
+		}else {
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.OBJ_CAN_NOT_NULL, null),
+					HttpStatus.OK);
 		}
 	}
 	

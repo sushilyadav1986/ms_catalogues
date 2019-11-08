@@ -45,7 +45,7 @@ public class ProductController {
 	public ResponseEntity<Object> saveProduct(@Valid @RequestBody ProductModel productModel) {
 		if (productModel != null) {
 			String validateObj = businessValidator.validateProduct(productModel);
-			if (validateObj != null) {
+			if (validateObj == null) {
 				try {
 					ProductModel model = iProductService.saveProduct(productModel);
 					if (model != null) {
@@ -145,7 +145,7 @@ public class ProductController {
 	public ResponseEntity<Object> updateProductDetail(@Valid @RequestBody ProductModel productModel) {
 		if (productModel != null) {
 			String validateObj = businessValidator.validateProduct(productModel);
-			if (validateObj != null) {
+			if (validateObj == null) {
 				try {
 					boolean hasUpdated = iProductService.updateProductDetails(productModel);
 					if (hasUpdated) {
@@ -208,7 +208,6 @@ public class ProductController {
 	public ResponseEntity<Object> getPagination(@Valid @RequestBody PageModel pageModel) {
 		if (pageModel != null) {
 			if (businessValidator.isValidPage(pageModel)) {
-
 				try {
 					List<ProductModel> pList = iProductService.findAllProduct(pageModel.getPageNumber(),
 							pageModel.getNoOfProducts());
