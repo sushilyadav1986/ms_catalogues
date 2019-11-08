@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.UserModel;
-import com.hcl.ms.cat.service.IUserService;
+import com.hcl.ms.cat.service.UserService;
 
 /**
  * Create UserController class Single point of content for All User related
@@ -28,7 +28,7 @@ import com.hcl.ms.cat.service.IUserService;
 public class UserController {
 
 	@Autowired
-	IUserService iUserService;
+	UserService userService;
 
 	@Autowired(required = true)
 	Validator businessValidator;
@@ -42,8 +42,8 @@ public class UserController {
 		ResponseEntity<Object> responseEntity = businessValidator.validUserDetails(userModel);
 		if (responseEntity == null) {
 			try {
-				String insertedUserModel = iUserService.saveUser(userModel);
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, insertedUserModel), HttpStatus.OK);
+				String insertedUserModel = userService.saveUser(userModel);
+				return new ResponseEntity<Object>(new NoObjRespnseModel(true, insertedUserModel), HttpStatus.CREATED);
 			} catch (Exception e) {
 				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);

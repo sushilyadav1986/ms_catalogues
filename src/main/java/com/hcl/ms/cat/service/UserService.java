@@ -7,7 +7,7 @@ import com.hcl.ms.cat.model.UserModel;
  * @author SushilY
  *
  */
-public interface IUserService {
+public interface UserService {
 	
 	
 	/**

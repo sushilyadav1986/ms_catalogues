@@ -1,18 +1,22 @@
 package com.hcl.ms.cat.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
+import com.hcl.ms.cat.CatalogueMsApplication;
+import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.model.UserModel;
-import com.hcl.ms.cat.service.IUserService;
-import com.hcl.ms.cat.utils.test.UserControllerJUnit;
+import com.hcl.ms.cat.service.UserService;
+import com.hcl.ms.cat.utils.AppConstant;
+import com.hcl.ms.cat.utils.test.UserControllerJUtils;
 
 /**
  * Create UserControllerTest.class Test here UserController's function
@@ -20,35 +24,30 @@ import com.hcl.ms.cat.utils.test.UserControllerJUnit;
  * @author SushilY
  *
  */
-class UserControllerTest extends UserControllerJUnit {
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest(classes = CatalogueMsApplication.class)
+class UserControllerTest extends UserControllerJUtils {
 
 	@Mock
-	IUserService iUserService;
-
-	@BeforeEach
-	public void init() {
-		super.init();
-		
-	}
+	UserService userService;
+	
+	@Mock
+	Validator businessValidator;
+	
+	@InjectMocks
+	UserController userController;
 
 	/**
 	 * Test User Details on saveUser() in Controller On success function will retrun
 	 * 200 status
 	 */
 	@Test
-	void testOnSuccessSaveUser() {
-		String uri = "/user/add_user";
+	void testSaveUserWhenSuccess() {
 		UserModel userModel = findDummyUserModel();
-		userModel.setUserId(1);
-		//TODO: test below line
-		//Mockito.when(iUserService.saveUser(userModel)).thenReturn(userModel);
-		try {
-			String inputJson = mapToJson(userModel);
-			int status = callApi(inputJson, uri);
-			assertEquals(200, status);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
+		Mockito.when(userService.saveUser(userModel)).thenReturn(AppConstant.USER_ADDED_SUCCESSFULLY);
+		ResponseEntity<Object> responseEntity=userController.saveUser(userModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
 
 	/**
@@ -56,33 +55,21 @@ class UserControllerTest extends UserControllerJUnit {
 	 * 406 status
 	 */
 	@Test
-	void testOnFailureSaveUser() {
-		String uri = "/user/add_user";
-		UserModel userModel=findDummyUserModel();
-		UserModel userEmptyModel = findDummyEmptyUserModel();
-		//TODO: test below line
-		//Mockito.when(iUserService.saveUser(userModel)).thenReturn(userEmptyModel);
-		try {
-			String inputJson = mapToJson(userEmptyModel);
-			int status = callApi(inputJson, uri);
-			assertEquals(406, status);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	void testSaveUserWhenFailure() {
+		ResponseEntity<Object> responseEntity=findResponseWithoutEmail();
+		UserModel userModel = findDummyUserModelWithoutEmail();
+		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(responseEntity);
+		ResponseEntity<Object> entity=userController.saveUser(userModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
-	public int callApi(String inputJson, String url) {
-		int status = 0;
-		try {
-			MvcResult mvcResult = mvc.perform(
-					MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
-					.andReturn();
-			status = mvcResult.getResponse().getStatus();
-			return status;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return status;
-		}
+	
+	@Test
+	void testSaveUserWhenException() {
+		Throwable throwable=findException();
+		UserModel userModel = findDummyUserModel();
+		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
+		Mockito.when(userService.saveUser(userModel)).thenThrow(throwable);
+		ResponseEntity<Object> responseEntity=userController.saveUser(userModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 }

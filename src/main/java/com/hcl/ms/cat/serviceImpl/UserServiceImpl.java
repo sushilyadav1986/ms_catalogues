@@ -8,7 +8,7 @@ import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
-import com.hcl.ms.cat.service.IUserService;
+import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.UserServiceImplUtils;
 
@@ -20,7 +20,7 @@ import com.hcl.ms.cat.utils.UserServiceImplUtils;
 
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;

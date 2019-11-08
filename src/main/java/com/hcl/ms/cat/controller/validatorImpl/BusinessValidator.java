@@ -79,10 +79,12 @@ public class BusinessValidator implements Validator {
 
 	public ResponseEntity<Object> isProdModelNull(ProductModel productModel) {
 		if (productModel != null) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, productModel),
+			return new ResponseEntity<Object>(new ResponseModel(true, 
+					AppConstant.PRODUCT_FIND_SUCCESSFULLY, productModel),
 					HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true,
+					AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
 		}
 	}
