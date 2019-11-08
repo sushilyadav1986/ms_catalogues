@@ -1,7 +1,6 @@
 package com.hcl.ms.cat.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
@@ -127,7 +127,7 @@ class ProductControllerTest extends ProdControllerJUtils {
 
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
-		UserModel userModel=findUserModelWithUserId();
+		UserModel userModel=findUserModelWithoutUserId();
 		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(responseEntity);
 		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
@@ -140,8 +140,8 @@ class ProductControllerTest extends ProdControllerJUtils {
 		Throwable exception = findException();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
 		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenThrow(exception);
-		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
-		assertThat(entity.getStatusCodeValue()).isEqualTo(500);
+		ResponseEntity<Object> responseEntity = productController.findAllProductListByUserId(userModel);
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 	@Test
@@ -202,17 +202,35 @@ class ProductControllerTest extends ProdControllerJUtils {
 
 	@Test
 	void testfindAllProductByPaginationWhenSuccess() {
-		fail("Not yet implemented"); // TODO10
+		PageModel pageModel=findPageModelWithDetails();
+		List<ProductModel> pModelList=findAllProducts();
+		ResponseEntity<Object> responseEntity =findAllPageModelResponse();
+		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(null);
+		Mockito.when(businessValidator.isProdModelListEmpty(pModelList)).thenReturn(responseEntity);
+		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(),
+				pageModel.getNoOfProducts())).thenReturn(pModelList);
+		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testfindAllProductByPaginationWhenFailure() {
-		fail("Not yet implemented"); // TODO1
+		PageModel pageModel=findPageModelWithoutDetail();
+		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
+		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(responseEntity);
+		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testfindAllProductByPaginationWhenException() {
-		fail("Not yet implemented"); // TODO2
+		PageModel pageModel=findPageModelWithDetails();
+		Throwable exception = findException();
+		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(null);
+		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(),
+				pageModel.getNoOfProducts())).thenThrow(exception);
+		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(500);
 	}
 
 }

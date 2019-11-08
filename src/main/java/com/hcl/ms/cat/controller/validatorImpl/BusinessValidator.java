@@ -88,7 +88,8 @@ public class BusinessValidator implements Validator {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_10_DIGIT_CONTACT_NUMBER),
 					HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(userModel.getFirstName())) {
-			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.FIRST_NAME_EMPTY), HttpStatus.OK);
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.FIRST_NAME_EMPTY), 
+					HttpStatus.OK);
 		} else {
 			return null;
 		}
@@ -108,7 +109,8 @@ public class BusinessValidator implements Validator {
 
 	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList) {
 		if (!pModelList.isEmpty() && pModelList.size() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, pModelList), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, pModelList), 
+					HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
