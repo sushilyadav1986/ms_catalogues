@@ -15,7 +15,8 @@ import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
-import com.hcl.ms.cat.service.IProductService;
+import com.hcl.ms.cat.service.ProductService;
+import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.ProductServiceImplUtils;
 
 /**Create Service class
@@ -25,7 +26,7 @@ import com.hcl.ms.cat.utils.ProductServiceImplUtils;
  */
 @Service
 @Transactional
-public class ProductServiceImpl  implements IProductService {
+public class ProductServiceImpl  implements ProductService {
 
 	@Autowired(required = true)
 	ProductServiceImplUtils productServiceImplUtils;
@@ -40,17 +41,15 @@ public class ProductServiceImpl  implements IProductService {
 	 * This function is used to save Product details
 	 */
 	@Override
-	public ProductModel saveProduct(ProductModel productModel) {
-		// TODO Auto-generated method stub
+	public String saveProduct(ProductModel productModel) {
 		Product product=productRepository.save(productServiceImplUtils.getProduct(productModel));
 		productModel=productServiceImplUtils.getProductModel(product);
 		if(productModel.getProductId()>0) {
-			return productModel;
+			return AppConstant.SUCCESS;
 		}
 		else {
 			return null;
 		}
-		
 	}
 
 	/**
@@ -58,7 +57,6 @@ public class ProductServiceImpl  implements IProductService {
 	 */
 	@Override
 	public ProductModel findProductDetails(long productId) {
-		// TODO Auto-generated method stub
 		Optional<Product> productOptional = productRepository.findById(productId);
 		if (!productOptional.isPresent()) {
 			return null;
@@ -76,7 +74,6 @@ public class ProductServiceImpl  implements IProductService {
 	 */
 	@Override
 	public List<ProductModel> findAllProductListByUserId(long userId) {
-		// TODO Auto-generated method stub
 		User user = userRepository.findUserById(userId);
 		if (user == null) {
 			return null;
@@ -90,16 +87,15 @@ public class ProductServiceImpl  implements IProductService {
 	 * This function is used to update Product details...
 	 */
 	@Override
-	public boolean updateProductDetails(ProductModel productModel) {
-		// TODO Auto-generated method stub
+	public String updateProductDetails(ProductModel productModel) {
 		Optional<Product> productOptional = productRepository.findById(productModel.getProductId());
 		if (!productOptional.isPresent()) {
-			return false;
+			return AppConstant.PRODUCT_UPDATED_FAILED;
 		} else {
 			Product product = productOptional.get();
 			product=productServiceImplUtils.getProduct(productModel);
 			productRepository.save(product);
-			return true;
+			return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
 		}
 	}
 
@@ -107,14 +103,13 @@ public class ProductServiceImpl  implements IProductService {
 	 * This function is used to delete Product details using product id...
 	 */
 	@Override
-	public boolean deleteByProductId(long productId) {
-		// TODO Auto-generated method stub
+	public String deleteByProductId(long productId) {
 		productRepository.deleteById(productId);
 		Optional<Product> productOptional = productRepository.findById(productId);
 		if (!productOptional.isPresent()) {
-			return true;
+			return "Product successfully deleted";
 		} else {
-			return false;
+			return "Product can not delete. Please try again.";
 		}
 	}
 
@@ -124,7 +119,6 @@ public class ProductServiceImpl  implements IProductService {
 	 */
 	@Override
 	public List<ProductModel> findAllProduct(int pageNumber, int noOfProducts) {
-		// TODO Auto-generated method stub
 		Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
 		Page<Product> pageList = productRepository.findAll(pageable);
 		return productServiceImplUtils.getAllProductByPageNumber(pageList);

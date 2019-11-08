@@ -3,13 +3,13 @@ package com.hcl.ms.cat;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hcl.ms.cat.controller.validator.IValidator;
+import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.controller.validatorImpl.BusinessValidator;
 import com.hcl.ms.cat.utils.ProductServiceImplUtils;
 import com.hcl.ms.cat.utils.UserServiceImplUtils;
 
 
-/** Create AppConfig class
+/**Create AppConfig class
  * Create Bean
  * @author SushilY
  *
@@ -18,8 +18,7 @@ import com.hcl.ms.cat.utils.UserServiceImplUtils;
 public class AppConfig {
 
 	/**
-	 * create UserServiceImplUtils bean
-	 * @return
+	 * Creates a new instance of {@bean UserServiceImplUtils}.
 	 */
 	@Bean
 	UserServiceImplUtils findUserServiceImplUtils() {
@@ -27,16 +26,17 @@ public class AppConfig {
 	}
 	
 	/**
-	 * create ProductServiceImplUtils bean
-	 * @return
+	 * Creates a new instance of {@bean ProductServiceImplUtils}.
 	 */
 	@Bean
 	ProductServiceImplUtils findProductServiceImplUtils() {
 		return new ProductServiceImplUtils();
 	}
-	
+	/**
+	 * Creates a new instance of {@bean BusinessValidator}.
+	 */
 	@Bean
-	IValidator findIValidator() {
+	Validator findIValidator() {
 		return new BusinessValidator();
 	}
 	

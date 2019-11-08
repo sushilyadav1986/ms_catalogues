@@ -32,7 +32,6 @@ import com.hcl.ms.cat.CatalogueMsApplication;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CatalogueMsApplication.class)
 public class ProdControllerJUtil {
-	
 
 	protected MockMvc mvc;
 
@@ -86,7 +85,6 @@ public class ProdControllerJUtil {
 			status = mvcResult.getResponse().getStatus();
 			return status;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return status;
 		}

@@ -14,6 +14,6 @@ public interface IUserService {
 	 * @param userModel
 	 * @return 
 	 */
-	public UserModel saveUser(UserModel userModel);
+	public String saveUser(UserModel userModel);
 
 }

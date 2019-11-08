@@ -40,7 +40,8 @@ class UserControllerTest extends UserControllerJUnit {
 		String uri = "/user/add_user";
 		UserModel userModel = findDummyUserModel();
 		userModel.setUserId(1);
-		Mockito.when(iUserService.saveUser(userModel)).thenReturn(userModel);
+		//TODO: test below line
+		//Mockito.when(iUserService.saveUser(userModel)).thenReturn(userModel);
 		try {
 			String inputJson = mapToJson(userModel);
 			int status = callApi(inputJson, uri);
@@ -59,11 +60,12 @@ class UserControllerTest extends UserControllerJUnit {
 		String uri = "/user/add_user";
 		UserModel userModel=findDummyUserModel();
 		UserModel userEmptyModel = findDummyEmptyUserModel();
-		Mockito.when(iUserService.saveUser(userModel)).thenReturn(userEmptyModel);
+		//TODO: test below line
+		//Mockito.when(iUserService.saveUser(userModel)).thenReturn(userEmptyModel);
 		try {
 			String inputJson = mapToJson(userEmptyModel);
 			int status = callApi(inputJson, uri);
-			assertEquals(200, status);
+			assertEquals(406, status);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

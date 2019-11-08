@@ -42,4 +42,12 @@ public class AppConstant {
 	public static final String PRODUCT_DOES_NOT_EXIST = "Product does not exist.";
 	public static final String PROD_ID_NOT_EXIST="Product is not exist";
 	public static final String USER_NOT_EXIST="User not exist";
+	public static final String ENTER_CORRECT_EMAIL="Please enter correct email";
+	public static final String ENTER_10_DIGIT_CONTACT_NUMBER="Please enter 10 digit contact number";
+	public static final String FIRST_NAME_EMPTY="First name can not empty";
+	public static final String PROD_ID_0="Product id can not 0";
+	public static final String ENTER_PROD_ID="Please enter product id";
+	public static final String PAGE_AND_PROD_BLANK="Page number and number of product should be more than 0";
+	
+	
 }

@@ -1,58 +1,100 @@
 package com.hcl.ms.cat.controller.validatorImpl;
 
-import com.hcl.ms.cat.controller.validator.IValidator;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
+import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
+import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.StringUtils;
 
 /**
  * @author SushilY
  *
  */
-public class BusinessValidator implements IValidator {
+public class BusinessValidator implements Validator {
 
 	@Override
-	public String validateProduct(ProductModel productModel) {
-		// TODO Auto-generated method stub
-		if (StringUtils.isNullOrEmpty(String.valueOf(productModel.getProductName()))) {
-			return "catlog id can not empty";
+	public ResponseEntity<Object> validateProduct(ProductModel productModel) {
+		if (String.valueOf(productModel.getCatalogueId()) != null
+				&& String.valueOf(productModel.getCatalogueId()).length() > 0) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "catlogue id can not empty"), HttpStatus.OK);
 		} else if (productModel.getCatalogueId() == 0) {
-			return "catlog id can not 0";
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "catlogue id can not 0"), HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(productModel.getProductName())) {
-			return "Product name can not blank";
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, "Product name can not blank"), HttpStatus.OK);
 		} else {
 			return null;
 		}
 	}
 
-	public boolean isValidId(long proId) {
-		if (proId > 0) {
+	private boolean isEmailValid(long id) {
+		if (id > 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean isValidPage(PageModel pageModel) {
+	public ResponseEntity<Object> isIdEmpty(long proId) {
+		if (StringUtils.isNullOrEmpty(String.valueOf(proId))) {
+			if (isEmailValid(proId)) {
+				return null;
+			} else {
+				return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PROD_ID_0), HttpStatus.OK);
+			}
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_PROD_ID), HttpStatus.OK);
+		}
+	}
+
+	public ResponseEntity<Object> isValidPage(PageModel pageModel) {
 		if (pageModel.getPageNumber() > 0 && pageModel.getNoOfProducts() > 0) {
-			return true;
+			return null;
 		} else {
-			return false;
+			return new ResponseEntity<Object>(
+					new NoObjRespnseModel(true, AppConstant.PAGE_AND_PROD_BLANK),
+					HttpStatus.OK);
 		}
 	}
 
-	public String validUserDetails(UserModel userModel) {
+	public ResponseEntity<Object> validUserDetails(UserModel userModel) {
 		if (!StringUtils.isEmailPattern(userModel.getEmail())) {
-			return "pleane enter correct email";
-		} else if (String.valueOf(userModel.getContactNumber()).length() == 10) {
-			return "Please enter 10 digit contact number";
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL),
+					HttpStatus.OK);
+		} else if (String.valueOf(userModel.getContactNumber()).length() != 10) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_10_DIGIT_CONTACT_NUMBER),
+					HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(userModel.getFirstName())) {
-			return "First name can not empty";
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.FIRST_NAME_EMPTY), HttpStatus.OK);
 		} else {
 			return null;
 		}
+	}
 
+	public ResponseEntity<Object> isProdModelNull(ProductModel productModel) {
+		if (productModel != null) {
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.SUCCESS, productModel),
+					HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+					HttpStatus.OK);
+		}
+	}
+
+	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList) {
+		if (!pModelList.isEmpty() && pModelList.size() > 0) {
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.SUCCESS, pModelList), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+					HttpStatus.OK);
+		}
 	}
 
 }

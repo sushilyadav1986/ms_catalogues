@@ -9,14 +9,14 @@ import com.hcl.ms.cat.model.ProductModel;
  * @author SushilY
  *
  */
-public interface IProductService {
+public interface ProductService {
 
 	
 	/**
 	 * @param productModel
 	 * @return ProductModel
 	 */
-	ProductModel saveProduct(ProductModel productModel);
+	String saveProduct(ProductModel productModel);
 	/**
 	 * @param productId
 	 * @return
@@ -33,13 +33,13 @@ public interface IProductService {
 	 * @param productModel
 	 * @return
 	 */
-	boolean updateProductDetails(ProductModel productModel);
+	String updateProductDetails(ProductModel productModel);
 
 	/**
 	 * @param productId
 	 * @return
 	 */
-	boolean deleteByProductId(long productId);
+	String deleteByProductId(long productId);
 
 	/**
 	 * @param pageNumber

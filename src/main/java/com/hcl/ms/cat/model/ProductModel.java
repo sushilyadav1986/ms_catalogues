@@ -8,8 +8,8 @@ package com.hcl.ms.cat.model;
 public class ProductModel {
 	
 	private long productId;	
-	private String productName;
 	
+	private String productName;
 	
 	private double productPrice;
 	

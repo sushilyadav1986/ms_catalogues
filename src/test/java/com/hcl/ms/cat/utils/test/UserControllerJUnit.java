@@ -5,11 +5,8 @@ import java.io.IOException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -64,23 +61,17 @@ public class UserControllerJUnit {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.readValue(json, clas);
 	}
-
+	
 	/**
-	 * Return value from API
-	 * 
-	 * @param inputJson
-	 * @param uri
-	 * @return int
-	 *
+	 * @return
 	 */
-	
-	
-
-	
 	public UserModel findDummyEmptyUserModel(){
 		return new UserModel("", "", "", "", 0);
 		
 	}
+	/**
+	 * @return
+	 */
 	public UserModel findDummyUserModel(){
 		UserModel userModel=new UserModel("firstName", "lastName", "M", "test@gmail.com", 78940623145L);
 		return userModel;

@@ -22,27 +22,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class CatalogueMsApplication {
 
-	/**
-	 * Start CatalogMS Application 
+	/**Main() need to call as first function for java compiler
+	 * SpringApplication.run()will call first time to start Application
+	 * Start CatalogMS Application  
 	 * Initialize AnnotationConfigApplicationContext class to create bean
+	 * Register Configuration classes
+	 * Ignore warning if get at compile time using @SuppressWarnings()
 	 * 
-	 * @param args
+	 * @param args      //must not be {@literal null}.
 	 */
+	
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogueMsApplication.class, args);
-
 		AnnotationConfigApplicationContext annotationConfigAppC = new AnnotationConfigApplicationContext();
-		//TODO: set multiple Config file
-		// ctx.register(AppConfig.class, OtherConfig.class);
 		annotationConfigAppC.register(AppConfig.class);
 		annotationConfigAppC.refresh();
 	}
 
 	/**
 	 * Create Swagger Set Details Using AppConstant class
-	 * 
-	 * @return Docket
+	 * Use DocumentationType to set name and version and related Information
+	 * @return Docket // Instance of Docket class
 	 */
 	@Bean
 	public Docket api() {
