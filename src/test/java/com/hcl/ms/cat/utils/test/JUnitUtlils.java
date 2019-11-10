@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hcl.ms.cat.utils.test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,6 +8,8 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.hcl.ms.cat.entity.Catalogue;
+import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
@@ -19,23 +18,51 @@ import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.utils.AppConstant;
 
 /**
- * JUnit Helper class for ProductControllerTest Initialize MockMvc
- * 
  * @author SushilY
  *
  */
+public class JUnitUtlils {
 
-public class ProdControllerJUtils {
+	/**
+	 * @return
+	 */
+	public User findUser() {
+		User user = new User();
+		Catalogue catalogue = new Catalogue();
+		user.set_id(1);
+		user.setFirstName("Sushil");
+		user.setLastName("Yadav");
+		user.setGender("M");
+		user.setEmail("test@gmail.com");
+		user.setContactNumber(8130834214L);
+		catalogue.setCatId(1);
+		user.setCatalogue(catalogue);
+		return user;
+	}
 
 	public UserModel findUserModelWithUserId() {
-		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L);
-		userModel.setUserId(1);
-		return userModel;
+		return new UserModel(findUser());
+		
 
 	}
 
 	public UserModel findUserModelWithoutUserId() {
-		return new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L);
+		return new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+	}
+
+	public UserModel findUserModelWithoutEmailId() {
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L,new Catalogue());
+		return userModel;
+	}
+
+	public UserModel findUserModelWithoutContact() {
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 34214L,new Catalogue());
+		return userModel;
+	}
+
+	public UserModel findUserModelWithoutFirstName() {
+		UserModel userModel = new UserModel("", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+		return userModel;
 	}
 
 	public PageModel findPageModelWithDetails() {
@@ -63,6 +90,10 @@ public class ProdControllerJUtils {
 		return new ProductModel(0, "Mi", 455.55, "Note5", "H", 1);
 	}
 
+	public ProductModel findProdModelWithoutName() {
+		return new ProductModel(1, "", 455.55, "G5", "H", 1);
+	}
+
 	public ResponseEntity<Object> findResponseOnCatalogueIdBlank() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
 	}
@@ -71,10 +102,10 @@ public class ProdControllerJUtils {
 		return new ResponseEntity<Object>(
 				new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, findProdModelWithId()), HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<Object> findAllPageModelResponse() {
-		return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, findAllProducts()), 
-				HttpStatus.OK);
+		return new ResponseEntity<Object>(
+				new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, findAllProducts()), HttpStatus.OK);
 	}
 
 	/**
@@ -95,4 +126,29 @@ public class ProdControllerJUtils {
 		}
 		return pModelList;
 	}
+
+	/**
+	 * @return
+	 */
+	public UserModel findDummyUserModel() {
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+		return userModel;
+
+	}
+
+	/**
+	 * @return
+	 */
+	public UserModel findDummyUserModelWithoutEmail() {
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L,new Catalogue());
+		return userModel;
+	}
+
+	/**
+	 * @return
+	 */
+	public ResponseEntity<Object> findResponseWithoutEmail() {
+		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
+	}
+
 }

@@ -45,7 +45,7 @@ public class AppConstant {
 	public static final String ENTER_CORRECT_EMAIL="Please enter correct email";
 	public static final String ENTER_10_DIGIT_CONTACT_NUMBER="Please enter 10 digit contact number";
 	public static final String FIRST_NAME_EMPTY="First name can not empty";
-	public static final String PROD_ID_0="Product id can not 0";
+	public static final String ENTER_ID_0="Please enter id";
 	public static final String ENTER_PROD_ID="Please enter product id";
 	public static final String PAGE_AND_PROD_BLANK="Page number and number of product should be more than 0";
 	public static final String CATALOGUE_ID_EMPTY="catlogue id can not empty";

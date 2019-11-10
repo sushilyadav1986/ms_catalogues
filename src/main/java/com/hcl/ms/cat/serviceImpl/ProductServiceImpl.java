@@ -18,7 +18,7 @@ import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.ProductServiceImplUtils;
+import com.hcl.ms.cat.utils.ServiceImplUtils;
 
 /**
  * Create Service class Single point of content for All product related
@@ -32,7 +32,7 @@ import com.hcl.ms.cat.utils.ProductServiceImplUtils;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired(required = true)
-	ProductServiceImplUtils productServiceImplUtils;
+	ServiceImplUtils serviceImplUtils;
 	@Autowired
 	ProductRepository productRepository;
 
@@ -45,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public String saveProduct(ProductModel productModel) {
 		try {
-			Product product = productRepository.save(productServiceImplUtils.getProduct(productModel));
-			productModel = productServiceImplUtils.getProductModel(product);
+			Product product = productRepository.save(serviceImplUtils.getProduct(productModel));
+			productModel = serviceImplUtils.getProductModel(product);
 			if (productModel.getProductId() > 0) {
 				return AppConstant.PRODUCT_ADDED_SUCCESSFULLY;
 			} else {
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 				return null;
 			} else {
 				pList = productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
-				return productServiceImplUtils.getAllProdModel(pList);
+				return serviceImplUtils.getAllProdModel(pList);
 			}
 		} catch (Exception e) {
 			return new ArrayList<ProductModel>();
@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 				return AppConstant.PRODUCT_UPDATED_FAILED;
 			} else {
 				Product product = productOptional.get();
-				product = productServiceImplUtils.getProduct(productModel);
+				product = serviceImplUtils.getProduct(productModel);
 				productRepository.save(product);
 				return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
 			}
@@ -145,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
 			Page<Product> pageList = productRepository.findAll(pageable);
-			return productServiceImplUtils.getAllProductByPageNumber(pageList);
+			return serviceImplUtils.getAllProductByPageNumber(pageList);
 		} catch (Exception e) {
 			return new ArrayList<ProductModel>();
 		}

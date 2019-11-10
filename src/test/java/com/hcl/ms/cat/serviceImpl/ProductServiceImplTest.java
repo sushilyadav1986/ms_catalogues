@@ -26,7 +26,7 @@ import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
-import com.hcl.ms.cat.utils.ProductServiceImplUtils;
+import com.hcl.ms.cat.utils.ServiceImplUtils;
 
 /**
  * Create Test class for ProductServiceImpl
@@ -45,7 +45,7 @@ class ProductServiceImplTest {
 	@Mock
 	UserRepository userRepository;
 	@Mock
-	ProductServiceImplUtils productServiceImplUtils;
+	ServiceImplUtils serviceImplUtils;
 
 	/**
 	 * Initialize Mockito
@@ -64,8 +64,8 @@ class ProductServiceImplTest {
 	void testSaveProduct() {
 		ProductModel productModel = findDummyProdutModel();
 		Product product = findDummyProduct();
-		Mockito.when(productServiceImplUtils.getProduct(productModel)).thenReturn(product);
-		Mockito.when(productServiceImplUtils.getProductModel(product)).thenReturn(productModel);
+		Mockito.when(serviceImplUtils.getProduct(productModel)).thenReturn(product);
+		Mockito.when(serviceImplUtils.getProductModel(product)).thenReturn(productModel);
 		
 		Mockito.when(productRepository.save(product)).thenReturn(product);
 		//TODO: test below line
@@ -99,7 +99,7 @@ class ProductServiceImplTest {
 		List<Product> pList = findAllDummyProducts();
 		List<ProductModel>pModelList=findAllDummyProdModel();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
-		Mockito.when(productServiceImplUtils.getAllProdModel(pList)).thenReturn(pModelList);
+		Mockito.when(serviceImplUtils.getAllProdModel(pList)).thenReturn(pModelList);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
 		pModelList = pServiceImpl.findAllProductListByUserId(1);
 		assertEquals(3, pModelList.size());

@@ -7,22 +7,37 @@ import org.springframework.data.domain.Page;
 
 import com.hcl.ms.cat.entity.Catalogue;
 import com.hcl.ms.cat.entity.Product;
+import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
+import com.hcl.ms.cat.model.UserModel;
 
 /**
- * Create ProductServiceImplUtils.class Helper for ProductServiceImpl
+ * Create ServiceImplUtils.class Helper for ProductServiceImpl
  * 
  * @author SushilY
  *
  */
-public class ProductServiceImplUtils {
+public class ServiceImplUtils {
+
+	/**
+	 * @param userModel
+	 */
+	/*
+	 * public User getUser(UserModel userModel) { User user = new User();
+	 * user.set_id(userModel.getUserId());
+	 * user.setFirstName(userModel.getFirstName());
+	 * user.setLastName(userModel.getLastName());
+	 * user.setGender(userModel.getGender());
+	 * user.setContactNumber(userModel.getContactNumber());
+	 * user.setEmail(userModel.getEmail()); user.setCatalogue(new Catalogue());
+	 * user.setCatalogue(userModel.getCatalogue()); return user; }
+	 */
 
 	/** Change ProductModel object into Product
 	 * @param productModel
 	 * @return Product
 	 */
 	public Product getProduct(ProductModel productModel) {
-//		Product product = new Product(productModel);
 		Product product = new Product();
 		product.setProdId(productModel.getProductId());
 		product.setAvailability(productModel.getProductAvailability());

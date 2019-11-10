@@ -19,6 +19,8 @@ import com.hcl.ms.cat.model.UserModel;
  */
 @Entity
 public class User {
+	
+	public User(){}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long _id;
@@ -142,10 +144,21 @@ public class User {
 	/** Change Object into Model
 	 * @return UserModel
 	 */
-	public UserModel getUserModel() {
-		UserModel userModel = new UserModel(this.firstName, this.lastName, this.gender, this.email, this.contactNumber);
-		userModel.setUserId(this._id);
-		return userModel;
+	
+	/*
+	 * public UserModel getUserModel() { UserModel userModel = new
+	 * UserModel(this.firstName, this.lastName, this.gender, this.email,
+	 * this.contactNumber); userModel.setUserId(this._id); return userModel; }
+	 */
+	
+	public User (UserModel userModel) {	
+		this._id=userModel.getUserId();
+		this.firstName=userModel.getFirstName();
+		this.lastName=userModel.getLastName();
+		this.gender=userModel.getGender();
+		this.email=userModel.getEmail();
+		this.contactNumber=userModel.getContactNumber();
+		this.catalogue=userModel.getCatalogue();
 	}
 
 	

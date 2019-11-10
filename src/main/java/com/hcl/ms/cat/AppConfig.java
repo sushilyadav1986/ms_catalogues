@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.controller.validatorImpl.BusinessValidator;
-import com.hcl.ms.cat.utils.ProductServiceImplUtils;
-import com.hcl.ms.cat.utils.UserServiceImplUtils;
+import com.hcl.ms.cat.utils.ServiceImplUtils;
 
 
 /**Create AppConfig class
@@ -18,19 +17,11 @@ import com.hcl.ms.cat.utils.UserServiceImplUtils;
 public class AppConfig {
 
 	/**
-	 * Creates a new instance of {@bean UserServiceImplUtils}.
+	 * Creates a new instance of {@bean ServiceImplUtils}.
 	 */
 	@Bean
-	UserServiceImplUtils findUserServiceImplUtils() {
-		return new UserServiceImplUtils();
-	}
-	
-	/**
-	 * Creates a new instance of {@bean ProductServiceImplUtils}.
-	 */
-	@Bean
-	ProductServiceImplUtils findProductServiceImplUtils() {
-		return new ProductServiceImplUtils();
+	ServiceImplUtils findServiceImplUtils() {
+		return new ServiceImplUtils();
 	}
 	/**
 	 * Creates a new instance of {@bean BusinessValidator}.

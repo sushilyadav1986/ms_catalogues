@@ -21,7 +21,7 @@ import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.test.ProdControllerJUtils;
+import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
  * Create ProductControllerTest.class Test here ProductController's function
@@ -31,7 +31,7 @@ import com.hcl.ms.cat.utils.test.ProdControllerJUtils;
  */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = CatalogueMsApplication.class)
-class ProductControllerTest extends ProdControllerJUtils {
+class ProductControllerTest extends JUnitUtlils {
 
 	@Mock
 	ProductService productService;

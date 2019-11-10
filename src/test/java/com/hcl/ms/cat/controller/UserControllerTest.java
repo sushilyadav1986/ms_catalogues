@@ -16,7 +16,7 @@ import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.test.UserControllerJUtils;
+import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
  * Create UserControllerTest.class Test here UserController's function
@@ -26,7 +26,7 @@ import com.hcl.ms.cat.utils.test.UserControllerJUtils;
  */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = CatalogueMsApplication.class)
-class UserControllerTest extends UserControllerJUtils {
+class UserControllerTest extends JUnitUtlils {
 
 	@Mock
 	UserService userService;

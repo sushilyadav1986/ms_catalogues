@@ -7,17 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.hcl.ms.cat.entity.Catalogue;
+import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
-import com.hcl.ms.cat.utils.UserServiceImplUtils;
+import com.hcl.ms.cat.utils.AppConstant;
+import com.hcl.ms.cat.utils.ServiceImplUtils;
+import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
  * Create Test class for UserServiceImpl
@@ -25,10 +30,12 @@ import com.hcl.ms.cat.utils.UserServiceImplUtils;
  * @author SushilY
  *
  */
-class UserServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest(classes = CatalogueMsApplication.class)
+class UserServiceImplTest extends JUnitUtlils {
 
-	@Mock
-	UserServiceImplUtils userServiceImplUtils;
+	@InjectMocks
+	ServiceImplUtils serviceImplUtils;
 
 	@InjectMocks
 	UserServiceImpl userServiceImpl;
@@ -53,30 +60,15 @@ class UserServiceImplTest {
 	 */
 
 	@Test
-	void testAddUser() {
-		UserModel userModel = findDummyUserModel();
-		User user = findDummyUser();
-		Mockito.when(userServiceImplUtils.getUser(userModel)).thenReturn(user);
+	void testSaveUser() {
+		User user = findUser();
+		UserModel userModel=findUserModelWithUserId();
 		Mockito.when(userRepository.save(user)).thenReturn(user);
-		Mockito.when(catalogueRepository.save(user.getCatalogue())).thenReturn(user.getCatalogue());
-		//TODO: test below line
-		//UserModel userModelResponse = userServiceImpl.saveUser(userModel);
-		//assertEquals(user.get_id(), userModelResponse.getUserId());
+		Mockito.when(catalogueRepository.save(user.getCatalogue())).
+		thenReturn(user.getCatalogue());
+		Mockito.when( userServiceImpl.saveUser(userModel)).
+		thenReturn(AppConstant.USER_ADDED_SUCCESSFULLY);
+		String response = userServiceImpl.saveUser(userModel);
+		assertEquals(AppConstant.USER_ADDED_SUCCESSFULLY,response);
 	}
-
-	private UserModel findDummyUserModel() {
-		UserModel userModel = new UserModel("umesh", "", "", "", 4465656L);
-		return userModel;
-	}
-
-	private User findDummyUser() {
-		User user = new User();
-		Catalogue catalogue = new Catalogue();
-		user.set_id(1);
-		user.setFirstName("Test");
-		catalogue.setCatId(1);
-		user.setCatalogue(catalogue);
-		return user;
-	}
-
 }
