@@ -3,7 +3,6 @@
  */
 package com.hcl.ms.cat.serviceImpl;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,12 +14,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
+import com.hcl.ms.cat.controller.validatorImpl.ServiceValidatorImpl;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.ServiceImplUtils;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
@@ -34,7 +33,7 @@ import com.hcl.ms.cat.utils.test.JUnitUtlils;
 class UserServiceImplTest extends JUnitUtlils {
 
 	@InjectMocks
-	ServiceImplUtils serviceImplUtils;
+	ServiceValidatorImpl serviceValidatorImpl;
 
 	@InjectMocks
 	UserServiceImpl userServiceImpl;
@@ -59,7 +58,17 @@ class UserServiceImplTest extends JUnitUtlils {
 	 */
 
 	@Test
-	void testSaveUser() {
+	void testSaveUserWhenSuccess() {
+		User user = findUser();
+		UserModel userModel=findUserModelWithUserId();		
+		//Mockito.when(userRepository.save(user)).thenReturn(user);
+		Mockito.when(catalogueRepository.save(user.getCatalogue())).thenReturn(user.getCatalogue());
+		String response = userServiceImpl.saveUser(userModel);
+		assertEquals(AppConstant.USER_ADDED_SUCCESSFULLY,response);
+	}
+	
+	@Test
+	void testSaveUserWhenFailure() {
 		User user = findUser();
 		UserModel userModel=findUserModelWithUserId();		
 		//Mockito.when(userRepository.save(user)).thenReturn(user);

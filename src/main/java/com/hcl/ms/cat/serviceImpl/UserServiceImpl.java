@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hcl.ms.cat.controller.validatorImpl.ServiceValidatorImpl;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.ServiceImplUtils;
 
 /**
  * Create Service class Single point of content for All User related operations
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 
 	@Autowired(required = true)
-	ServiceImplUtils serviceImplUtils;
+	ServiceValidatorImpl serviceValidatorImpl;
 
 	@Autowired
 	CatalogueRepository catalogueRepository;

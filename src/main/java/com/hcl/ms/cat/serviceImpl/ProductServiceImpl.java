@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hcl.ms.cat.controller.validator.ServiceValidator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
@@ -18,7 +19,6 @@ import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.utils.AppConstant;
-import com.hcl.ms.cat.utils.ServiceImplUtils;
 
 /**
  * Create Service class Single point of content for All product related
@@ -32,7 +32,7 @@ import com.hcl.ms.cat.utils.ServiceImplUtils;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired(required = true)
-	ServiceImplUtils serviceImplUtils;
+	ServiceValidator serviceValidator;
 	@Autowired
 	ProductRepository productRepository;
 
@@ -103,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
 			if (user == null) {
 				return null;
 			} else {
-				return serviceImplUtils.getAllProdModel(productRepository.
+				return serviceValidator.getAllProdModel(productRepository.
 						findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId()));
 			}
 		} catch (Exception e) {
@@ -169,7 +169,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
 			Page<Product> pageList = productRepository.findAll(pageable);
-			return serviceImplUtils.getAllProductByPageNumber(pageList);
+			return serviceValidator.getAllProductByPageNumber(pageList);
 		} catch (Exception e) {
 			return new ArrayList<ProductModel>();
 		}

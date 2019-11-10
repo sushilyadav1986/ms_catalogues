@@ -24,12 +24,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.hcl.ms.cat.controller.validatorImpl.ServiceValidatorImpl;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
-import com.hcl.ms.cat.utils.ServiceImplUtils;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
@@ -49,7 +49,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	@Mock
 	UserRepository userRepository;
 	@Mock
-	ServiceImplUtils serviceImplUtils;
+	ServiceValidatorImpl serviceValidatorImpl;
 	@Captor
 	ArgumentCaptor<User> userArg;
 
@@ -105,7 +105,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 		List<Product> pList = findAllDummyProducts();
 		List<ProductModel> pModelList = findAllDummyProdModel();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
-		Mockito.when(serviceImplUtils.getAllProdModel(pList)).thenReturn(pModelList);
+		Mockito.when(serviceValidatorImpl.getAllProdModel(pList)).thenReturn(pModelList);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
 		pModelList = pServiceImpl.findAllProductListByUserId(1);
 		assertEquals(3, pModelList.size());

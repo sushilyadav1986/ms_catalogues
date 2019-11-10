@@ -1,21 +1,22 @@
-package com.hcl.ms.cat.utils;
+package com.hcl.ms.cat.controller.validatorImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.hcl.ms.cat.controller.validator.ServiceValidator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.ProductModel;
 
 /**
- * Create Class ServiceImplUtils
+ * Create Class ServiceValidatorImpl
  * Response as Utility for ServiceImpl classes
  * 
  * @author SushilY
  *
  */
-public class ServiceImplUtils {
+public class ServiceValidatorImpl  implements ServiceValidator{
 
 	
 	/** Change Product list into ProductModel list
@@ -23,6 +24,7 @@ public class ServiceImplUtils {
 	 * @param productList   // Set List of Product
 	 * @return List			// Return List of ProductModel
 	 */
+	@Override
 	public List<ProductModel> getAllProdModel(List<Product> productList) {
 		List<ProductModel> prodModelList = new ArrayList<>();
 		if (productList != null && !productList.isEmpty()) {
@@ -40,6 +42,7 @@ public class ServiceImplUtils {
 	 * @param pageList
 	 * @return List
 	 */
+	@Override
 	public List<ProductModel> getAllProductByPageNumber(Page<Product> pageList){
 		List<ProductModel> modelList= new ArrayList<ProductModel>();
 		List<Product> noOfProdList = pageList.toList();
