@@ -11,20 +11,28 @@ import com.hcl.ms.cat.entity.User;
  */
 public class UserModel {
 
+	/**
+	 * Default Constructor
+	 */
 	public UserModel() {}
+	//Field Variable
 	private long userId;
-
+	//Field Variable
 	private String firstName;
-
+	//Field Variable
 	private String lastName;
-
+	//Field Variable
 	private String gender;
-
+	//Field Variable
 	private String email;
 	private long contactNumber;
-
+	//Field Variable
 	private Catalogue catalogue;
 
+	
+	/**
+	 * return Catalogue Obj
+	 */
 	public Catalogue getCatalogue() {
 		if (catalogue == null) {
 			return new Catalogue();
@@ -33,7 +41,7 @@ public class UserModel {
 	}
 
 	/**
-	 * @param catalogue
+	 * Copy catalogue
 	 */
 	public void setCatalogue(Catalogue catalogue) {
 		this.catalogue = catalogue;

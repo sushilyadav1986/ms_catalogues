@@ -5,69 +5,29 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.hcl.ms.cat.entity.Catalogue;
 import com.hcl.ms.cat.entity.Product;
-import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
-import com.hcl.ms.cat.model.UserModel;
 
 /**
- * Create ServiceImplUtils.class Helper for ProductServiceImpl
+ * Create Class ServiceImplUtils
+ * Response as Utility for ServiceImpl classes
  * 
  * @author SushilY
  *
  */
 public class ServiceImplUtils {
 
-	/**
-	 * @param userModel
-	 */
-	/*
-	 * public User getUser(UserModel userModel) { User user = new User();
-	 * user.set_id(userModel.getUserId());
-	 * user.setFirstName(userModel.getFirstName());
-	 * user.setLastName(userModel.getLastName());
-	 * user.setGender(userModel.getGender());
-	 * user.setContactNumber(userModel.getContactNumber());
-	 * user.setEmail(userModel.getEmail()); user.setCatalogue(new Catalogue());
-	 * user.setCatalogue(userModel.getCatalogue()); return user; }
-	 */
-
-	/** Change ProductModel object into Product
-	 * @param productModel
-	 * @return Product
-	 */
-	public Product getProduct(ProductModel productModel) {
-		Product product = new Product();
-		product.setProdId(productModel.getProductId());
-		product.setAvailability(productModel.getProductAvailability());
-		product.setDescription(productModel.getProductDescription());
-		product.setName(productModel.getProductName());
-		product.setPrice(productModel.getProductPrice());
-		product.setCatalogue(new Catalogue());
-		product.getCatalogue().setCatId(productModel.getCatalogueId());
-		return product;
-	}
-
-	/** Change Product object into ProductModel
-	 * @param product
-	 * @return ProductModel
-	 */
-	public ProductModel getProductModel(Product product) {
-		ProductModel productModel = new ProductModel(product.getProdId(), product.getName(), product.getPrice(),
-				product.getDescription(), product.getAvailability(), product.getCatalogue().getCatId());
-		return productModel;
-	}
+	
 	/** Change Product list into ProductModel list
 	 * 
-	 * @param pageList
-	 * @return List
+	 * @param productList   // Set List of Product
+	 * @return List			// Return List of ProductModel
 	 */
 	public List<ProductModel> getAllProdModel(List<Product> productList) {
 		List<ProductModel> prodModelList = new ArrayList<>();
 		if (productList != null && !productList.isEmpty()) {
 			for (Product product : productList) {
-				prodModelList.add(product.getModel());
+				prodModelList.add(new ProductModel(product));
 			}
 			return prodModelList;
 		} else {
@@ -85,7 +45,7 @@ public class ServiceImplUtils {
 		List<Product> noOfProdList = pageList.toList();
 		if (noOfProdList != null && !noOfProdList.isEmpty()) {
 			for (Product product : noOfProdList) {
-				modelList.add(product.getModel());
+				modelList.add(new ProductModel(product));
 			}
 			return modelList;
 		} else {

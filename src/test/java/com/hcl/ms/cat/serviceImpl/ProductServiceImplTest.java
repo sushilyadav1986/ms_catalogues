@@ -64,8 +64,8 @@ class ProductServiceImplTest {
 	void testSaveProduct() {
 		ProductModel productModel = findDummyProdutModel();
 		Product product = findDummyProduct();
-		Mockito.when(serviceImplUtils.getProduct(productModel)).thenReturn(product);
-		Mockito.when(serviceImplUtils.getProductModel(product)).thenReturn(productModel);
+		//Mockito.when(serviceImplUtils.getProduct(productModel)).thenReturn(product);
+		//Mockito.when(serviceImplUtils.getProductModel(product)).thenReturn(productModel);
 		
 		Mockito.when(productRepository.save(product)).thenReturn(product);
 		//TODO: test below line
@@ -157,7 +157,7 @@ class ProductServiceImplTest {
 		List<ProductModel>pModelList=new ArrayList<>();
 		if(!pList.isEmpty()) {
 			for(Product product : pList) {
-				ProductModel productModel=product.getModel();
+				ProductModel productModel=new ProductModel(product);
 				pModelList.add(productModel);
 			}
 		}

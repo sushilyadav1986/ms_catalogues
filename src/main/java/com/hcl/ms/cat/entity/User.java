@@ -17,9 +17,13 @@ import com.hcl.ms.cat.model.UserModel;
  * @author SushilY
  *
  */
+
 @Entity
 public class User {
 	
+	/**
+	 * Default Constructor
+	 */
 	public User(){}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +36,23 @@ public class User {
 	@OneToOne
 	@JoinColumn(name = "cat_id")
 	private Catalogue catalogue;
+	
+	/** Create Constructor User
+	 * @param UserModel  // Change UserModel object into User
+	 * 
+	 */
+	public User (UserModel userModel) {	
+		this._id=userModel.getUserId();
+		this.firstName=userModel.getFirstName();
+		this.lastName=userModel.getLastName();
+		this.gender=userModel.getGender();
+		this.email=userModel.getEmail();
+		this.contactNumber=userModel.getContactNumber();
+		this.catalogue=userModel.getCatalogue();
+	}
 
 	/**
-	 * @param _id
+	 * @param _id  // Set as Primary key in Table
 	 */
 	public void set_id(long _id) {
 		this._id = _id;
@@ -139,26 +157,6 @@ public class User {
 	 */
 	public String getEmail() {
 		return email;
-	}
-
-	/** Change Object into Model
-	 * @return UserModel
-	 */
-	
-	/*
-	 * public UserModel getUserModel() { UserModel userModel = new
-	 * UserModel(this.firstName, this.lastName, this.gender, this.email,
-	 * this.contactNumber); userModel.setUserId(this._id); return userModel; }
-	 */
-	
-	public User (UserModel userModel) {	
-		this._id=userModel.getUserId();
-		this.firstName=userModel.getFirstName();
-		this.lastName=userModel.getLastName();
-		this.gender=userModel.getGender();
-		this.email=userModel.getEmail();
-		this.contactNumber=userModel.getContactNumber();
-		this.catalogue=userModel.getCatalogue();
 	}
 
 	

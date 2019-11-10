@@ -34,8 +34,11 @@ public class UserController {
 	Validator businessValidator;
 
 	/**
-	 * @param userModel
-	 * @return
+	 * Save User Details 
+	 * 
+	 * @param UserModel       		// Set User Details
+	 * @return ResponseEntity     	// Return String as action on DB 
+	 * @exception  Exception     	// Exception If JsonObject not proper
 	 */
 	@PostMapping("/addUser")
 	public ResponseEntity<Object> saveUser(@RequestBody UserModel userModel) {

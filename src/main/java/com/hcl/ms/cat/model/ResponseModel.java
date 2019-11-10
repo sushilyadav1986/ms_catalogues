@@ -2,6 +2,8 @@ package com.hcl.ms.cat.model;
 
 /**Create Model class
  * Set details from API
+ * Use in Controller to return response in API
+ * Need to set Data Obj
  * @author SushilY
  *
  */

@@ -12,8 +12,10 @@ import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.ServiceImplUtils;
 
-/**Create Service class
- * Single point of content for All User related operations in DB
+/**
+ * Create Service class Single point of content for All User related operations
+ * in DB
+ * 
  * @author SushilY
  *
  */
@@ -24,25 +26,31 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
-	@Autowired(required=true)
+
+	@Autowired(required = true)
 	ServiceImplUtils serviceImplUtils;
 
 	@Autowired
 	CatalogueRepository catalogueRepository;
 
 	/**
-	 * This function is used to add User info in database...
+	 * This function is used to add User info in database... /** This function is
+	 * used to save User details
+	 * 
+	 * 
+	 * @param ProductModel // Set Product Details
+	 * @return String // Return Action on DB
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public String saveUser(UserModel userModel) {
-		User user = new User(userModel);		
-		user=userRepository.save(user);
-		if(user.get_id()>0) {
+		// User user = new User(userModel);
+		User user = userRepository.save(new User(userModel));
+		if (user.get_id() > 0) {
 			user.setCatalogue(catalogueRepository.save(user.getCatalogue()));
 			user.getCatalogue().setName(user.getFirstName());
 			return AppConstant.USER_ADDED_SUCCESSFULLY;
-		}else {
+		} else {
 			return AppConstant.USER_DOES_NOT_ADDED;
 		}
 	}

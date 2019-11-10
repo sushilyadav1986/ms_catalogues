@@ -6,8 +6,9 @@ package com.hcl.ms.cat.model;
  *
  */
 public class PageModel {
-	
+	//Field Variable
 	private int pageNumber;
+	//Field Variable
 	private int noOfProducts;
 	
 	/**

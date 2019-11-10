@@ -2,12 +2,16 @@ package com.hcl.ms.cat.model;
 
 /**Create Model class
  * Set details from API
+ * Use in Controller to return response in API
+ * Don't need to set error code 
+ * Don't need to set data Obj
  * @author SushilY
  *
  */
 public class NoObjRespnseModel {
-
+	//Field Variable
 	private Boolean status;
+	//Field Variable
 	private String message;
 
 	/**

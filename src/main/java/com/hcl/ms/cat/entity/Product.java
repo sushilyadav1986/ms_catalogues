@@ -1,6 +1,5 @@
 package com.hcl.ms.cat.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,16 +19,44 @@ import com.hcl.ms.cat.model.ProductModel;
 @Entity
 public class Product {
 
+	/**
+	 * Default Constructor
+	 */
+	public Product() {
+	}
+	
+	
+	/**
+	 * Create Primary Key in Table
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
 	private long prodId;
+	/**
+	 * Create Field in Table
+	 */
 	private String name;
+	/**
+	 * Create Field in Table
+	 */
 	private double price;
+	/**
+	 * Create Field in Table
+	 */
+	private String description;
+	/**
+	 * Create Field in Table
+	 */
+	private String availability;
+	/**
+	 * Set Mapping OneToOne Relationship With Catalogue Table
+	 * Create As Foreign Key Id in User Table 
+	 */
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	private Catalogue catalogue;
 
-	public Product() {
-
-	}
+	
 
 	protected Product(long prodId, String name, double price, String description, String availability,
 			Catalogue catalogue) {
@@ -41,6 +68,10 @@ public class Product {
 		this.catalogue = catalogue;
 	}
 
+	/** Create Constructor Product
+	 * @param productModel  // Pass productModel values into Product Obj
+	 * 
+	 */
 	public Product(ProductModel productModel) {
 		this.prodId = productModel.getProductId();
 		this.name = productModel.getProductName();
@@ -50,14 +81,8 @@ public class Product {
 		if(catalogue==null) {
 			catalogue=new Catalogue();
 		}
-		this.catalogue.setCatId(productModel.getCatalogueId());;
+		this.catalogue.setCatId(productModel.getCatalogueId());
 	}
-
-	private String description;
-	private String availability;
-	@ManyToOne
-	@PrimaryKeyJoinColumn
-	private Catalogue catalogue;
 
 	/**
 	 * @return String
@@ -141,15 +166,5 @@ public class Product {
 	 */
 	public void setAvailability(String availability) {
 		this.availability = availability;
-	}
-
-	/**
-	 * Change Object into Model
-	 * 
-	 * @return ProductModel
-	 */
-	public ProductModel getModel() {
-		return new ProductModel(this.prodId, this.name, this.price, this.description, this.availability,
-				this.catalogue.getCatId());
 	}
 }

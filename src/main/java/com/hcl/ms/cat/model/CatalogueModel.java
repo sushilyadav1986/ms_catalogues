@@ -10,9 +10,13 @@ import java.util.List;
  */
 public class CatalogueModel {
 	
+	//Field Variable
 	private long catId;
+	//Field Variable
 	private String name;
+	//List of Field Variable
 	private List<ProductModel>pList;
+	//Object
 	private UserModel userModel ;
 	
 	/**

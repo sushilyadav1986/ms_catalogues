@@ -15,10 +15,20 @@ import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.StringUtils;
 
 /**
+ * Create Class BusinessValidator
+ * 
  * @author SushilY
  *
  */
 public class BusinessValidator implements Validator {
+
+	/**
+	 * Validate in product details
+	 * 
+	 * @param productModel // Check Details of Product is null or not
+	 * @return ResponseEntity<Object> Obj // Return null if Details are valid Using
+	 *         Obj
+	 */
 	@Override
 	public ResponseEntity<Object> validateProduct(ProductModel productModel) {
 		if (!isIdValid(productModel.getCatalogueId())) {
@@ -31,6 +41,14 @@ public class BusinessValidator implements Validator {
 		}
 	}
 
+	/**
+	 * Validate ProductModel Obj And ProdId
+	 * 
+	 * @param List<ProductModel> // Provide all required variable in this Obj
+	 * @return ResponseEntity<Object> // Check Obj is null or and Id is greater that
+	 *         0
+	 * 
+	 */
 	@Override
 	public ResponseEntity<Object> validateProductWithProdId(ProductModel productModel) {
 		if (!isIdValid(productModel.getProductId())) {
@@ -49,6 +67,13 @@ public class BusinessValidator implements Validator {
 		}
 	}
 
+	/**
+	 * Validate proId
+	 * 
+	 * @param proId // Check Id is Empty or less than 0
+	 * @return ResponseEntity<Object> // Return null if Details are valid Using Obj
+	 * 
+	 */
 	public ResponseEntity<Object> isIdEmpty(long proId) {
 		if (isIdValid(proId)) {
 			return null;
@@ -58,6 +83,13 @@ public class BusinessValidator implements Validator {
 
 	}
 
+	/**
+	 * Validate PageModel Obj
+	 * 
+	 * @param PageModel // Provide all required variable in this Obj
+	 * @return ResponseEntity<Object> // Return null If Obj is Valid
+	 * 
+	 */
 	public ResponseEntity<Object> isValidPage(PageModel pageModel) {
 		if (pageModel.getPageNumber() > 0 && pageModel.getNoOfProducts() > 0) {
 			return null;
@@ -67,6 +99,13 @@ public class BusinessValidator implements Validator {
 		}
 	}
 
+	/**
+	 * Validate UserModel Obj
+	 * 
+	 * @param UserModel // Provide all required variable in this Obj
+	 * @return ResponseEntity<Object> // Return null if Obj is valid
+	 * 
+	 */
 	public ResponseEntity<Object> validUserDetails(UserModel userModel) {
 		if (!StringUtils.isEmailPattern(userModel.getEmail())) {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL),
@@ -80,8 +119,14 @@ public class BusinessValidator implements Validator {
 			return null;
 		}
 	}
-	
 
+	/**
+	 * Validate ProductModel Obj
+	 * 
+	 * @param Product // Provide all required variable in this Obj
+	 * @return ResponseEntity<Object> // Return null if Obj is null
+	 * 
+	 */
 	public ResponseEntity<Object> isProdModelNull(ProductModel productModel) {
 		if (productModel != null) {
 			return new ResponseEntity<Object>(
@@ -92,6 +137,14 @@ public class BusinessValidator implements Validator {
 		}
 	}
 
+	/**
+	 * Validate List<ProductModel> Obj
+	 * 
+	 * @param List<ProductModel> // Provide all required variable in this Obj
+	 * @return ResponseEntity<Object> // Check List is empty or not and return
+	 *         values
+	 * 
+	 */
 	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList) {
 		if (!pModelList.isEmpty() && pModelList.size() > 0) {
 			return new ResponseEntity<Object>(

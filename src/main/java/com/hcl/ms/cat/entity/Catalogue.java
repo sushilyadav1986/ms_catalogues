@@ -20,13 +20,27 @@ import javax.persistence.OneToOne;
 @Entity
 public class Catalogue {
 
+	/**
+	 * Create Primary Key in Table
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long catId;
+	/**
+	 * Create Field in Table
+	 */
 	private String name;
+	
+	/**
+	 * Set Mapping OneToOne Relationship With User Table
+	 * Provide Responsibility to User Table
+	 */
 	@OneToOne(mappedBy = "catalogue", cascade = CascadeType.ALL)
 	private User user;
 	
+	/**
+	 * Set Mapping OnTOMany Relationship With Product Table
+	 */
 	@OneToMany(mappedBy = "catalogue", cascade = CascadeType.ALL)
 	private List<Product> productList;
 	

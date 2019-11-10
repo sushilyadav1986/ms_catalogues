@@ -1,5 +1,7 @@
 package com.hcl.ms.cat.model;
 
+import com.hcl.ms.cat.entity.Product;
+
 /**
  * Create Model class for Product Set details from API
  * 
@@ -9,21 +11,21 @@ package com.hcl.ms.cat.model;
 public class ProductModel {
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public ProductModel() {
 	}
-
+	//Field Variable
 	private long productId;
-
+	//Field Variable
 	private String productName;
-
+	//Field Variable
 	private double productPrice;
-
+	//Field Variable
 	private String productDescription;
-
+	//Field Variable
 	private String productAvailability;
-
+	//Field Variable
 	private long catalogueId;
 
 	/**
@@ -69,12 +71,8 @@ public class ProductModel {
 	}
 
 	/**
-	 * @param productId
-	 * @param productName
-	 * @param productPrice
-	 * @param productDescription
-	 * @param productAvailability
-	 * @param catalogueId
+	 * 
+	 * Parameterized Constructor
 	 */
 	public ProductModel(long productId, String productName, double productPrice, String productDescription,
 			String productAvailability, long catalogueId) {
@@ -85,5 +83,18 @@ public class ProductModel {
 		this.productDescription = productDescription;
 		this.productAvailability = productAvailability;
 		this.catalogueId = catalogueId;
+	}
+	/**
+	 * 
+	 * Copy Constructor
+	 * Change Product Obj into ProductModel Obj
+	 */
+	public ProductModel(Product product) {
+		this.productId = product.getProdId();
+		this.productName = product.getName();
+		this.productPrice = product.getPrice();
+		this.productDescription = product.getDescription();
+		this.productAvailability = product.getAvailability();
+		this.catalogueId=product.getCatalogue().getCatId();
 	}
 }

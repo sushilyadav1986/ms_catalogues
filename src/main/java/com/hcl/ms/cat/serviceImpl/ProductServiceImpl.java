@@ -41,12 +41,18 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * This function is used to save Product details
+	 * 
+	 * 
+	 * @param ProductModel // Set Product Details
+	 * @return String // Return Action on DB
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
+
 	@Override
 	public String saveProduct(ProductModel productModel) {
 		try {
-			Product product = productRepository.save(serviceImplUtils.getProduct(productModel));
-			productModel = serviceImplUtils.getProductModel(product);
+			Product product = productRepository.save(new Product(productModel));
+			productModel = new ProductModel(product);
 			if (productModel.getProductId() > 0) {
 				return AppConstant.PRODUCT_ADDED_SUCCESSFULLY;
 			} else {
@@ -58,7 +64,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	/**
-	 * This function is used to get Product details using product id...
+	 * This function is used to fetch Product details using product id...
+	 * 
+	 * 
+	 * @param Product id // Set Product id
+	 * @return ProductModel // ProductModel Details
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public ProductModel findProductDetails(long productId) {
@@ -69,29 +80,31 @@ public class ProductServiceImpl implements ProductService {
 			}
 			Product product = productOptional.get();
 			if (product != null) {
-				return product.getModel();
+				return new ProductModel(product);
 			} else {
 				return null;
 			}
-
 		} catch (Exception e) {
 			return new ProductModel();
 		}
 	}
 
 	/**
-	 * This function is used to get List of Product details using user id...
+	 * This function is used to fetch all Product details using user id...
+	 * 
+	 * @param User id // Set User id
+	 * @return ProductModel // ProductModel List<Product>
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public List<ProductModel> findAllProductListByUserId(long userId) {
-		List<Product> pList = new ArrayList<Product>();
 		try {
 			User user = userRepository.findUserById(userId);
 			if (user == null) {
 				return null;
 			} else {
-				pList = productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
-				return serviceImplUtils.getAllProdModel(pList);
+				return serviceImplUtils.getAllProdModel(productRepository.
+						findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId()));
 			}
 		} catch (Exception e) {
 			return new ArrayList<ProductModel>();
@@ -100,6 +113,10 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * This function is used to update Product details...
+	 * 
+	 * @param ProductModel  // Set ProductModel Details
+	 * @return ProductModel // ProductModel String As action on DB
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public String updateProductDetails(ProductModel productModel) {
@@ -108,9 +125,7 @@ public class ProductServiceImpl implements ProductService {
 			if (!productOptional.isPresent()) {
 				return AppConstant.PRODUCT_UPDATED_FAILED;
 			} else {
-				Product product = productOptional.get();
-				product = serviceImplUtils.getProduct(productModel);
-				productRepository.save(product);
+				productRepository.save(new Product(productModel));
 				return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
 			}
 		} catch (Exception e) {
@@ -120,6 +135,11 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * This function is used to delete Product details using product id...
+	 * /**
+	 * 
+	 * @param ProductModel id // Set ProductModel id
+	 * @return ProductModel // ProductModel String As action on DB
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public String deleteByProductId(long productId) {
@@ -139,6 +159,10 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to get All Product details in respect of number of
 	 * Products ...
+	 * 
+	 * @param PageModel Details // Set ProductModel id
+	 * @return List<ProductModel> 	// List<ProductModel>
+	 * @exception Exception 	// Exception If compiler goes to catch()
 	 */
 	@Override
 	public List<ProductModel> findAllProduct(int pageNumber, int noOfProducts) {
