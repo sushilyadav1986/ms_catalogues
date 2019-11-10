@@ -11,8 +11,7 @@ public interface UserService {
 	
 	
 	/**
-	 * @param userModel
-	 * @return 
+	 * Saved User Details to respected Table
 	 */
 	public String saveUser(UserModel userModel);
 

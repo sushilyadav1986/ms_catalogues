@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.entity.Catalogue;
+import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.PageModel;
@@ -149,6 +150,88 @@ public class JUnitUtlils {
 	 */
 	public ResponseEntity<Object> findResponseWithoutEmail() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
+	}
+	
+	
+	
+	
+
+
+	
+
+	public Product findDummyProduct() {
+		Product product = new Product();
+		product.setProdId(1);
+		product.setName("Test");
+		product.setAvailability("H");
+		product.setDescription("descript");
+		product.setPrice(768.26);
+		Catalogue catalogue = new Catalogue();
+		catalogue.setCatId(1);
+		catalogue.setName("testCatLog");
+		product.setCatalogue(catalogue);
+		return product;
+	}
+
+	public User findDummyUser() {
+		User user = new User();
+		user.set_id(1);
+		user.setContactNumber(4569825689L);
+		user.setEmail("test@gmail.com");
+		user.setFirstName("firstName");
+		user.setLastName("lastName");
+		user.setGender("M");
+		Catalogue catalogue = new Catalogue();
+		catalogue.setCatId(1);
+		catalogue.setName("testCatLog");
+		user.setCatalogue(catalogue);
+		return user;
+	}
+	public ProductModel findDummyProdutModel() {
+		ProductModel productModel = new ProductModel(1, "Lemon", 455.55, "dafkdasfadso", "H", 1);
+		return productModel;
+	}
+	
+	public List<Product> findAllDummyProducts() {
+		Catalogue catalogue = new Catalogue();
+		catalogue.setCatId(1);
+		catalogue.setName("testCatLog");
+
+		Product product = new Product();
+		product.setProdId(1);
+		product.setName("Test");
+		product.setAvailability("H");
+		product.setDescription("descript");
+		product.setPrice(778.26);
+		product.setCatalogue(catalogue);
+
+		Catalogue catalogue1 = new Catalogue();
+		catalogue1.setCatId(1);
+		catalogue1.setName("testCatLog");
+		Product product1 = new Product();
+		product1.setProdId(2);
+		product1.setName("Est");
+		product1.setAvailability("O");
+		product1.setDescription("descript");
+		product1.setPrice(798.26);
+		product1.setCatalogue(catalogue1);
+
+		Catalogue catalogue2 = new Catalogue();
+		catalogue2.setCatId(3);
+		catalogue2.setName("testCatLog");
+		Product product2 = new Product();
+		product2.setProdId(3);
+		product2.setName("Test");
+		product2.setAvailability("L");
+		product2.setDescription("descript");
+		product2.setPrice(768.26);
+		product2.setCatalogue(catalogue2);
+
+		List<Product> pList = new ArrayList<>();
+		pList.add(product);
+		pList.add(product1);
+		pList.add(product2);
+		return pList;
 	}
 
 }

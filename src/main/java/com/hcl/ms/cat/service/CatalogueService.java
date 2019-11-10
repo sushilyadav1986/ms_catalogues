@@ -8,11 +8,11 @@ import com.hcl.ms.cat.model.CatalogueModel;
  * @author SushilY
  *
  */
-public interface ICatalogueService {
+public interface CatalogueService {
 	
 	/**
-	 * @param catalogueModel
-	 * @return Catalogue
+	 * Save Catalogue Details in respected Table
+	 * Fetch save Obj From Table
 	 */
 	Catalogue addCatalogue(CatalogueModel catalogueModel);
 

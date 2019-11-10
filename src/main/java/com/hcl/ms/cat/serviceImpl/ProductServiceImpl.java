@@ -121,8 +121,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public String updateProductDetails(ProductModel productModel) {
 		try {
-			Optional<Product> productOptional = productRepository.findById(productModel.getProductId());
-			if (!productOptional.isPresent()) {
+			boolean isExist = productRepository.existsById(productModel.getProductId());
+			if (!isExist) {
 				return AppConstant.PRODUCT_UPDATED_FAILED;
 			} else {
 				productRepository.save(new Product(productModel));
@@ -145,8 +145,8 @@ public class ProductServiceImpl implements ProductService {
 	public String deleteByProductId(long productId) {
 		try {
 			productRepository.deleteById(productId);
-			Optional<Product> productOptional = productRepository.findById(productId);
-			if (!productOptional.isPresent()) {
+			boolean isExist=productRepository.existsById(productId);
+			if (!isExist) {
 				return AppConstant.PRODUCT_DELETED;
 			} else {
 				return AppConstant.PRODUCT_NOT_DELETED;

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.hcl.ms.cat.entity.User;
 
 /**Create repository 
- * Execute DB opreation Queries in DB
+ * Execute DB operation Queries in DB
+ *  Use Native/Custom function from Repository
  * @author SushilY
  *
  */
@@ -15,9 +16,8 @@ import com.hcl.ms.cat.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	/**
-	 * Custom Query
-	 * @param userId
-	 * @return User
+	 * Create Custom Query
+	 * Fetch User Details belongs to User id
 	 * 
 	 */
 	@Query("SELECT u FROM User u WHERE u._id = :userId")

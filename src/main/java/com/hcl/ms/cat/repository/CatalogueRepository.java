@@ -7,6 +7,8 @@ import com.hcl.ms.cat.entity.Catalogue;
 
 /**Create repository 
  * Execute Queries in DB
+ * Use Native function from Repository
+ * 
  * @author SushilY
  *
  */
