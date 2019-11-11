@@ -25,7 +25,6 @@ import com.hcl.ms.cat.utils.StringUtils;
  *
  */
 public class BusinessValidator implements Validator {
-
 	/**
 	 * Validate in product details
 	 * 
@@ -217,9 +216,11 @@ public class BusinessValidator implements Validator {
 			
 		}
 	}
-	
+	@Override
 	public Product fromProductModel(ProductModel productModel) {
 	return new Product(productModel);
 	}
+
+	
 
 }

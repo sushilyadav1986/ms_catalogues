@@ -94,26 +94,26 @@ public interface Validator {
 	public ResponseEntity<Object> getAllProductByPageNumber(Page<Product> pageList);
 
 	/**
-	 * Check User Details has saved in Table
-	 * Get USer Details From Controller
-	 * @param user		// Get User From Controller
+	 * Check User Details has saved in Table Get USer Details From Controller
+	 * 
+	 * @param user // Get User From Controller
 	 * @return ResponseEntity<Object> // Set Response as Action on DB
 	 */
 	public ResponseEntity<Object> hasSavedUser(User user);
 
-	
 	/**
-	 Check User Details has saved in Table
-	 * Get Product Details From Controller
-	 * @param product		// Get Product From Controller
+	 * Check User Details has saved in Table Get Product Details From Controller
+	 * 
+	 * @param product // Get Product From Controller
 	 * @return ResponseEntity<Object> // Set Response as Action on DB
 	 */
 	public ResponseEntity<Object> hasSavedProduct(Product product);
 
-	/**Change ProductModel Details in Product 
+	/**
+	 * Change ProductModel Details in Product
+	 * 
 	 * @param productModel
 	 * @return Product Details
 	 */
 	public Product fromProductModel(ProductModel productModel);
-
 }

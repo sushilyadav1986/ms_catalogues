@@ -100,6 +100,10 @@ public class JUnitUtlils {
 	public ResponseEntity<Object> findResponseOnCatalogueIdBlank() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
 	}
+	public ResponseEntity<Object> findResponseOnSaveProduct() {
+		return new ResponseEntity<Object>(
+				new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
+	}
 
 	public ResponseEntity<Object> findProductResponse() {
 		return new ResponseEntity<Object>(

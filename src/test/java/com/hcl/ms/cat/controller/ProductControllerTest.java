@@ -58,11 +58,13 @@ class ProductControllerTest extends JUnitUtlils {
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
 		Product product=findDummyProduct();
+		ResponseEntity<Object> responseEntity =findResponseOnSaveProduct();
+		Mockito.when(businessValidator.hasSavedProduct(product)).thenReturn(responseEntity);
 		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
 		Mockito.when(productService.saveProduct(product)).thenReturn(new Product(productModel));
-		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
-		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+		ResponseEntity<Object> entity = productController.saveProduct(productModel);
+		assertThat(entity.getStatusCodeValue()).isEqualTo(201);
 	}
 
 	/**
