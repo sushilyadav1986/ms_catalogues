@@ -2,6 +2,9 @@ package com.hcl.ms.cat.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.ProductModel;
 
 /**Create custom Interface
@@ -14,9 +17,9 @@ public interface ProductService {
 	
 	/**
 	 * @param productModel
-	 * @return ProductModel
+	 * @return Product
 	 */
-	String saveProduct(ProductModel productModel);
+	Product saveProduct(ProductModel productModel);
 	/**
 	 * @param productId
 	 * @return
@@ -27,7 +30,7 @@ public interface ProductService {
 	 * @param userId
 	 * @return
 	 */
-	List<ProductModel> findAllProductListByUserId(long userId);
+	List<Product> findAllProductListByUserId(long userId);
 
 	/**
 	 * @param productModel
@@ -46,6 +49,6 @@ public interface ProductService {
 	 * @param noOfProducts
 	 * @return
 	 */
-	List<ProductModel> findAllProduct(int pageNumber, int noOfProducts);
+	Page<Product> findAllProduct(int pageNumber, int noOfProducts);
 
 }

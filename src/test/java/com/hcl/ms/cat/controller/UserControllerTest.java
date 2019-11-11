@@ -13,9 +13,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
-import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
@@ -45,14 +45,14 @@ class UserControllerTest extends JUnitUtlils {
 	void testSaveUserWhenSuccess() {
 		UserModel userModel = findDummyUserModel();
 		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
-		Mockito.when(userService.saveUser(userModel)).thenReturn(AppConstant.USER_ADDED_SUCCESSFULLY);
+		Mockito.when(userService.saveUser(userModel)).thenReturn(new User(userModel));
 		ResponseEntity<Object> responseEntity=userController.saveUser(userModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
 
 	/**
-	 * Test User Details on saveUser() in Controller On failure function will retrun
-	 * 406 status
+	 * Test User Details on saveUser() in Controller On failure function will return
+	 * 
 	 */
 	@Test
 	void testSaveUserWhenFailure() {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
@@ -36,7 +37,7 @@ public class UserController {
 	/**
 	 * Save User Details 
 	 * 
-	 * @param UserModel       		// Set User Details
+	 * @param userModel 			// Set User Details
 	 * @return ResponseEntity     	// Return String as action on DB 
 	 * @exception  Exception     	// Exception If JsonObject not proper
 	 */
@@ -45,8 +46,9 @@ public class UserController {
 		ResponseEntity<Object> responseEntity = businessValidator.validUserDetails(userModel);
 		if (responseEntity == null) {
 			try {
-				String insertedUserModel = userService.saveUser(userModel);
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, insertedUserModel), HttpStatus.CREATED);
+				User savedUser = userService.saveUser(userModel);
+				ResponseEntity<Object> isSavedEntity=businessValidator.hasSavedUser(savedUser);
+				return isSavedEntity;
 			} catch (Exception e) {
 				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);

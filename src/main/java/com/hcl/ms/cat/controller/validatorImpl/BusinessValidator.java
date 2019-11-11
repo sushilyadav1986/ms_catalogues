@@ -1,11 +1,15 @@
 package com.hcl.ms.cat.controller.validatorImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.entity.Product;
+import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
@@ -140,7 +144,7 @@ public class BusinessValidator implements Validator {
 	/**
 	 * Validate List<ProductModel> Obj
 	 * 
-	 * @param List<ProductModel> // Provide all required variable in this Obj
+	 * @param List<ProductModel>pModelList // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Check List is empty or not and return
 	 *         values
 	 * 
@@ -152,6 +156,65 @@ public class BusinessValidator implements Validator {
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Change Product list into ProductModel list
+	 * 
+	 * @param productList // Set List of Product
+	 * @return List // Return List of ProductModel
+	 */
+	@Override
+	public ResponseEntity<Object> getAllProdModel(List<Product> productList) {
+		if (!productList.isEmpty() && productList.size() > 0) {
+			List<ProductModel> prodModelList = new ArrayList<>();
+			for (Product product : productList) {
+				prodModelList.add(new ProductModel(product));
+			}
+			return new ResponseEntity<Object>(
+					new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, prodModelList), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+					HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Change Product list into ProductModel list
+	 * 
+	 * @param pageList
+	 * @return List
+	 */
+	@Override
+	public ResponseEntity<Object> getAllProductByPageNumber(Page<Product> pageList) {
+		List<Product> noOfProdList = new ArrayList<Product>();
+		if (noOfProdList != null && !noOfProdList.isEmpty()) {
+			noOfProdList = pageList.toList();
+		} 
+		return getAllProdModel(noOfProdList);
+	}
+	
+	@Override
+	public ResponseEntity<Object> hasSavedUser(User user) {
+		if(user!=null && user.get_id()>0) {
+			return new ResponseEntity<Object>(
+					new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>(
+					new NoObjRespnseModel(true, AppConstant.USER_DOES_NOT_ADDED), HttpStatus.OK);
+			
+		}
+	}
+	@Override
+	public ResponseEntity<Object> hasSavedProduct(Product product) {
+		if(product!=null && product.getProdId()>0) {
+			return new ResponseEntity<Object>(
+					new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>(
+					new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED), HttpStatus.OK);
+			
 		}
 	}
 

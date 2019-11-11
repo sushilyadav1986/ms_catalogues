@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -119,13 +121,27 @@ public class JUnitUtlils {
 		return exception;
 	}
 
-	public List<ProductModel> findAllProducts() {
+	public List<ProductModel> findAllProductModel() {
 		List<ProductModel> pModelList = new ArrayList<ProductModel>();
 		for (int i = 0; i <= 6; i++) {
 			ProductModel productModel = new ProductModel();
 			pModelList.add(productModel);
 		}
 		return pModelList;
+	}
+	
+	public List<Product> findAllProducts() {
+		List<Product> pModelList = new ArrayList<Product>();
+		for (int i = 0; i <= 6; i++) {
+			Product product = new Product();
+			pModelList.add(product);
+		}
+		return pModelList;
+	}
+	public Page<Product> findAllPageProducts() {
+		Page<Product>pageList=new PageImpl<Product>(findAllProducts());
+		
+		return pageList;
 	}
 
 	/**

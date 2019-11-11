@@ -2,6 +2,7 @@ package com.hcl.ms.cat.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.controller.validator.Validator;
+import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.model.UserModel;
@@ -35,7 +38,7 @@ class ProductControllerTest extends JUnitUtlils {
 
 	@Mock
 	ProductService productService;
-	
+
 	@Mock
 	UserService userService;
 
@@ -54,7 +57,7 @@ class ProductControllerTest extends JUnitUtlils {
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
-		Mockito.when(productService.saveProduct(productModel)).thenReturn(AppConstant.PRODUCT_ADDED_SUCCESSFULLY);
+		Mockito.when(productService.saveProduct(productModel)).thenReturn(new Product(productModel));
 		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
@@ -86,7 +89,7 @@ class ProductControllerTest extends JUnitUtlils {
 	@Test
 	void testFindProductDetailsWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
-		ResponseEntity<Object> responseEntity=findProductResponse() ;
+		ResponseEntity<Object> responseEntity = findProductResponse();
 		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
 		Mockito.when(businessValidator.isProdModelNull(productModel)).thenReturn(responseEntity);
 		Mockito.when(productService.findProductDetails(productModel.getProductId())).thenReturn(productModel);
@@ -115,19 +118,20 @@ class ProductControllerTest extends JUnitUtlils {
 
 	@Test
 	void testFindAllProductListByUserIdWhenSuccess() {
-		UserModel userModel=findUserModelWithUserId();
-		List<ProductModel>pModelList=findAllProducts();
-		ResponseEntity<Object> responseEntity=findProductResponse() ;
+		UserModel userModel = findUserModelWithUserId();
+		List<ProductModel> pModelList = findAllProductModel();
+		List<Product> pList = findAllProducts();
+		ResponseEntity<Object> responseEntity = findProductResponse();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
-		Mockito.when(businessValidator.isProdModelListEmpty(pModelList)).thenReturn(responseEntity);
-		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenReturn(pModelList);
+		Mockito.when(businessValidator.getAllProdModel(pList)).thenReturn(responseEntity);
+		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenReturn(pList);
 		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
-		UserModel userModel=findUserModelWithoutUserId();
+		UserModel userModel = findUserModelWithoutUserId();
 		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(responseEntity);
 		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
@@ -136,7 +140,7 @@ class ProductControllerTest extends JUnitUtlils {
 
 	@Test
 	void testFindAllProductListByUserIdWhenException() {
-		UserModel userModel=findUserModelWithUserId();
+		UserModel userModel = findUserModelWithUserId();
 		Throwable exception = findException();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
 		Mockito.when(productService.findAllProductListByUserId(userModel.getUserId())).thenThrow(exception);
@@ -148,7 +152,8 @@ class ProductControllerTest extends JUnitUtlils {
 	void testUpdateProductDetailWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(businessValidator.validateProductWithProdId(productModel)).thenReturn(null);
-		Mockito.when(productService.updateProductDetails(productModel)).thenReturn(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY);
+		Mockito.when(productService.updateProductDetails(productModel))
+				.thenReturn(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY);
 		ResponseEntity<Object> responseEntity = productController.updateProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
@@ -176,7 +181,8 @@ class ProductControllerTest extends JUnitUtlils {
 	void testDeleteProductDetailWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
-		Mockito.when(productService.deleteByProductId(productModel.getProductId())).thenReturn(AppConstant.PRODUCT_DELETED_SUCCESSFULLY);
+		Mockito.when(productService.deleteByProductId(productModel.getProductId()))
+				.thenReturn(AppConstant.PRODUCT_DELETED_SUCCESSFULLY);
 		ResponseEntity<Object> responseEntity = productController.deleteProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
@@ -202,20 +208,20 @@ class ProductControllerTest extends JUnitUtlils {
 
 	@Test
 	void testfindAllProductByPaginationWhenSuccess() {
-		PageModel pageModel=findPageModelWithDetails();
-		List<ProductModel> pModelList=findAllProducts();
-		ResponseEntity<Object> responseEntity =findAllPageModelResponse();
+		PageModel pageModel = findPageModelWithDetails();
+		Page<Product> pageList = findAllPageProducts();
+		ResponseEntity<Object> responseEntity = findAllPageModelResponse();
 		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(null);
-		Mockito.when(businessValidator.isProdModelListEmpty(pModelList)).thenReturn(responseEntity);
-		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(),
-				pageModel.getNoOfProducts())).thenReturn(pModelList);
+		Mockito.when(businessValidator.getAllProductByPageNumber(pageList)).thenReturn(responseEntity);
+		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(), pageModel.getNoOfProducts()))
+				.thenReturn(pageList);
 		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 	@Test
 	void testfindAllProductByPaginationWhenFailure() {
-		PageModel pageModel=findPageModelWithoutDetail();
+		PageModel pageModel = findPageModelWithoutDetail();
 		ResponseEntity<Object> responseEntity = findResponseOnCatalogueIdBlank();
 		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(responseEntity);
 		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
@@ -224,11 +230,11 @@ class ProductControllerTest extends JUnitUtlils {
 
 	@Test
 	void testfindAllProductByPaginationWhenException() {
-		PageModel pageModel=findPageModelWithDetails();
+		PageModel pageModel = findPageModelWithDetails();
 		Throwable exception = findException();
 		Mockito.when(businessValidator.isValidPage(pageModel)).thenReturn(null);
-		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(),
-				pageModel.getNoOfProducts())).thenThrow(exception);
+		Mockito.when(productService.findAllProduct(pageModel.getPageNumber(), pageModel.getNoOfProducts()))
+				.thenThrow(exception);
 		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(500);
 	}

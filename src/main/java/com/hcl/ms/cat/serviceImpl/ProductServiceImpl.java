@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hcl.ms.cat.controller.validator.ServiceValidator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
@@ -31,8 +30,6 @@ import com.hcl.ms.cat.utils.AppConstant;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
-	@Autowired(required = true)
-	ServiceValidator serviceValidator;
 	@Autowired
 	ProductRepository productRepository;
 
@@ -49,17 +46,14 @@ public class ProductServiceImpl implements ProductService {
 	 */
 
 	@Override
-	public String saveProduct(ProductModel productModel) {
+	public Product saveProduct(ProductModel productModel) {
+		Product product = new Product();
 		try {
-			Product product = productRepository.save(new Product(productModel));
-			productModel = new ProductModel(product);
-			if (productModel.getProductId() > 0) {
-				return AppConstant.PRODUCT_ADDED_SUCCESSFULLY;
-			} else {
-				return AppConstant.PRODUCT_DOES_NOT_ADDED;
-			}
+			product = productRepository.save(new Product(productModel));
+			return product;
 		} catch (Exception e) {
-			return e.getMessage();
+			e.getMessage();
+			return product;
 		}
 	}
 
@@ -97,24 +91,24 @@ public class ProductServiceImpl implements ProductService {
 	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
-	public List<ProductModel> findAllProductListByUserId(long userId) {
+	public List<Product> findAllProductListByUserId(long userId) {
 		try {
 			User user = userRepository.findUserById(userId);
 			if (user == null) {
 				return null;
 			} else {
-				return serviceValidator.getAllProdModel(productRepository.
-						findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId()));
+				return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
+				// serviceValidator.getAllProdModel();
 			}
 		} catch (Exception e) {
-			return new ArrayList<ProductModel>();
+			return new ArrayList<Product>();
 		}
 	}
 
 	/**
 	 * This function is used to update Product details...
 	 * 
-	 * @param ProductModel  // Set ProductModel Details
+	 * @param ProductModel // Set ProductModel Details
 	 * @return ProductModel // ProductModel String As action on DB
 	 * @exception Exception // Exception If compiler goes to catch()
 	 */
@@ -134,8 +128,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	/**
-	 * This function is used to delete Product details using product id...
-	 * /**
+	 * This function is used to delete Product details using product id... /**
 	 * 
 	 * @param ProductModel id // Set ProductModel id
 	 * @return ProductModel // ProductModel String As action on DB
@@ -145,7 +138,7 @@ public class ProductServiceImpl implements ProductService {
 	public String deleteByProductId(long productId) {
 		try {
 			productRepository.deleteById(productId);
-			boolean isExist=productRepository.existsById(productId);
+			boolean isExist = productRepository.existsById(productId);
 			if (!isExist) {
 				return AppConstant.PRODUCT_DELETED;
 			} else {
@@ -161,17 +154,18 @@ public class ProductServiceImpl implements ProductService {
 	 * Products ...
 	 * 
 	 * @param PageModel Details // Set ProductModel id
-	 * @return List<ProductModel> 	// List<ProductModel>
-	 * @exception Exception 	// Exception If compiler goes to catch()
+	 * @return Page<Product> // Page<Product>
+	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
-	public List<ProductModel> findAllProduct(int pageNumber, int noOfProducts) {
+	public Page<Product> findAllProduct(int pageNumber, int noOfProducts) {
+		Page<Product> pageList = null;
 		try {
 			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
-			Page<Product> pageList = productRepository.findAll(pageable);
-			return serviceValidator.getAllProductByPageNumber(pageList);
+			pageList = productRepository.findAll(pageable);
+			return pageList;// serviceValidator.getAllProductByPageNumber(pageList);
 		} catch (Exception e) {
-			return new ArrayList<ProductModel>();
+			return pageList;
 		}
 	}
 
