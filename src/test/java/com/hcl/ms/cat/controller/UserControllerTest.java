@@ -38,20 +38,24 @@ class UserControllerTest extends JUnitUtlils {
 	UserController userController;
 
 	/**
-	 * Test User Details on saveUser() in Controller On success function will retrun
-	 * 200 status
+	 * Test User Details on saveUser() in Controller On save function will retrun
+	 * 201 status if get success
 	 */
 	@Test
 	void testSaveUserWhenSuccess() {
 		UserModel userModel = findDummyUserModel();
+		ResponseEntity<Object> responseEntity=findResponseOnSavedUser();
+		User user=findUser();
+		Mockito.when(businessValidator.hasSavedUser(user)).thenReturn(responseEntity);
 		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
-		Mockito.when(userService.saveUser(userModel)).thenReturn(new User(userModel));
-		ResponseEntity<Object> responseEntity=userController.saveUser(userModel);
+		Mockito.when(userService.saveUser(userModel)).thenReturn(user);
+		responseEntity=userController.saveUser(userModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
 
 	/**
-	 * Test User Details on saveUser() in Controller On failure function will return
+	 * Test User Details on saveUser() in Controller On save function will return
+	 * 200 status if get failure
 	 * 
 	 */
 	@Test
@@ -62,14 +66,19 @@ class UserControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity=userController.saveUser(userModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-	
+	/**
+	 * Test User Details on saveUser() in Controller On save function will return
+	 * 500 status if get any exception
+	 * 
+	 */
 	@Test
 	void testSaveUserWhenException() {
 		Throwable throwable=findException();
 		UserModel userModel = findDummyUserModel();
+		ResponseEntity<Object> responseEntity=findResponseOnSavedUser();
 		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
 		Mockito.when(userService.saveUser(userModel)).thenThrow(throwable);
-		ResponseEntity<Object> responseEntity=userController.saveUser(userModel);
+		responseEntity=userController.saveUser(userModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
 }

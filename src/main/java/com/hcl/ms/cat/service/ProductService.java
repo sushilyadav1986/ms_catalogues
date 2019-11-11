@@ -25,7 +25,7 @@ public interface ProductService {
 	 * @param productId
 	 * @return
 	 */
-	ProductModel findProductDetails(long productId);
+	Product findProductDetails(long productId);
 
 	/**
 	 * @param userId

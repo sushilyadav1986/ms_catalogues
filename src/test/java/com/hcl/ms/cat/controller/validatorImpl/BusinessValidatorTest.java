@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
+import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.model.UserModel;
@@ -111,16 +112,16 @@ class BusinessValidatorTest extends JUnitUtlils {
 
 	@Test
 	void testIsProdModelNullWhenSuccess() {
-		ProductModel productModel=new ProductModel();
-		ResponseEntity<Object> responseEntity = businessValidator.isProdModelNull(productModel);
+		Product product=new Product();
+		ResponseEntity<Object> responseEntity = businessValidator.isProductNull(product);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 
 	@Test
 	void testIsProdModelNullWhenFailure() {
-		ProductModel productModel=new ProductModel();
-		ResponseEntity<Object> responseEntity = businessValidator.isProdModelNull(productModel);
+		Product product=new Product();
+		ResponseEntity<Object> responseEntity = businessValidator.isProductNull(product);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
 

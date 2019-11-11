@@ -65,7 +65,7 @@ public interface Validator {
 	 * @return ResponseEntity<Object> // Return null if Obj is null
 	 * 
 	 */
-	public ResponseEntity<Object> isProdModelNull(ProductModel productModel);
+	public ResponseEntity<Object> isProductNull(Product product);
 
 	/**
 	 * Validate ProductModel Obj And ProdId * Validate List Obj is null or Empty

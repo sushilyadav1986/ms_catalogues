@@ -1,9 +1,7 @@
 package com.hcl.ms.cat.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.any;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -50,19 +48,19 @@ class ProductControllerTest extends JUnitUtlils {
 	Validator businessValidator;
 
 	/**
-	 * Test SaveProduct() function on success On success function will retrun 200
+	 * Test SaveProduct() function on success On save function will return 201
 	 * status
 	 * 
 	 */
 	@Test
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
-		Product product=findDummyProduct();
-		ResponseEntity<Object> responseEntity =findResponseOnSaveProduct();
+		Product product = findDummyProduct();
+		ResponseEntity<Object> responseEntity = findResponseOnSaveProduct();
 		Mockito.when(businessValidator.hasSavedProduct(product)).thenReturn(responseEntity);
 		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
-		Mockito.when(productService.saveProduct(product)).thenReturn(new Product(productModel));
+		Mockito.when(productService.saveProduct(product)).thenReturn(product);
 		ResponseEntity<Object> entity = productController.saveProduct(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(201);
 	}
@@ -81,27 +79,42 @@ class ProductControllerTest extends JUnitUtlils {
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
+	/**
+	 * Test SaveProduct() function on Exception If details not fill complete. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testSaveProductWhenException() {
-		ProductModel productModel = new ProductModel(12, "Lemon", 455.55, "dafkdasfadso", "H", 21);
+		ProductModel productModel = findProdModelWithId();
 		Throwable exception = findException();
+		Product product = findDummyProduct();
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
+		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
 		Mockito.when(productService.saveProduct(new Product(productModel))).thenThrow(exception);
 		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
-
+	/**
+	 * Test findProductDetails() function on success status will 200 
+	 * 
+	 */
 	@Test
 	void testFindProductDetailsWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
+		Product product=new Product(productModel);
 		ResponseEntity<Object> responseEntity = findProductResponse();
 		Mockito.when(businessValidator.isIdEmpty(productModel.getProductId())).thenReturn(null);
-		Mockito.when(businessValidator.isProdModelNull(productModel)).thenReturn(responseEntity);
-		Mockito.when(productService.findProductDetails(productModel.getProductId())).thenReturn(productModel);
+		Mockito.when(businessValidator.isProductNull(product)).thenReturn(responseEntity);
+		Mockito.when(productService.findProductDetails(productModel.getProductId())).thenReturn(product);
 		ResponseEntity<Object> entity = productController.findProductDetails(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test findProductDetails() function on Failure If product id not provided. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testFindProductDetailsWhenFailure() {
 		ProductModel productModel = findProdModelWithId();
@@ -110,7 +123,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.findProductDetails(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test findProductDetails() function on Exception If get any Exception. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testFindProductDetailsWhenException() {
 		ProductModel productModel = findProdModelWithId();
@@ -120,11 +137,14 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.findProductDetails(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
-
+	/**
+	 * Test findAllProductListByUserId() function on Success If user id provided. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testFindAllProductListByUserIdWhenSuccess() {
 		UserModel userModel = findUserModelWithUserId();
-		List<ProductModel> pModelList = findAllProductModel();
 		List<Product> pList = findAllProducts();
 		ResponseEntity<Object> responseEntity = findProductResponse();
 		Mockito.when(businessValidator.isIdEmpty(userModel.getUserId())).thenReturn(null);
@@ -133,7 +153,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.findAllProductListByUserId(userModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test findAllProductListByUserId() function on Failure If user id not provided. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
 		UserModel userModel = findUserModelWithoutUserId();
@@ -143,6 +167,11 @@ class ProductControllerTest extends JUnitUtlils {
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
 
+	/**
+	 * Test findAllProductListByUserId() function on Exception If get any exception. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testFindAllProductListByUserIdWhenException() {
 		UserModel userModel = findUserModelWithUserId();
@@ -152,7 +181,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.findAllProductListByUserId(userModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
-
+	/**
+	 * Test updateProductDetail() function on Success If provide product details with product id. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testUpdateProductDetailWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
@@ -162,7 +195,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.updateProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test updateProductDetail() function on Failure If not provide product details with product id. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testUpdateProductDetailWhenFailure() {
 		ProductModel productModel = findProdModelWithoutCatId();
@@ -171,7 +208,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.updateProductDetail(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test updateProductDetail() function on Exception If get ANy exception. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testUpdateProductDetailWhenException() {
 		ProductModel productModel = findProdModelWithId();
@@ -181,7 +222,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.updateProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
-
+	/**
+	 * Test deleteProduct() function on Success If provide product id. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testDeleteProductDetailWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
@@ -191,7 +236,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.deleteProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test deleteProduct() function on Failure If not provide product id. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testDeleteProductDetailWhenFailure() {
 		ProductModel productModel = findProdModelWithoutProdId();
@@ -200,7 +249,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.deleteProductDetail(productModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test deleteProduct() function on Exception If get any Exception. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testDeleteProductDetailWhenException() {
 		ProductModel productModel = findProdModelWithId();
@@ -210,7 +263,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> responseEntity = productController.deleteProductDetail(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}
-
+	/**
+	 * Test findAllProductByPagination() function on Success If provide page number and number of Products. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testfindAllProductByPaginationWhenSuccess() {
 		PageModel pageModel = findPageModelWithDetails();
@@ -223,7 +280,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test findAllProductByPagination() function on Failure If not provide page number and number of Products. status
+	 * will 200 
+	 * 
+	 */
 	@Test
 	void testfindAllProductByPaginationWhenFailure() {
 		PageModel pageModel = findPageModelWithoutDetail();
@@ -232,7 +293,11 @@ class ProductControllerTest extends JUnitUtlils {
 		ResponseEntity<Object> entity = productController.findAllProductByPagination(pageModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
 	}
-
+	/**
+	 * Test findAllProductByPagination() function on Exception If get any Exception. status
+	 * will 500 
+	 * 
+	 */
 	@Test
 	void testfindAllProductByPaginationWhenException() {
 		PageModel pageModel = findPageModelWithDetails();

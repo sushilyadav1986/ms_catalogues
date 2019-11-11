@@ -5,8 +5,6 @@ package com.hcl.ms.cat.serviceImpl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +28,7 @@ import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
+import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
@@ -60,32 +59,34 @@ class ProductServiceImplTest extends JUnitUtlils {
 	}
 
 	/**
-	 * Test method for
+	 * Test Function on save Product in Table If Product save, will return Obj
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#saveProduct(com.hcl.ms.cat.model.ProductModel)}.
 	 */
 	@Test
 	void testSaveProductWhenSuccess() {
-		ProductModel productModel=findDummyProdutModel();
+		ProductModel productModel = findDummyProdutModel();
 		Product product = new Product(productModel);
-		Mockito.when(productRepository.save(product))
-		.thenReturn(product);
+		Mockito.when(productRepository.save(product)).thenReturn(product);
 		Product hasSaved = pServiceImpl.saveProduct(product);
 		assertEquals(product, hasSaved);
-		//assertNull(hasSaved);
-	}
-	
-	@Test
-	void testSaveProductWhenFailure() {
-		ProductModel productModel=findDummyProdutModel();
-		Product product = new Product(productModel);
-		Mockito.when(productRepository.save(product))
-		.thenReturn(product);
-		Product hasSaved = pServiceImpl.saveProduct(product);
-		assertNull(hasSaved);
 	}
 
 	/**
-	 * Test method for
+	 * Test Function on save Product in Table If Product save, will return Exception
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#saveProduct(com.hcl.ms.cat.model.ProductModel)}.
+	 */
+	@Test
+	void testSaveProductWhenFailure() {
+		ProductModel productModel = findDummyProdutModel();
+		Product product = new Product(productModel);
+		Throwable exception = findException();
+		Mockito.when(productRepository.save(product)).thenThrow(exception);
+		Product hasSaved = pServiceImpl.saveProduct(product);
+		assertEquals(null, hasSaved);
+	}
+
+	/**
+	 * Test method for FindProductDetails() When successfully execute
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductDetails(long)}.
 	 */
 
@@ -94,15 +95,26 @@ class ProductServiceImplTest extends JUnitUtlils {
 		Product product = findDummyProduct();
 		Optional<Product> optional = Optional.of(product);
 		Mockito.when(productRepository.findById(1L)).thenReturn(optional);
-		ProductModel pModel = pServiceImpl.findProductDetails(1);
-		assertEquals(product.getAvailability(), pModel.getProductAvailability());
+		Product pModel = pServiceImpl.findProductDetails(1);
+		assertEquals(product.getAvailability(), pModel.getAvailability());
 	}
-	
-	@Test
-	void testFindProductDetailsWhenFailure() {}
 
 	/**
-	 * Test method for
+	 * Test method for FindProductDetails() When object not get will return null
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductDetails(long)}.
+	 */
+	@Test
+	void testFindProductDetailsWhenFailure() {
+		Product product = findDummyProduct();
+		Optional<Product> optional = Optional.of(product);
+		Mockito.when(productRepository.findById(1L)).thenReturn(optional.empty());
+		Product pModel = pServiceImpl.findProductDetails(1);
+		assertNull(pModel);
+	}
+
+	/**
+	 * Test method for findAllProductListByUserI() When user id get will return
+	 * product list
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductListByUserId(long)}.
 	 */
 
@@ -110,51 +122,82 @@ class ProductServiceImplTest extends JUnitUtlils {
 	void testFindAllProductListByUserIdWhenSuccess() {
 		User user = findDummyUser();
 		List<Product> pList = findAllDummyProducts();
-		List<ProductModel> pModelList = findAllDummyProdModel();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
-		//pModelList = pServiceImpl.findAllProductListByUserId(1);
-		assertEquals(3, pModelList.size());
+		pList = pServiceImpl.findAllProductListByUserId(1);
+		assertEquals(3, pList.size());
 	}
-	
-	@Test
-	void testFindAllProductListByUserIdWhenFailure() {}
 
 	/**
-	 * Test method for
-	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#updateProductDetails(com.hcl.ms.cat.model.ProductModel)}.
+	 * Test method for findAllProductListByUserI() When user id get will return null
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductListByUserId(long)}.
 	 */
+	@Test
+	void testFindAllProductListByUserIdWhenFailure() {
+		User user = findDummyUser();
+		List<Product> pList = findAllDummyProducts();
+		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
+		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(null);
+		pList = pServiceImpl.findAllProductListByUserId(1);
+		assertNull(pList);
+	}
 
+	/**
+	 * Test method for UpdateProductDetails() When product details get will return
+	 * obj
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#updateProductDetails(long)}.
+	 */
 	@Test
 	void testUpdateProductDetailsWhenSuccess() {
 		Product product = findDummyProduct();
-		Optional<Product> optional = Optional.of(product);
-
-		Mockito.when(productRepository.findById(1L)).thenReturn(optional);
-		Mockito.when(productRepository.save(product)).thenReturn(product);
-		// ProductModel pModel = new ProductModel(1, "Test Value", 222,
-		// "TestproductDescription", "H", 21);
-		// TODO: test below line
-		// boolean hasUpdated = pServiceImpl.updateProductDetails(pModel);
-		// assertEquals(true, hasUpdated);
+		// Optional<Product> optional = Optional.of(product);
+		ProductModel productModel = findProdModelWithId();
+		Mockito.when(productRepository.existsById(1L)).thenReturn(true);
+		Mockito.doNothing().when(productRepository).save(product);
+		// Mockito.doNothing().when(productRepository).save(new Product(productModel));
+		String hasUpdated = pServiceImpl.updateProductDetails(productModel);
+		assertEquals(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY, hasUpdated);
 	}
-	@Test
-	void testUpdateProductDetailsWhenFailure() {}
 
 	/**
-	 * Test method for
-	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#deleteByProductId(long)}.
+	 * Test method for UpdateProductDetails() When product details get will return
+	 * failed string
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#updateProductDetails(long)}.
+	 */
+	@Test
+	void testUpdateProductDetailsWhenFailure() {
+		ProductModel productModel = findProdModelWithId();
+		Mockito.when(productRepository.existsById(1L)).thenReturn(false);
+		String hasUpdated = pServiceImpl.updateProductDetails(productModel);
+		assertEquals(AppConstant.PRODUCT_UPDATED_FAILED, hasUpdated);
+	}
+
+	/**
+	 * Test method for UpdateProductDetails() When product details get will return
+	 * failed string
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#deleteByProductI(long)}.
 	 */
 	@Test
 	void testDeleteByProductIdWhenSuccess() {
 		Mockito.when(productRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 		Mockito.doNothing().when(productRepository).deleteById(1L);
-		// TODO: test below line
-		// boolean hasDeleted = pServiceImpl.deleteByProductId(1L);
-		// assertEquals(true, hasDeleted);
+		Mockito.when(productRepository.existsById(1L)).thenReturn(false);
+		String hasDeleted = pServiceImpl.deleteByProductId(1L);
+		assertEquals(AppConstant.PRODUCT_DELETED, hasDeleted);
 	}
+	/**
+	 * Test method for UpdateProductDetails() When product details get will return
+	 * failed string
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#deleteByProductI(long)}.
+	 */
 	@Test
-	void testDeleteByProductIdWhenFailure() {}
+	void testDeleteByProductIdWhenFailure() {
+		Mockito.when(productRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+		Mockito.doNothing().when(productRepository).deleteById(1L);
+		Mockito.when(productRepository.existsById(1L)).thenReturn(true);
+		String hasDeleted = pServiceImpl.deleteByProductId(1L);
+		assertEquals(AppConstant.PRODUCT_NOT_DELETED, hasDeleted);
+	}
 
 	/**
 	 * Test method for
@@ -166,12 +209,15 @@ class ProductServiceImplTest extends JUnitUtlils {
 		Page<Product> pageList = new PageImpl<>(productList);
 		Pageable pageable = PageRequest.of(2, 3);
 		Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
-	//	List<ProductModel> productModels = pServiceImpl.findAllProduct(1, 2);
-		//assertEquals(0, productModels.size());
+		// List<ProductModel> productModels = pServiceImpl.findAllProduct(1, 2);
+		// assertEquals(0, productModels.size());
 
 	}
+
 	@Test
-	void testFindAllProductWhenFailure() {}
+	void testFindAllProductWhenFailure() {
+	}
+
 	private List<ProductModel> findAllDummyProdModel() {
 		List<Product> pList = findAllDummyProducts();
 		List<ProductModel> pModelList = new ArrayList<>();
@@ -184,5 +230,4 @@ class ProductServiceImplTest extends JUnitUtlils {
 		return pModelList;
 	}
 
-	
 }

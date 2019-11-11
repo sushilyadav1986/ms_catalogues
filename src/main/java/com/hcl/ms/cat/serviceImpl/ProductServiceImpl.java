@@ -66,20 +66,16 @@ public class ProductServiceImpl implements ProductService {
 	 * @exception Exception // Exception If compiler goes to catch()
 	 */
 	@Override
-	public ProductModel findProductDetails(long productId) {
+	public Product findProductDetails(long productId) {
 		try {
 			Optional<Product> productOptional = productRepository.findById(productId);
 			if (!productOptional.isPresent()) {
 				return null;
 			}
 			Product product = productOptional.get();
-			if (product != null) {
-				return new ProductModel(product);
-			} else {
-				return null;
-			}
+			return product;
 		} catch (Exception e) {
-			return new ProductModel();
+			return null;
 		}
 	}
 
@@ -98,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
 				return null;
 			} else {
 				return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
-				// serviceValidator.getAllProdModel();
 			}
 		} catch (Exception e) {
 			return new ArrayList<Product>();

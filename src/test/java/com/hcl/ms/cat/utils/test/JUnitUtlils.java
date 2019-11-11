@@ -171,13 +171,11 @@ public class JUnitUtlils {
 	public ResponseEntity<Object> findResponseWithoutEmail() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
 	}
+	public ResponseEntity<Object> findResponseOnSavedUser() {
+		return new ResponseEntity<Object>(
+				new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
 	
-	
-	
-	
-
-
-	
+	}
 
 	public Product findDummyProduct() {
 		Product product = new Product();

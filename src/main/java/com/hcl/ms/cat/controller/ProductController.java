@@ -71,8 +71,8 @@ public class ProductController {
 		ResponseEntity<Object> responseEntity = businessValidator.isIdEmpty(productModel.getProductId());
 		if (responseEntity == null) {
 			try {
-				ProductModel model = productService.findProductDetails(productModel.getProductId());
-				return businessValidator.isProdModelNull(model);
+				Product model = productService.findProductDetails(productModel.getProductId());
+				return businessValidator.isProductNull(model);
 			} catch (Exception e) {
 				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
