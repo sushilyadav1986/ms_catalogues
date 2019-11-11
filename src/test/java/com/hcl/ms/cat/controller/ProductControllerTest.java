@@ -1,6 +1,7 @@
 package com.hcl.ms.cat.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,10 @@ class ProductControllerTest extends JUnitUtlils {
 	@Test
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
+		Product product=findDummyProduct();
+		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
-		Mockito.when(productService.saveProduct(productModel)).thenReturn(new Product(productModel));
+		Mockito.when(productService.saveProduct(product)).thenReturn(new Product(productModel));
 		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 	}
@@ -81,7 +84,7 @@ class ProductControllerTest extends JUnitUtlils {
 		ProductModel productModel = new ProductModel(12, "Lemon", 455.55, "dafkdasfadso", "H", 21);
 		Throwable exception = findException();
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
-		Mockito.when(productService.saveProduct(productModel)).thenThrow(exception);
+		Mockito.when(productService.saveProduct(new Product(productModel))).thenThrow(exception);
 		ResponseEntity<Object> responseEntity = productController.saveProduct(productModel);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
 	}

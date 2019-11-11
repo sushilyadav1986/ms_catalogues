@@ -15,11 +15,12 @@ import com.hcl.ms.cat.model.ProductModel;
 public interface ProductService {
 
 	
-	/**
-	 * @param productModel
-	 * @return Product
+	/**Save Product Details
+	 * @param product   // Get Product Details From Controller
+	 * @return Product	// Return Product Details From DB
 	 */
-	Product saveProduct(ProductModel productModel);
+	Product saveProduct(Product product);
+	
 	/**
 	 * @param productId
 	 * @return

@@ -47,7 +47,7 @@ public class ProductController {
 		ResponseEntity<Object> responseEntity = businessValidator.validateProduct(productModel);
 		if (responseEntity == null) {
 			try {
-				Product hasSaved = productService.saveProduct(productModel);
+				Product hasSaved = productService.saveProduct(businessValidator.fromProductModel(productModel));
 				ResponseEntity<Object> savedEntity = businessValidator.hasSavedProduct(hasSaved);
 				return savedEntity;
 			} catch (Exception e) {

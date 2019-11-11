@@ -43,7 +43,7 @@ public interface Validator {
 	/**
 	 * Validate PageModel Obj
 	 * 
-	 * @param PageModel // Provide all required variable in this Obj
+	 * @param pageModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null If Obj is Valid
 	 * 
 	 */
@@ -52,7 +52,7 @@ public interface Validator {
 	/**
 	 * Validate UserModel Obj
 	 * 
-	 * @param UserModel // Provide all required variable in this Obj
+	 * @param userModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null if Obj is valid
 	 * 
 	 */
@@ -61,7 +61,7 @@ public interface Validator {
 	/**
 	 * Validate ProductModel Obj
 	 * 
-	 * @param Product // Provide all required variable in this Obj
+	 * @param productModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null if Obj is null
 	 * 
 	 */
@@ -70,7 +70,7 @@ public interface Validator {
 	/**
 	 * Validate ProductModel Obj And ProdId * Validate List Obj is null or Empty
 	 * 
-	 * @param List<ProductModel> // Provide all required variable in this Obj
+	 * @param productModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Check Obj is null or and Empty
 	 * 
 	 */
@@ -92,9 +92,28 @@ public interface Validator {
 	 * @return Response Entity
 	 */
 	public ResponseEntity<Object> getAllProductByPageNumber(Page<Product> pageList);
-	
+
+	/**
+	 * Check User Details has saved in Table
+	 * Get USer Details From Controller
+	 * @param user		// Get User From Controller
+	 * @return ResponseEntity<Object> // Set Response as Action on DB
+	 */
 	public ResponseEntity<Object> hasSavedUser(User user);
+
 	
+	/**
+	 Check User Details has saved in Table
+	 * Get Product Details From Controller
+	 * @param product		// Get Product From Controller
+	 * @return ResponseEntity<Object> // Set Response as Action on DB
+	 */
 	public ResponseEntity<Object> hasSavedProduct(Product product);
+
+	/**Change ProductModel Details in Product 
+	 * @param productModel
+	 * @return Product Details
+	 */
+	public Product fromProductModel(ProductModel productModel);
 
 }

@@ -3,6 +3,7 @@
  */
 package com.hcl.ms.cat.serviceImpl;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,15 +65,24 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testSaveProductWhenSuccess() {
-		Product product = findDummyProduct();
-		userArg = ArgumentCaptor.forClass(User.class);
-		verify(productRepository, times(10)).save(product);
-		Product hasSaved = pServiceImpl.saveProduct(new ProductModel(product));
+		ProductModel productModel=findDummyProdutModel();
+		Product product = new Product(productModel);
+		Mockito.when(productRepository.save(product))
+		.thenReturn(product);
+		Product hasSaved = pServiceImpl.saveProduct(product);
 		assertEquals(product, hasSaved);
+		//assertNull(hasSaved);
 	}
 	
 	@Test
-	void testSaveProductWhenFailure() {}
+	void testSaveProductWhenFailure() {
+		ProductModel productModel=findDummyProdutModel();
+		Product product = new Product(productModel);
+		Mockito.when(productRepository.save(product))
+		.thenReturn(product);
+		Product hasSaved = pServiceImpl.saveProduct(product);
+		assertNull(hasSaved);
+	}
 
 	/**
 	 * Test method for

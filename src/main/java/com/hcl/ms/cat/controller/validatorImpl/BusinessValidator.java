@@ -217,5 +217,9 @@ public class BusinessValidator implements Validator {
 			
 		}
 	}
+	
+	public Product fromProductModel(ProductModel productModel) {
+	return new Product(productModel);
+	}
 
 }

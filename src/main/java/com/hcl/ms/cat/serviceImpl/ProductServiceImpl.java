@@ -46,14 +46,14 @@ public class ProductServiceImpl implements ProductService {
 	 */
 
 	@Override
-	public Product saveProduct(ProductModel productModel) {
-		Product product = new Product();
+	public Product saveProduct(Product product) {
+		Product savedProduct;
 		try {
-			product = productRepository.save(new Product(productModel));
-			return product;
+			savedProduct = productRepository.save(product);
+			return savedProduct;
 		} catch (Exception e) {
 			e.getMessage();
-			return product;
+			return null;
 		}
 	}
 
