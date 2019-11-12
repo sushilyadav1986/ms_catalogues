@@ -30,9 +30,14 @@ import com.hcl.ms.cat.service.ProductService;
 @RequestMapping(path = "/product")
 public class ProductController {
 
-	
+	/**
+	 * Initialize Obj to call service function to use data from DB
+	 */
 	@Autowired
 	ProductService productService;
+	/**
+	 * Initialize Obj to validate data
+	 */
 	@Autowired(required = true)
 	Validator businessValidator;
 
@@ -40,8 +45,8 @@ public class ProductController {
 	 * Save Product Details
 	 * 
 	 * @param productModel // Find all details from product model
-	 * @return List<Product> // Return Product List details
-	 * Exception // Exception If JsonObject not proper
+	 * @return List<Product> // Return Product List details Exception // Exception
+	 *         If JsonObject not proper
 	 */
 	@PostMapping("/addProduct")
 	public ResponseEntity<Object> saveProduct(@RequestBody ProductModel productModel) {
@@ -156,7 +161,7 @@ public class ProductController {
 	/**
 	 * Fetch All Product Details using sorting in respect of Product Id
 	 * 
-	 * @param PageModel // Set Details of Paging
+	 * @param pageModel // Set Details of Paging
 	 * @return ResponseEntity // Return List<Product>
 	 * @exception Exception // Exception If JsonObject not proper
 	 */

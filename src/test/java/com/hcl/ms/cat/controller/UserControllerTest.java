@@ -43,7 +43,7 @@ class UserControllerTest extends JUnitUtlils {
 	 */
 	@Test
 	void testSaveUserWhenSuccess() {
-		UserModel userModel = findDummyUserModel();
+		UserModel userModel = findUserModel();
 		ResponseEntity<Object> responseEntity=findResponseOnSavedUser();
 		User user=findUser();
 		Mockito.when(businessValidator.hasSavedUser(user)).thenReturn(responseEntity);
@@ -61,7 +61,7 @@ class UserControllerTest extends JUnitUtlils {
 	@Test
 	void testSaveUserWhenFailure() {
 		ResponseEntity<Object> responseEntity=findResponseWithoutEmail();
-		UserModel userModel = findDummyUserModelWithoutEmail();
+		UserModel userModel = findUserModelWithoutEmail();
 		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(responseEntity);
 		ResponseEntity<Object> entity=userController.saveUser(userModel);
 		assertThat(entity.getStatusCodeValue()).isEqualTo(200);
@@ -74,7 +74,7 @@ class UserControllerTest extends JUnitUtlils {
 	@Test
 	void testSaveUserWhenException() {
 		Throwable throwable=findException();
-		UserModel userModel = findDummyUserModel();
+		UserModel userModel = findUserModel();
 		ResponseEntity<Object> responseEntity=findResponseOnSavedUser();
 		Mockito.when(businessValidator.validUserDetails(userModel)).thenReturn(null);
 		Mockito.when(userService.saveUser(userModel)).thenThrow(throwable);

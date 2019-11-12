@@ -161,9 +161,10 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> findAllProduct(int pageNumber, int noOfProducts) {
 		Page<Product> pageList = null;
 		try {
+			
 			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
 			pageList = productRepository.findAll(pageable);
-			return pageList;// serviceValidator.getAllProductByPageNumber(pageList);
+			return pageList;
 		} catch (Exception e) {
 			return pageList;
 		}

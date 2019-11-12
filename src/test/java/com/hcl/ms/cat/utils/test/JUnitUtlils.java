@@ -26,22 +26,7 @@ import com.hcl.ms.cat.utils.AppConstant;
  */
 public class JUnitUtlils {
 
-	/**
-	 * @return
-	 */
-	public User findUser() {
-		User user = new User();
-		Catalogue catalogue = new Catalogue();
-		user.set_id(1);
-		user.setFirstName("Sushil");
-		user.setLastName("Yadav");
-		user.setGender("M");
-		user.setEmail("test@gmail.com");
-		user.setContactNumber(8130834214L);
-		catalogue.setCatId(1);
-		user.setCatalogue(catalogue);
-		return user;
-	}
+	
 
 	public UserModel findUserModelWithUserId() {
 		return new UserModel(findUser());
@@ -169,7 +154,7 @@ public class JUnitUtlils {
 	/**
 	 * @return
 	 */
-	public UserModel findDummyUserModel() {
+	public UserModel findUserModel() {
 		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L, new Catalogue());
 		return userModel;
 
@@ -178,7 +163,7 @@ public class JUnitUtlils {
 	/**
 	 * @return
 	 */
-	public UserModel findDummyUserModelWithoutEmail() {
+	public UserModel findUserModelWithoutEmail() {
 		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L, new Catalogue());
 		return userModel;
 	}
@@ -196,7 +181,7 @@ public class JUnitUtlils {
 
 	}
 
-	public Product findDummyProduct() {
+	public Product findProduct() {
 		Product product = new Product();
 		product.setProdId(1);
 		product.setName("Test");
@@ -210,7 +195,7 @@ public class JUnitUtlils {
 		return product;
 	}
 
-	public User findDummyUser() {
+	public User findUser() {
 		User user = new User();
 		user.set_id(1);
 		user.setContactNumber(4569825689L);
@@ -225,7 +210,7 @@ public class JUnitUtlils {
 		return user;
 	}
 
-	public ProductModel findDummyProdutModel() {
+	public ProductModel findProdutModel() {
 		ProductModel productModel = new ProductModel(1, "Lemon", 455.55, "dafkdasfadso", "H", 1);
 		return productModel;
 	}

@@ -32,6 +32,7 @@ public class CatalogueMsApplication {
 	 * @param args      //must not be {@literal null}.
 	 */
 	
+	
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogueMsApplication.class, args);

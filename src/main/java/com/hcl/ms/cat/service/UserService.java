@@ -13,6 +13,9 @@ public interface UserService {
 	
 	/**
 	 * Saved User Details to respected Table
+	 * @param userModel   // Set UserModel Details to save
+	 * @return User		  // After saved return User from Table
+	 * 
 	 */
 	public User saveUser(UserModel userModel);
 

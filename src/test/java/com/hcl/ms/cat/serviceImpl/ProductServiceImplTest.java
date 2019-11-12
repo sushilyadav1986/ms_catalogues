@@ -63,7 +63,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testSaveProductWhenSuccess() {
-		ProductModel productModel = findDummyProdutModel();
+		ProductModel productModel = findProdutModel();
 		Product product = new Product(productModel);
 		Mockito.when(productRepository.save(product)).thenReturn(product);
 		Product hasSaved = pServiceImpl.saveProduct(product);
@@ -76,7 +76,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testSaveProductWhenFailure() {
-		ProductModel productModel = findDummyProdutModel();
+		ProductModel productModel = findProdutModel();
 		Product product = new Product(productModel);
 		Throwable exception = findException();
 		Mockito.when(productRepository.save(product)).thenThrow(exception);
@@ -91,7 +91,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 
 	@Test
 	void testFindProductDetailsWhenSuccess() {
-		Product product = findDummyProduct();
+		Product product = findProduct();
 		Optional<Product> optional = Optional.of(product);
 		Mockito.when(productRepository.findById(1L)).thenReturn(optional);
 		Product pModel = pServiceImpl.findProductDetails(1);
@@ -118,12 +118,12 @@ class ProductServiceImplTest extends JUnitUtlils {
 
 	@Test
 	void testFindAllProductListByUserIdWhenSuccess() {
-		User user = findDummyUser();
+		User user = findUser();
 		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
 		pList = pServiceImpl.findAllProductListByUserId(1);
-		assertEquals(3, pList.size());
+		assertEquals(7, pList.size());
 	}
 
 	/**
@@ -132,7 +132,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
-		User user = findDummyUser();
+		User user = findUser();
 		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(null);
@@ -147,7 +147,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testUpdateProductDetailsWhenSuccess() {
-		Product product = findDummyProduct();
+		Product product = findProduct();
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(productRepository.existsById(1L)).thenReturn(true);
 		Mockito.when(productRepository.save(new Product(productModel))).thenReturn(product);
@@ -205,10 +205,11 @@ class ProductServiceImplTest extends JUnitUtlils {
 	void testFindAllProductWhenSuccess() {
 		List<Product> productList = findAllProducts();
 		Page<Product> pageList = new PageImpl<>(productList);
-		Pageable pageable = PageRequest.of(2, 3);
-		Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
-		// List<ProductModel> productModels = pServiceImpl.findAllProduct(1, 2);
-		// assertEquals(0, productModels.size());
+		//Mockito.mock(PageRequest.class);
+		//Pageable pageable = PageRequest.of(1, 2);
+		//Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
+		//pageList = pServiceImpl.findAllProduct(1, 2);
+		//assertEquals(2, pageList.getSize());
 
 	}
 

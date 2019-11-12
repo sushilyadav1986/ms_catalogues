@@ -111,7 +111,7 @@ class BusinessValidatorTest extends JUnitUtlils {
 
 	@Test
 	void testIsProductNullWhenSuccess() {
-		Product product=findDummyProduct();
+		Product product=findProduct();
 		ResponseEntity<Object> responseEntity = businessValidator.isProductNull(product);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}

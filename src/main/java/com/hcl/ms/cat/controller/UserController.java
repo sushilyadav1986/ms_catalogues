@@ -27,10 +27,15 @@ import com.hcl.ms.cat.service.UserService;
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-
+	/**
+	 * Initialize Obj to call service function to use data from DB
+	 */
 	@Autowired
 	UserService userService;
 
+	/**
+	 * Initialize Obj to validate data  
+	 */
 	@Autowired(required = true)
 	Validator businessValidator;
 

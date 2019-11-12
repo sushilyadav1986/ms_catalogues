@@ -55,7 +55,7 @@ class ProductControllerTest extends JUnitUtlils {
 	@Test
 	void testSaveProductWhenSuccess() {
 		ProductModel productModel = findProdModelWithId();
-		Product product = findDummyProduct();
+		Product product = findProduct();
 		ResponseEntity<Object> responseEntity = findResponseOnSaveProduct();
 		Mockito.when(businessValidator.hasSavedProduct(product)).thenReturn(responseEntity);
 		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
@@ -88,7 +88,7 @@ class ProductControllerTest extends JUnitUtlils {
 	void testSaveProductWhenException() {
 		ProductModel productModel = findProdModelWithId();
 		Throwable exception = findException();
-		Product product = findDummyProduct();
+		Product product = findProduct();
 		Mockito.when(businessValidator.validateProduct(productModel)).thenReturn(null);
 		Mockito.when(businessValidator.fromProductModel(productModel)).thenReturn(product);
 		Mockito.when(productService.saveProduct(new Product(productModel))).thenThrow(exception);
