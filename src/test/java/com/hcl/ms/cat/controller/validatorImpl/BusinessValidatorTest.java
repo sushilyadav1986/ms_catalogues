@@ -2,7 +2,6 @@ package com.hcl.ms.cat.controller.validatorImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,16 +110,16 @@ class BusinessValidatorTest extends JUnitUtlils {
 	}
 
 	@Test
-	void testIsProdModelNullWhenSuccess() {
-		Product product=new Product();
+	void testIsProductNullWhenSuccess() {
+		Product product=findDummyProduct();
 		ResponseEntity<Object> responseEntity = businessValidator.isProductNull(product);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}
 
 
 	@Test
-	void testIsProdModelNullWhenFailure() {
-		Product product=new Product();
+	void testIsProductNullWhenFailure() {
+		Product product=null;
 		ResponseEntity<Object> responseEntity = businessValidator.isProductNull(product);
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 	}

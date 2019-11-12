@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
+import com.hcl.ms.cat.entity.Catalogue;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
@@ -55,9 +56,10 @@ class UserServiceImplTest extends JUnitUtlils {
 	@Test
 	void testSaveUserWhenSuccess() {
 		User user = findUser();
-		UserModel userModel=findUserModelWithUserId();		
-		//Mockito.when(userRepository.save(user)).thenReturn(user);
-		Mockito.when(catalogueRepository.save(user.getCatalogue())).thenReturn(user.getCatalogue());
+		UserModel userModel=findUserModelWithUserId();	
+		Catalogue catalogue=new Catalogue();
+		Mockito.when(userRepository.save(user)).thenReturn(user);
+		Mockito.when(catalogueRepository.save(catalogue)).thenReturn(user.getCatalogue());
 		User user2= userServiceImpl.saveUser(userModel);
 		assertEquals(user,user2);
 	}

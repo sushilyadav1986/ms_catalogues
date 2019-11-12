@@ -30,6 +30,7 @@ import com.hcl.ms.cat.service.ProductService;
 @RequestMapping(path = "/product")
 public class ProductController {
 
+	
 	@Autowired
 	ProductService productService;
 	@Autowired(required = true)
@@ -40,7 +41,7 @@ public class ProductController {
 	 * 
 	 * @param productModel // Find all details from product model
 	 * @return List<Product> // Return Product List details
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/addProduct")
 	public ResponseEntity<Object> saveProduct(@RequestBody ProductModel productModel) {

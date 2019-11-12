@@ -99,6 +99,7 @@ public class User {
 	public Catalogue getCatalogue() {
 		if(catalogue==null) {
 			catalogue=new Catalogue();
+			catalogue.setName(getFirstName());
 		}
 		return catalogue;
 	}

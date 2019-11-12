@@ -45,26 +45,25 @@ public class JUnitUtlils {
 
 	public UserModel findUserModelWithUserId() {
 		return new UserModel(findUser());
-		
 
 	}
 
 	public UserModel findUserModelWithoutUserId() {
-		return new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+		return new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L, new Catalogue());
 	}
 
 	public UserModel findUserModelWithoutEmailId() {
-		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L,new Catalogue());
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L, new Catalogue());
 		return userModel;
 	}
 
 	public UserModel findUserModelWithoutContact() {
-		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 34214L,new Catalogue());
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 34214L, new Catalogue());
 		return userModel;
 	}
 
 	public UserModel findUserModelWithoutFirstName() {
-		UserModel userModel = new UserModel("", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+		UserModel userModel = new UserModel("", "Yadav", "M", "test@gmail.com", 8130834214L, new Catalogue());
 		return userModel;
 	}
 
@@ -100,9 +99,10 @@ public class JUnitUtlils {
 	public ResponseEntity<Object> findResponseOnCatalogueIdBlank() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
 	}
+
 	public ResponseEntity<Object> findResponseOnSaveProduct() {
-		return new ResponseEntity<Object>(
-				new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
+		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY),
+				HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Object> findProductResponse() {
@@ -133,18 +133,36 @@ public class JUnitUtlils {
 		}
 		return pModelList;
 	}
-	
+
 	public List<Product> findAllProducts() {
 		List<Product> pModelList = new ArrayList<Product>();
 		for (int i = 0; i <= 6; i++) {
 			Product product = new Product();
+			Catalogue catalogue = new Catalogue();
+			catalogue.setCatId(1);
+
+			product.setProdId(i);
+			product.setName("name" + i);
+			if (i % 2 == 0) {
+				product.setAvailability("H");
+				product.setDescription("HCL LUCKNOW");
+				product.setPrice(1778.26 + i);
+				catalogue.setName("testCatLog" + i);
+			} else {
+				product.setAvailability("L");
+				product.setDescription("HCL NOIDA");
+				product.setPrice(778.26 + i);
+				catalogue.setName("testCatLog" + i);
+			}
+			product.setCatalogue(catalogue);
 			pModelList.add(product);
 		}
 		return pModelList;
 	}
+
 	public Page<Product> findAllPageProducts() {
-		Page<Product>pageList=new PageImpl<Product>(findAllProducts());
-		
+		Page<Product> pageList = new PageImpl<Product>(findAllProducts());
+
 		return pageList;
 	}
 
@@ -152,7 +170,7 @@ public class JUnitUtlils {
 	 * @return
 	 */
 	public UserModel findDummyUserModel() {
-		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L,new Catalogue());
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "test@gmail.com", 8130834214L, new Catalogue());
 		return userModel;
 
 	}
@@ -161,7 +179,7 @@ public class JUnitUtlils {
 	 * @return
 	 */
 	public UserModel findDummyUserModelWithoutEmail() {
-		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L,new Catalogue());
+		UserModel userModel = new UserModel("Sushil", "Yadav", "M", "", 8130834214L, new Catalogue());
 		return userModel;
 	}
 
@@ -171,10 +189,11 @@ public class JUnitUtlils {
 	public ResponseEntity<Object> findResponseWithoutEmail() {
 		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
 	}
+
 	public ResponseEntity<Object> findResponseOnSavedUser() {
-		return new ResponseEntity<Object>(
-				new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
-	
+		return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY),
+				HttpStatus.CREATED);
+
 	}
 
 	public Product findDummyProduct() {
@@ -205,51 +224,9 @@ public class JUnitUtlils {
 		user.setCatalogue(catalogue);
 		return user;
 	}
+
 	public ProductModel findDummyProdutModel() {
 		ProductModel productModel = new ProductModel(1, "Lemon", 455.55, "dafkdasfadso", "H", 1);
 		return productModel;
 	}
-	
-	public List<Product> findAllDummyProducts() {
-		Catalogue catalogue = new Catalogue();
-		catalogue.setCatId(1);
-		catalogue.setName("testCatLog");
-
-		Product product = new Product();
-		product.setProdId(1);
-		product.setName("Test");
-		product.setAvailability("H");
-		product.setDescription("descript");
-		product.setPrice(778.26);
-		product.setCatalogue(catalogue);
-
-		Catalogue catalogue1 = new Catalogue();
-		catalogue1.setCatId(1);
-		catalogue1.setName("testCatLog");
-		Product product1 = new Product();
-		product1.setProdId(2);
-		product1.setName("Est");
-		product1.setAvailability("O");
-		product1.setDescription("descript");
-		product1.setPrice(798.26);
-		product1.setCatalogue(catalogue1);
-
-		Catalogue catalogue2 = new Catalogue();
-		catalogue2.setCatId(3);
-		catalogue2.setName("testCatLog");
-		Product product2 = new Product();
-		product2.setProdId(3);
-		product2.setName("Test");
-		product2.setAvailability("L");
-		product2.setDescription("descript");
-		product2.setPrice(768.26);
-		product2.setCatalogue(catalogue2);
-
-		List<Product> pList = new ArrayList<>();
-		pList.add(product);
-		pList.add(product1);
-		pList.add(product2);
-		return pList;
-	}
-
 }

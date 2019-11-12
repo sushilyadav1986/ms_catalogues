@@ -47,13 +47,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product saveProduct(Product product) {
-		Product savedProduct;
+		Product savedProduct = null;
 		try {
 			savedProduct = productRepository.save(product);
 			return savedProduct;
 		} catch (Exception e) {
-			e.getMessage();
-			return null;
+			System.out.println(e.getMessage());
+			return savedProduct;
 		}
 	}
 
@@ -67,15 +67,17 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public Product findProductDetails(long productId) {
+		Product product = null;
 		try {
 			Optional<Product> productOptional = productRepository.findById(productId);
 			if (!productOptional.isPresent()) {
 				return null;
 			}
-			Product product = productOptional.get();
+			product = productOptional.get();
 			return product;
 		} catch (Exception e) {
-			return null;
+			System.out.println(e.getMessage());
+			return product;
 		}
 	}
 
@@ -96,6 +98,7 @@ public class ProductServiceImpl implements ProductService {
 				return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return new ArrayList<Product>();
 		}
 	}
@@ -118,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
 				return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return e.getMessage();
 		}
 	}
@@ -140,7 +144,8 @@ public class ProductServiceImpl implements ProductService {
 				return AppConstant.PRODUCT_NOT_DELETED;
 			}
 		} catch (Exception e) {
-			return e.getMessage();
+			System.out.println(e.getMessage());
+			return null;
 		}
 	}
 

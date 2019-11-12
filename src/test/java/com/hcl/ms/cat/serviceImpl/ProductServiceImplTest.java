@@ -6,7 +6,6 @@ package com.hcl.ms.cat.serviceImpl;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,9 +104,8 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testFindProductDetailsWhenFailure() {
-		Product product = findDummyProduct();
-		Optional<Product> optional = Optional.of(product);
-		Mockito.when(productRepository.findById(1L)).thenReturn(optional.empty());
+		Optional<Product> optional = Optional.empty();
+		Mockito.when(productRepository.findById(1L)).thenReturn(optional);
 		Product pModel = pServiceImpl.findProductDetails(1);
 		assertNull(pModel);
 	}
@@ -121,7 +119,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	@Test
 	void testFindAllProductListByUserIdWhenSuccess() {
 		User user = findDummyUser();
-		List<Product> pList = findAllDummyProducts();
+		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
 		pList = pServiceImpl.findAllProductListByUserId(1);
@@ -135,7 +133,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	@Test
 	void testFindAllProductListByUserIdWhenFailure() {
 		User user = findDummyUser();
-		List<Product> pList = findAllDummyProducts();
+		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(null);
 		pList = pServiceImpl.findAllProductListByUserId(1);
@@ -150,11 +148,9 @@ class ProductServiceImplTest extends JUnitUtlils {
 	@Test
 	void testUpdateProductDetailsWhenSuccess() {
 		Product product = findDummyProduct();
-		// Optional<Product> optional = Optional.of(product);
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(productRepository.existsById(1L)).thenReturn(true);
-		Mockito.doNothing().when(productRepository).save(product);
-		// Mockito.doNothing().when(productRepository).save(new Product(productModel));
+		Mockito.when(productRepository.save(new Product(productModel))).thenReturn(product);
 		String hasUpdated = pServiceImpl.updateProductDetails(productModel);
 		assertEquals(AppConstant.PRODUCT_UPDATED_SUCCESSFULLY, hasUpdated);
 	}
@@ -185,6 +181,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 		String hasDeleted = pServiceImpl.deleteByProductId(1L);
 		assertEquals(AppConstant.PRODUCT_DELETED, hasDeleted);
 	}
+
 	/**
 	 * Test method for UpdateProductDetails() When product details get will return
 	 * failed string
@@ -200,12 +197,13 @@ class ProductServiceImplTest extends JUnitUtlils {
 	}
 
 	/**
-	 * Test method for
+	 * Test method for FindAllProduct() When product details get will return page
+	 * list
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#findAllProduct(int, int)}.
 	 */
 	@Test
 	void testFindAllProductWhenSuccess() {
-		List<Product> productList = findAllDummyProducts();
+		List<Product> productList = findAllProducts();
 		Page<Product> pageList = new PageImpl<>(productList);
 		Pageable pageable = PageRequest.of(2, 3);
 		Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
@@ -214,20 +212,19 @@ class ProductServiceImplTest extends JUnitUtlils {
 
 	}
 
+	/**
+	 * Test method for FindAllProduct() When product details get will return null
+	 * list
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#findAllProduct(int, int)}.
+	 */
 	@Test
 	void testFindAllProductWhenFailure() {
-	}
-
-	private List<ProductModel> findAllDummyProdModel() {
-		List<Product> pList = findAllDummyProducts();
-		List<ProductModel> pModelList = new ArrayList<>();
-		if (!pList.isEmpty()) {
-			for (Product product : pList) {
-				ProductModel productModel = new ProductModel(product);
-				pModelList.add(productModel);
-			}
-		}
-		return pModelList;
+		List<Product> productList = findAllProducts();
+		Page<Product> pageList = new PageImpl<>(productList);
+		Pageable pageable = PageRequest.of(2, 3);
+		Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
+		// List<ProductModel> productModels = pServiceImpl.findAllProduct(1, 2);
+		// assertEquals(0, productModels.size());
 	}
 
 }

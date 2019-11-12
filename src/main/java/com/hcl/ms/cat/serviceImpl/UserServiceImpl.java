@@ -39,7 +39,14 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User saveUser(UserModel userModel) {
-		User user = userRepository.save(new User(userModel));
-		return user;
+		User user = null;
+		try {
+			user = userRepository.save(new User(userModel));
+			catalogueRepository.save(user.getCatalogue());
+			return user;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return user;
+		}
 	}
 }
