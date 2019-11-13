@@ -1,5 +1,9 @@
 package com.hcl.ms.cat.exception;
 
+/**Create Custom Exception type class
+ * @author SushilY
+ *
+ */
 public class ProductNotFoundException extends RuntimeException  {
 
 	/**
