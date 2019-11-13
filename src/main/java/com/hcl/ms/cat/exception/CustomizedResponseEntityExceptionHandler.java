@@ -23,6 +23,13 @@ import com.hcl.ms.cat.model.NoObjRespnseModel;
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+	
+	/**
+	 * @param ex
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) throws Exception {
 

@@ -74,6 +74,10 @@ public class AppConstant {
 	 * Return When Product does not delete from DB
 	 */
 	public static final String PRODUCT_DELETED_FAILED = "Please try again.";
+	/**
+	 * Return When Product does not add from DB
+	 */
+	public static final String PRODUCT_ADDED_FAILED = "Please try again.";
 	
 	/**
 	 * Return When PRoduct does not available in DB

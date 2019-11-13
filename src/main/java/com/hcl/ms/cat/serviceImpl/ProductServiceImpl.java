@@ -51,6 +51,9 @@ public class ProductServiceImpl implements ProductService {
 		Product savedProduct = null;
 		try {
 			savedProduct = productRepository.save(product);
+			if(savedProduct==null) {
+				throw new ProductNotFoundException(AppConstant.PRODUCT_ADDED_FAILED);
+			}
 			return savedProduct;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -122,17 +125,12 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public String deleteByProductId(long productId) {
-		try {
-			productRepository.deleteById(productId);
-			boolean isExist = productRepository.existsById(productId);
-			if (!isExist) {
-				return AppConstant.PRODUCT_DELETED;
-			} else {
-				return AppConstant.PRODUCT_NOT_DELETED;
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
+		productRepository.deleteById(productId);
+		boolean isExist = productRepository.existsById(productId);
+		if (!isExist) {
+			return AppConstant.PRODUCT_DELETED;
+		} else {
+			throw new ProductNotFoundException(AppConstant.PRODUCT_NOT_DELETED);
 		}
 	}
 
@@ -147,14 +145,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Page<Product> findAllProduct(int pageNumber, int noOfProducts) {
 		Page<Product> pageList = null;
-		try {
-
-			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
-			pageList = productRepository.findAll(pageable);
-			return pageList;
-		} catch (Exception e) {
-			return null;
+		Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
+		pageList = productRepository.findAll(pageable);
+		if (pageList == null) {
+			throw new ProductNotFoundException(AppConstant.PRODUCT_NOT_AVAILABLE);
 		}
+		return pageList;
 	}
 
 }
