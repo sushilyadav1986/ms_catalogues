@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 		User user = null;
 		try {
 			user = userRepository.save(new User(userModel));
+			user.getCatalogue().setName(user.getFirstName());
 			catalogueRepository.save(user.getCatalogue());
 			return user;
 		} catch (Exception e) {

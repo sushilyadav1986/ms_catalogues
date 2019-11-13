@@ -1,6 +1,5 @@
 package com.hcl.ms.cat.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
+import com.hcl.ms.cat.exception.ProductNotFoundException;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
@@ -53,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 			return savedProduct;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return savedProduct;
+			return null;
 		}
 	}
 
@@ -65,20 +66,16 @@ public class ProductServiceImpl implements ProductService {
 	 * @return ProductModel // ProductModel Details
 	 * @exception Exception // Exception If compiler goes to catch()
 	 */
+	@ResponseStatus()
 	@Override
 	public Product findProductDetails(long productId) {
 		Product product = null;
-		try {
-			Optional<Product> productOptional = productRepository.findById(productId);
-			if (!productOptional.isPresent()) {
-				return null;
-			}
-			product = productOptional.get();
-			return product;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return product;
+		Optional<Product> productOptional = productRepository.findById(productId);
+		if (!productOptional.isPresent()) {
+			throw new ProductNotFoundException("Product id not Found" + productId);
 		}
+		product = productOptional.get();
+		return product;
 	}
 
 	/**
@@ -90,16 +87,11 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public List<Product> findAllProductListByUserId(long userId) {
-		try {
-			User user = userRepository.findUserById(userId);
-			if (user == null) {
-				return null;
-			} else {
-				return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return new ArrayList<Product>();
+		User user = userRepository.findUserById(userId);
+		if (user == null) {
+			throw new ProductNotFoundException("User id not Found" + userId);
+		} else {
+			return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
 		}
 	}
 
@@ -112,17 +104,12 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public String updateProductDetails(ProductModel productModel) {
-		try {
-			boolean isExist = productRepository.existsById(productModel.getProductId());
-			if (!isExist) {
-				return AppConstant.PRODUCT_UPDATED_FAILED;
-			} else {
-				productRepository.save(new Product(productModel));
-				return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return e.getMessage();
+		boolean isExist = productRepository.existsById(productModel.getProductId());
+		if (!isExist) {
+			throw new ProductNotFoundException(AppConstant.PRODUCT_UPDATED_FAILED);
+		} else {
+			productRepository.save(new Product(productModel));
+			return AppConstant.PRODUCT_UPDATED_SUCCESSFULLY;
 		}
 	}
 
@@ -161,12 +148,12 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> findAllProduct(int pageNumber, int noOfProducts) {
 		Page<Product> pageList = null;
 		try {
-			
+
 			Pageable pageable = PageRequest.of(pageNumber, noOfProducts);
 			pageList = productRepository.findAll(pageable);
 			return pageList;
 		} catch (Exception e) {
-			return pageList;
+			return null;
 		}
 	}
 

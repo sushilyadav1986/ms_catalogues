@@ -166,7 +166,7 @@ public class BusinessValidator implements Validator {
 	 */
 	@Override
 	public ResponseEntity<Object> getAllProdModel(List<Product> productList) {
-		if (!productList.isEmpty() && productList.size() > 0) {
+		if (productList!=null && !productList.isEmpty()) {
 			List<ProductModel> prodModelList = new ArrayList<>();
 			for (Product product : productList) {
 				prodModelList.add(new ProductModel(product));

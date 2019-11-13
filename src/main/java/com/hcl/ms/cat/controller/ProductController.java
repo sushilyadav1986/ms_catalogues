@@ -104,8 +104,8 @@ public class ProductController {
 				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProdModel(productList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
-						HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<Object>(new NoObjRespnseModel(true, e.getMessage()),
+						HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			return responseEntity;
