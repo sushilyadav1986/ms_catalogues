@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hcl.ms.cat.entity.User;
+import com.hcl.ms.cat.exception.UserNotFoundException;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.service.UserService;
+import com.hcl.ms.cat.utils.AppConstant;
 
 /**
  * Create Service class Single point of content for All User related operations
@@ -22,9 +24,14 @@ import com.hcl.ms.cat.service.UserService;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+	/**
+	 * Added repository to operate User related operation in DB
+	 */
 	@Autowired
 	UserRepository userRepository;
-
+	/**
+	 * Added repository to operate Catalogue related operation in DB
+	 */
 	@Autowired
 	CatalogueRepository catalogueRepository;
 
@@ -40,14 +47,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User saveUser(UserModel userModel) {
 		User user = null;
-		try {
-			user = userRepository.save(new User(userModel));
-			user.getCatalogue().setName(user.getFirstName());
-			catalogueRepository.save(user.getCatalogue());
-			return user;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return user;
+		user = userRepository.save(new User(userModel));
+		if (user == null) {
+			throw new UserNotFoundException(AppConstant.USER_DOES_NOT_ADDED);
 		}
+		user.getCatalogue().setName(user.getFirstName());
+		catalogueRepository.save(user.getCatalogue());
+		return user;
 	}
 }

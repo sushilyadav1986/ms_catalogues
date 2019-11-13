@@ -31,9 +31,14 @@ import com.hcl.ms.cat.utils.AppConstant;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
+	/**
+	 * Added repository to operate Product related operation in DB
+	 */
 	@Autowired
 	ProductRepository productRepository;
-
+	/**
+	 * Added repository to operate User related operation in DB
+	 */
 	@Autowired
 	UserRepository userRepository;
 
