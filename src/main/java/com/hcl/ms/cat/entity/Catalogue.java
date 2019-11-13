@@ -44,26 +44,44 @@ public class Catalogue {
 	@OneToMany(mappedBy = "catalogue", cascade = CascadeType.ALL)
 	private List<Product> productList;
 	
+	/**
+	 * @return
+	 */
 	public long getCatId() {
 		return catId;
 	}
 
+	/**
+	 * @param catId
+	 */
 	public void setCatId(long catId) {
 		this.catId = catId;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * @return
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * @param user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

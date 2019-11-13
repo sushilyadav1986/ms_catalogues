@@ -99,7 +99,7 @@ public class Product {
 	}
 
 	/**
-	 * @return Catalogue
+	 * @return Catalog
 	 */
 	public Catalogue getCatalogue() {
 		return catalogue;

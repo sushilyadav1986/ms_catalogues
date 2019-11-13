@@ -31,7 +31,8 @@ public class UserModel {
 
 	
 	/**
-	 * return Catalogue Obj
+	 * return Catalog Obj
+	 * @return 
 	 */
 	public Catalogue getCatalogue() {
 		if (catalogue == null) {
@@ -41,7 +42,7 @@ public class UserModel {
 	}
 
 	/**
-	 * Copy catalogue
+	 * Copy catalog
 	 */
 	public void setCatalogue(Catalogue catalogue) {
 		this.catalogue = catalogue;
@@ -49,6 +50,12 @@ public class UserModel {
 
 	/**
 	 * Parameterized Constructor
+	 * @param firstName 
+	 * @param lastName 
+	 * @param gender 
+	 * @param email 
+	 * @param contactNumber 
+	 * @param catalogue 
 	 */
 	public UserModel(String firstName, 
 			String lastName, String gender, String email, long contactNumber,Catalogue catalogue) {
@@ -63,6 +70,7 @@ public class UserModel {
 	
 	/**
 	 * Copy Constructor
+	 * @param user 
 	 */
 	public UserModel(User user) {
 		this.userId=user.get_id();

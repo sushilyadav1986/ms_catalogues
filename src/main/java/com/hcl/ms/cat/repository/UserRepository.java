@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	/**
 	 * Create Custom Query
 	 * Fetch User Details belongs to User id
+	 * @param userId 
+	 * @return User
 	 * 
 	 */
 	@Query("SELECT u FROM User u WHERE u._id = :userId")

@@ -26,7 +26,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	
 	/** Handle Exception type throws
 	 * @param ex    // get Exception in String from ex Obj
-	 * @param request  // 
 	 * @return ResponseEntity<Object>
 	 * @throws Exception
 	 */

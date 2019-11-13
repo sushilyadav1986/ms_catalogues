@@ -38,7 +38,7 @@ public class User {
 	private Catalogue catalogue;
 	
 	/** Create Constructor User
-	 * @param UserModel  // Change UserModel object into User
+	 * @param userModel  // Change UserModel object into User
 	 * 
 	 */
 	public User (UserModel userModel) {	

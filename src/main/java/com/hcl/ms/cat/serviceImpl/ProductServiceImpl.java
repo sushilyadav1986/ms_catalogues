@@ -46,24 +46,19 @@ public class ProductServiceImpl implements ProductService {
 	 * This function is used to save Product details
 	 * 
 	 * 
-	 * @param ProductModel // Set Product Details
-	 * @return String // Return Action on DB
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * @param product // Set Product Details
+	 * @return String // Return Action on DB Exception // Exception If compiler goes
+	 *         to catch()
 	 */
 
 	@Override
 	public Product saveProduct(Product product) {
 		Product savedProduct = null;
-		try {
-			savedProduct = productRepository.save(product);
-			if(savedProduct==null) {
-				throw new ProductNotFoundException(AppConstant.PRODUCT_ADDED_FAILED);
-			}
-			return savedProduct;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
+		savedProduct = productRepository.save(product);
+		if (savedProduct == null) {
+			throw new ProductNotFoundException(AppConstant.PRODUCT_ADDED_FAILED);
 		}
+		return savedProduct;
 	}
 
 	/**

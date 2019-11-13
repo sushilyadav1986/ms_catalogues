@@ -23,7 +23,7 @@ public interface ProductService {
 	
 	/**
 	 * @param productId
-	 * @return
+	 * @return Product
 	 */
 	Product findProductDetails(long productId);
 
