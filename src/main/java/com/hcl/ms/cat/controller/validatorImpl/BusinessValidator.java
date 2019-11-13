@@ -62,6 +62,12 @@ public class BusinessValidator implements Validator {
 
 	}
 
+	/**
+	 * Validate id
+	 * 
+	 * @param id // Set long Argument in param
+	 * @return // Return true if param is greater that 0
+	 */
 	private boolean isIdValid(long id) {
 		if (id > 0) {
 			return true;
@@ -133,7 +139,8 @@ public class BusinessValidator implements Validator {
 	public ResponseEntity<Object> isProductNull(Product product) {
 		if (product != null) {
 			return new ResponseEntity<Object>(
-					new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, new ProductModel(product)), HttpStatus.OK);
+					new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, new ProductModel(product)),
+					HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
@@ -143,7 +150,8 @@ public class BusinessValidator implements Validator {
 	/**
 	 * Validate List<ProductModel> Obj
 	 * 
-	 * @param List<ProductModel>pModelList // Provide all required variable in this Obj
+	 * @param List<ProductModel>pModelList // Provide all required variable in this
+	 *                                     Obj
 	 * @return ResponseEntity<Object> // Check List is empty or not and return
 	 *         values
 	 * 
@@ -166,7 +174,7 @@ public class BusinessValidator implements Validator {
 	 */
 	@Override
 	public ResponseEntity<Object> getAllProdModel(List<Product> productList) {
-		if (productList!=null && !productList.isEmpty()) {
+		if (productList != null && !productList.isEmpty()) {
 			List<ProductModel> prodModelList = new ArrayList<>();
 			for (Product product : productList) {
 				prodModelList.add(new ProductModel(product));
@@ -190,37 +198,53 @@ public class BusinessValidator implements Validator {
 		List<Product> noOfProdList = new ArrayList<Product>();
 		if (noOfProdList != null && !noOfProdList.isEmpty()) {
 			noOfProdList = pageList.toList();
-		} 
+		}
 		return getAllProdModel(noOfProdList);
 	}
-	
+
+	/**
+	 * Check User obj is not null and has id
+	 * 
+	 * @param user   // Set Argument User Obj
+	 * @return ResponseEntity<Object>  // Set string as per condition of Obj and return response
+	 */
 	@Override
 	public ResponseEntity<Object> hasSavedUser(User user) {
-		if(user!=null && user.get_id()>0) {
-			return new ResponseEntity<Object>(
-					new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<Object>(
-					new NoObjRespnseModel(true, AppConstant.USER_DOES_NOT_ADDED), HttpStatus.OK);
-			
+		if (user != null && user.get_id() > 0) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY),
+					HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.USER_DOES_NOT_ADDED),
+					HttpStatus.OK);
+
 		}
-	}
-	@Override
-	public ResponseEntity<Object> hasSavedProduct(Product product) {
-		if(product!=null && product.getProdId()>0) {
-			return new ResponseEntity<Object>(
-					new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY), HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<Object>(
-					new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED), HttpStatus.OK);
-			
-		}
-	}
-	@Override
-	public Product fromProductModel(ProductModel productModel) {
-	return new Product(productModel);
 	}
 
-	
+	/**
+	 * Check Product obj is not null and has id
+	 * 
+	 * @param user   // Set Argument Product Obj
+	 * @return ResponseEntity<Object>  // Set string as per condition of Obj and return response
+	 */
+	@Override
+	public ResponseEntity<Object> hasSavedProduct(Product product) {
+		if (product != null && product.getProdId() > 0) {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY),
+					HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED),
+					HttpStatus.OK);
+
+		}
+	}
+	/**
+	 * Change Product Model into Product Obj
+	 * @param productModel
+	 * @return Product Obj
+	 */
+	@Override
+	public Product fromProductModel(ProductModel productModel) {
+		return new Product(productModel);
+	}
 
 }

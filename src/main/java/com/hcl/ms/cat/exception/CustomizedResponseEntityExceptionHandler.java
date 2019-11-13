@@ -24,41 +24,49 @@ import com.hcl.ms.cat.model.NoObjRespnseModel;
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	
-	/**
-	 * @param ex
-	 * @param request
-	 * @return
+	/** Handle Exception type throws
+	 * @param ex    // get Exception in String from ex Obj
+	 * @param request  // 
+	 * @return ResponseEntity<Object>
 	 * @throws Exception
 	 */
 	@ExceptionHandler(Exception.class)
-	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) throws Exception {
-
+	public final ResponseEntity<Object> handleAllExceptions(Exception ex) throws Exception {
 		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(false, ex.getMessage());
-
-		return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
 	/**
 	 * Product not found Exception If Not get id
 	 * @param ex
-	 * @param request
-	 * @return
+	 * @return ResponseEntity<Object>
 	 * @throws Exception
 	 */
 	@ExceptionHandler(ProductNotFoundException.class)
-	public final ResponseEntity<Object> handleUserNotFoundExceptions(Exception ex, WebRequest request)
+	public final ResponseEntity<Object> handleProductNotFoundExceptions(Exception ex)
 			throws Exception {
-
 		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(true, ex.getMessage());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 
-		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	/**
+	 * User not found Exception If Not get id
+	 * @param ex
+	 * @return ResponseEntity<Object>
+	 * @throws Exception
+	 */
+	@ExceptionHandler(UserNotFoundException.class)
+	public final ResponseEntity<Object> handleUserNotFoundExceptions(Exception ex)
+			throws Exception {
+		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(true, ex.getMessage());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-
 		List<String> errors = new ArrayList<String>();
 		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
 			errors.add(error.getField() + ": " + error.getDefaultMessage());
@@ -66,10 +74,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
 			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
 		}
-
 		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(false, errors.toString());
-
-		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }

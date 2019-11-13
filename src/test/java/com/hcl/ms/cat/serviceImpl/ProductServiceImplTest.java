@@ -50,7 +50,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	ArgumentCaptor<User> userArg;
 
 	/**
-	 * Initialize Mockito
+	 * Initialize Mocked
 	 */
 	@BeforeEach
 	public void init() {
@@ -203,8 +203,8 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testFindAllProductWhenSuccess() {
-		List<Product> productList = findAllProducts();
-		Page<Product> pageList = new PageImpl<>(productList);
+		//List<Product> productList = findAllProducts();
+		//Page<Product> pageList = new PageImpl<>(productList);
 		//Mockito.mock(PageRequest.class);
 		//Pageable pageable = PageRequest.of(1, 2);
 		//Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
