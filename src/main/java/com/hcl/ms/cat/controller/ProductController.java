@@ -20,8 +20,8 @@ import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
 
 /**
- * Create Product class Single point of content for All product related
- * operations
+ * Product controller class containing end-points for general product operations
+ * like add, UPDATE, DELETE, FETCH
  * 
  * @author SushilY
  *
@@ -42,12 +42,15 @@ public class ProductController {
 	Validator businessValidator;
 
 	/**
-	 * Save Product Details
+	 * This method is saving product in DB
+	 * => validateProduct is return ResponseEntity<Object> Obj if any variable is missing in Obj
+	 * =>
 	 * 
-	 * @param productModel // Find all details from product model
-	 * @return List<Product> // Return Product List details Exception // Exception
-	 *         If JsonObject not proper
+	 * @param productModel sample product JSON
+	 * @return ResponseEntity<Object> // Return 
+ 	 * Exception // Exception If JsonObject not proper
 	 */
+	
 	@PostMapping("/addProduct")
 	public ResponseEntity<Object> saveProduct(@RequestBody ProductModel productModel) {
 		ResponseEntity<Object> responseEntity = businessValidator.validateProduct(productModel);
@@ -104,8 +107,7 @@ public class ProductController {
 				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProdModel(productList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, e.getMessage()),
-						HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Object>(new NoObjRespnseModel(true, e.getMessage()),HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			return responseEntity;

@@ -59,7 +59,6 @@ public class BusinessValidator implements Validator {
 		} else {
 			return null;
 		}
-
 	}
 
 	/**
@@ -89,7 +88,6 @@ public class BusinessValidator implements Validator {
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.ENTER_ID_0), HttpStatus.OK);
 		}
-
 	}
 
 	/**
@@ -234,7 +232,6 @@ public class BusinessValidator implements Validator {
 		} else {
 			return new ResponseEntity<Object>(new NoObjRespnseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED),
 					HttpStatus.OK);
-
 		}
 	}
 	/**
@@ -246,5 +243,4 @@ public class BusinessValidator implements Validator {
 	public Product fromProductModel(ProductModel productModel) {
 		return new Product(productModel);
 	}
-
 }

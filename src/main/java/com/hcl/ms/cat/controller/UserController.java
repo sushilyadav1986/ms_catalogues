@@ -18,8 +18,8 @@ import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
 
 /**
- * Create UserController class Single point of content for All User related
- * operations
+ * Create UserController class containing end-points for general product operations
+ * like add, UPDATE, DELETE, FETCH
  * 
  * @author SushilY
  *
