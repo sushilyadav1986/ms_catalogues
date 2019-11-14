@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.hcl.ms.cat.model.NoObjRespnseModel;
+import com.hcl.ms.cat.model.ResponseModel;
 
 /**Create Exception Handling Class
  * @author SushilY
@@ -31,7 +31,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	 */
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex) throws Exception {
-		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(false, ex.getMessage());
+		ResponseModel exceptionResponse = new ResponseModel(false, ex.getMessage());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
@@ -44,7 +44,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	@ExceptionHandler(ProductNotFoundException.class)
 	public final ResponseEntity<Object> handleProductNotFoundExceptions(Exception ex)
 			throws Exception {
-		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(true, ex.getMessage());
+		ResponseModel exceptionResponse = new ResponseModel(true, ex.getMessage());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 
 	}
@@ -58,7 +58,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<Object> handleUserNotFoundExceptions(Exception ex)
 			throws Exception {
-		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(true, ex.getMessage());
+		ResponseModel exceptionResponse = new ResponseModel(true, ex.getMessage());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 
 	}
@@ -73,7 +73,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
 			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
 		}
-		NoObjRespnseModel exceptionResponse = new NoObjRespnseModel(false, errors.toString());
+		ResponseModel exceptionResponse = new ResponseModel(false, errors.toString());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 

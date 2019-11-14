@@ -66,4 +66,13 @@ public class ResponseModel {
 		this.message = message;
 		this.productDetails = productDetails;
 	}
+	/**
+	 * @param status
+	 * @param message
+	 */
+	public ResponseModel(Boolean status, String message) {
+		super();
+		this.status = status;
+		this.message = message;
+	}
 }

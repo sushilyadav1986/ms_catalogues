@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.Product;
-import com.hcl.ms.cat.model.NoObjRespnseModel;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
+import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
 
@@ -60,7 +60,7 @@ public class ProductController {
 				ResponseEntity<Object> savedEntity = businessValidator.hasSavedProduct(hasSaved);
 				return savedEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -83,7 +83,7 @@ public class ProductController {
 				Product model = productService.findProductDetails(productModel.getProductId());
 				return businessValidator.isProductNull(model);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -94,7 +94,7 @@ public class ProductController {
 	/**
 	 * Fetch All Products Details in respect of User Id
 	 * 
-	 * @param UserModel // Find all details from product model
+	 * @param userModel // Find all details from product model
 	 * @return ResponseEntity // Return List<Product> details
 	 * @exception Exception // Exception If JsonObject not proper
 	 */
@@ -107,7 +107,7 @@ public class ProductController {
 				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProdModel(productList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, e.getMessage()),HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Object>(new ResponseModel(true, e.getMessage()),HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			return responseEntity;
@@ -127,9 +127,9 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				String hasUpdated = productService.updateProductDetails(productModel);
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, hasUpdated), HttpStatus.OK);
+				return new ResponseEntity<Object>(new ResponseModel(true, hasUpdated), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -150,9 +150,9 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				String hasDeleted = productService.deleteByProductId(productModel.getProductId());
-				return new ResponseEntity<Object>(new NoObjRespnseModel(true, hasDeleted), HttpStatus.OK);
+				return new ResponseEntity<Object>(new ResponseModel(true, hasDeleted), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -177,7 +177,7 @@ public class ProductController {
 				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProductByPageNumber(pageList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.User;
-import com.hcl.ms.cat.model.NoObjRespnseModel;
+import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
 
@@ -55,7 +55,7 @@ public class UserController {
 				ResponseEntity<Object> isSavedEntity=businessValidator.hasSavedUser(savedUser);
 				return isSavedEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new NoObjRespnseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
