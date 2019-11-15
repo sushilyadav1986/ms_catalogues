@@ -1,4 +1,4 @@
-package com.hcl.ms.cat.controller.validator;
+package com.hcl.ms.cat.validator;
 
 import java.util.List;
 
@@ -59,16 +59,16 @@ public interface Validator {
 	public ResponseEntity<Object> validUserDetails(UserModel userModel);
 
 	/**
-	 * Validate ProductModel Obj
+	 * Validate Product Obj
 	 * 
-	 * @param productModel // Provide all required variable in this Obj
+	 * @param product // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null if Obj is null
 	 * 
 	 */
 	public ResponseEntity<Object> isProductNull(Product product);
 
 	/**
-	 * Validate ProductModel Obj And ProdId * Validate List Obj is null or Empty
+	 * Validate ProductModel Obj And ProdId
 	 * 
 	 * @param productModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Check Obj is null or and Empty
@@ -80,7 +80,7 @@ public interface Validator {
 	 * Change ProductModel List into Response Entity
 	 * 
 	 * @param productList
-	 * @return
+	 * @return ResponseEntity<Object>
 	 */
 	public ResponseEntity<Object> getAllProdModel(List<Product> productList);
 
@@ -102,7 +102,7 @@ public interface Validator {
 	public ResponseEntity<Object> hasSavedUser(User user);
 
 	/**
-	 * Check User Details has saved in Table Get Product Details From Controller
+	 * Check Product Details has saved in Table Get Product Details From Controller
 	 * 
 	 * @param product // Get Product From Controller
 	 * @return ResponseEntity<Object> // Set Response as Action on DB

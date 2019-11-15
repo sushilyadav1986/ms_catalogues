@@ -3,8 +3,8 @@ package com.hcl.ms.cat;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hcl.ms.cat.controller.validator.Validator;
-import com.hcl.ms.cat.controller.validatorImpl.BusinessValidator;
+import com.hcl.ms.cat.validator.Validator;
+import com.hcl.ms.cat.validatorImpl.BusinessValidator;
 
 
 /**Create AppConfig class

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
-import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
@@ -24,6 +23,7 @@ import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
+import com.hcl.ms.cat.validator.Validator;
 
 /**
  * Create ProductControllerTest.class Test here ProductController's function

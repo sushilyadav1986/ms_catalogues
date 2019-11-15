@@ -4,6 +4,7 @@ package com.hcl.ms.cat.model;
  * Set details from API
  * Use in Controller to return response in API
  * Need to set Data Obj
+ * 
  * @author SushilY
  *
  */
@@ -14,7 +15,7 @@ public class ResponseModel {
 	private Object productDetails;
 
 	/**
-	 * @return
+	 * @return status
 	 */
 	public Boolean getStatus() {
 		return status;
@@ -28,7 +29,7 @@ public class ResponseModel {
 	}
 
 	/**
-	 * @return
+	 * @return message
 	 */
 	public String getMessage() {
 		return message;
@@ -42,7 +43,7 @@ public class ResponseModel {
 	}
 
 	/**
-	 * @return
+	 * @return productDetails
 	 */
 	public Object getData() {
 		return productDetails;

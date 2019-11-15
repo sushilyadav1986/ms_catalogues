@@ -4,7 +4,8 @@ import com.hcl.ms.cat.entity.Catalogue;
 import com.hcl.ms.cat.entity.User;
 
 /**
- * Create Model class Set details from API
+ * Create Model class 
+ * Set details from API
  * 
  * @author SushilY
  *
@@ -32,7 +33,7 @@ public class UserModel {
 	
 	/**
 	 * return Catalog Obj
-	 * @return 
+	 * @return catalogue
 	 */
 	public Catalogue getCatalogue() {
 		if (catalogue == null) {
@@ -43,6 +44,7 @@ public class UserModel {
 
 	/**
 	 * Copy catalog
+	 * @param catalogue 
 	 */
 	public void setCatalogue(Catalogue catalogue) {
 		this.catalogue = catalogue;
@@ -50,6 +52,7 @@ public class UserModel {
 
 	/**
 	 * Parameterized Constructor
+	 * 
 	 * @param firstName 
 	 * @param lastName 
 	 * @param gender 
@@ -70,6 +73,7 @@ public class UserModel {
 	
 	/**
 	 * Copy Constructor
+	 * 
 	 * @param user 
 	 */
 	public UserModel(User user) {
@@ -84,42 +88,42 @@ public class UserModel {
 	}
 
 	/**
-	 * @return
+	 * @return lastName
 	 */
 	public String getLastName() {
 		return lastName;
 	}
 
 	/**
-	 * @return
+	 * @return gender
 	 */
 	public String getGender() {
 		return gender;
 	}
 
 	/**
-	 * @return
+	 * @return email
 	 */
 	public String getEmail() {
 		return email;
 	}
 
 	/**
-	 * @return
+	 * @return contactNumber
 	 */
 	public long getContactNumber() {
 		return contactNumber;
 	}
 
 	/**
-	 * @return
+	 * @return userId
 	 */
 	public long getUserId() {
 		return userId;
 	}
 
 	/**
-	 * @return
+	 * @return firstName
 	 */
 	public String getFirstName() {
 		return firstName;

@@ -19,6 +19,7 @@ import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
+import com.hcl.ms.cat.validatorImpl.BusinessValidator;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = CatalogueMsApplication.class)

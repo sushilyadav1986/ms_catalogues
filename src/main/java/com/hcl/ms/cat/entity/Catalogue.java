@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
- * Entity for Table Catalogue in DB
+ * Entity for Table Catalog in DB
  * Set One to One Relationship with User Table
  * Set One to Many Relationship with Product Table
  * @author SushilY
@@ -45,7 +45,7 @@ public class Catalogue {
 	private List<Product> productList;
 	
 	/**
-	 * @return
+	 * @return catId
 	 */
 	public long getCatId() {
 		return catId;
@@ -59,7 +59,7 @@ public class Catalogue {
 	}
 
 	/**
-	 * @return
+	 * @return name
 	 */
 	public String getName() {
 		return name;
@@ -73,7 +73,7 @@ public class Catalogue {
 	}
 
 	/**
-	 * @return
+	 * @return user
 	 */
 	public User getUser() {
 		return user;
@@ -87,7 +87,7 @@ public class Catalogue {
 	}
 
 	/**
-	 * @return
+	 * @return productList
 	 */
 	public List<Product> getProductList() {
 		return productList;

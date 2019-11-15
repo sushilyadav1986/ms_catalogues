@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
+import com.hcl.ms.cat.validator.Validator;
 
 /**
- * Create UserController class containing end-points for general product operations
+ * UserController class containing end-points for general product operations
  * like add, UPDATE, DELETE, FETCH
  * 
  * @author SushilY
@@ -44,7 +44,7 @@ public class UserController {
 	 * 
 	 * @param userModel 			// Set User Details
 	 * @return ResponseEntity     	// Return String as action on DB 
-	 * @exception  Exception     	// Exception If JsonObject not proper
+	 * Exception     	// Exception If JsonObject not proper
 	 */
 	@PostMapping("/addUser")
 	public ResponseEntity<Object> saveUser(@RequestBody UserModel userModel) {

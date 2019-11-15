@@ -21,7 +21,7 @@ import com.hcl.ms.cat.model.ResponseModel;
  *
  */
 @ControllerAdvice
-public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomizedResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
 	
 	/** Handle Exception type throws
@@ -33,7 +33,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex) throws Exception {
 		ResponseModel exceptionResponse = new ResponseModel(false, ex.getMessage());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
 	/**
 	 * Product not found Exception If Not get id

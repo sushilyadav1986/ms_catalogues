@@ -1,4 +1,4 @@
-package com.hcl.ms.cat.controller.validatorImpl;
+package com.hcl.ms.cat.validatorImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.PageModel;
@@ -16,6 +15,7 @@ import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.StringUtils;
+import com.hcl.ms.cat.validator.Validator;
 
 /**
  * Create Class BusinessValidator
@@ -25,7 +25,7 @@ import com.hcl.ms.cat.utils.StringUtils;
  */
 public class BusinessValidator implements Validator {
 	/**
-	 * Validate in product details
+	 * Validate in ProductModel details
 	 * 
 	 * @param productModel // Check Details of Product is null or not
 	 * @return ResponseEntity<Object> Obj // Return null if Details are valid Using
@@ -44,9 +44,9 @@ public class BusinessValidator implements Validator {
 	}
 
 	/**
-	 * Validate ProductModel Obj And ProdId
+	 * Validate ProductModel 
 	 * 
-	 * @param List<ProductModel> // Provide all required variable in this Obj
+	 * @param productModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Check Obj is null or and Id is greater that
 	 *         0
 	 * 
@@ -75,7 +75,7 @@ public class BusinessValidator implements Validator {
 	}
 
 	/**
-	 * Validate proId
+	 * Validate Id 
 	 * 
 	 * @param proId // Check Id is Empty or less than 0
 	 * @return ResponseEntity<Object> // Return null if Details are valid Using Obj
@@ -92,7 +92,7 @@ public class BusinessValidator implements Validator {
 	/**
 	 * Validate PageModel Obj
 	 * 
-	 * @param PageModel // Provide all required variable in this Obj
+	 * @param pageModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null If Obj is Valid
 	 * 
 	 */
@@ -108,7 +108,7 @@ public class BusinessValidator implements Validator {
 	/**
 	 * Validate UserModel Obj
 	 * 
-	 * @param UserModel // Provide all required variable in this Obj
+	 * @param userModel // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null if Obj is valid
 	 * 
 	 */
@@ -127,9 +127,9 @@ public class BusinessValidator implements Validator {
 	}
 
 	/**
-	 * Validate ProductModel Obj
+	 * Validate Product Obj
 	 * 
-	 * @param Product // Provide all required variable in this Obj
+	 * @param product // Provide all required variable in this Obj
 	 * @return ResponseEntity<Object> // Return null if Obj is null
 	 * 
 	 */
@@ -147,7 +147,7 @@ public class BusinessValidator implements Validator {
 	/**
 	 * Validate List<ProductModel> Obj
 	 * 
-	 * @param List<ProductModel>pModelList // Provide all required variable in this
+	 * @param pModelList // Provide all required variable in this
 	 *                                     Obj
 	 * @return ResponseEntity<Object> // Check List is empty or not and return
 	 *         values
@@ -208,7 +208,7 @@ public class BusinessValidator implements Validator {
 	@Override
 	public ResponseEntity<Object> hasSavedUser(User user) {
 		if (user != null && user.get_id() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY),
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY,user),
 					HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_DOES_NOT_ADDED),
@@ -218,9 +218,9 @@ public class BusinessValidator implements Validator {
 	}
 
 	/**
-	 * Check Product obj is not null and has id
+	 * Check Product is not null and has id
 	 * 
-	 * @param user   // Set Argument Product Obj
+	 * @param product   // Set Argument Product Obj
 	 * @return ResponseEntity<Object>  // Set string as per condition of Obj and return response
 	 */
 	@Override
@@ -234,7 +234,7 @@ public class BusinessValidator implements Validator {
 		}
 	}
 	/**
-	 * Change Product Model into Product Obj
+	 * Change ProductModel Model into Product Obj
 	 * @param productModel
 	 * @return Product Obj
 	 */

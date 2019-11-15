@@ -1,6 +1,8 @@
 package com.hcl.ms.cat.utils;
 
-/**
+/**Create StringUtils class
+ * Validate Strings
+ * 
  * @author SushilY
  *
  */
@@ -19,7 +21,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * validate email pattern
+	 * validate Email pattern
 	 * 
 	 * @param email // Set string Argument in param
 	 * @return boolean // If argument is corrected in email pattern will return true

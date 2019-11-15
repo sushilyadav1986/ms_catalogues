@@ -8,7 +8,8 @@ import com.hcl.ms.cat.entity.User;
 
 /**Create repository 
  * Execute DB operation Queries in DB
- *  Use Native/Custom function from Repository
+ * Use Native/Custom function from Repository
+ *  
  * @author SushilY
  *
  */

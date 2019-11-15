@@ -8,7 +8,8 @@ import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.ProductModel;
 
 /**Create custom Interface
- *  Communicate between Controller and Service
+ * Communicate between Controller and Service
+ * 
  * @author SushilY
  *
  */
@@ -29,26 +30,26 @@ public interface ProductService {
 
 	/**
 	 * @param userId
-	 * @return
+	 * @return List<Product>
 	 */
 	List<Product> findAllProductListByUserId(long userId);
 
 	/**
 	 * @param productModel
-	 * @return
+	 * @return String
 	 */
 	String updateProductDetails(ProductModel productModel);
 
 	/**
 	 * @param productId
-	 * @return
+	 * @return String
 	 */
 	String deleteByProductId(long productId);
 
 	/**
 	 * @param pageNumber
 	 * @param noOfProducts
-	 * @return
+	 * @return Page<Product>
 	 */
 	Page<Product> findAllProduct(int pageNumber, int noOfProducts);
 

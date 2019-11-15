@@ -13,7 +13,8 @@ import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.AppConstant;
 
 /**
- * Create Service class Single point of content for All User related operations
+ * Create Service class 
+ * Single point of content for All User related operations
  * in DB
  * 
  * @author SushilY
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	/**
-	 * Added repository to operate Catalogue related operation in DB
+	 * Added repository to operate Catalog related operation in DB
 	 */
 	@Autowired
 	CatalogueRepository catalogueRepository;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param userModel // Set Product Details
 	 * @return User // Return Action on DB
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public User saveUser(UserModel userModel) {

@@ -56,8 +56,6 @@ public class Product {
 	@PrimaryKeyJoinColumn
 	private Catalogue catalogue;
 
-	
-
 	protected Product(long prodId, String name, double price, String description, String availability,
 			Catalogue catalogue) {
 		this.prodId = prodId;
@@ -68,7 +66,7 @@ public class Product {
 		this.catalogue = catalogue;
 	}
 
-	/** Create Constructor Product
+	/** Create Product Constructor 
 	 * @param productModel  // Pass productModel values into Product Obj
 	 * 
 	 */

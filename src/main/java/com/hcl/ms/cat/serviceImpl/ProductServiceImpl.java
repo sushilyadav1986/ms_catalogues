@@ -21,8 +21,8 @@ import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.utils.AppConstant;
 
 /**
- * Create Service class Single point of content for All product related
- * operations in DB
+ * Create Service class 
+ * Single point of content for All product related operations in DB
  * 
  * @author SushilY
  *
@@ -45,10 +45,9 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to save Product details
 	 * 
-	 * 
 	 * @param product // Set Product Details
-	 * @return String // Return Action on DB Exception // Exception If compiler goes
-	 *         to catch()
+	 * @return String // Return Action on DB 
+	 * Exception // Exception If compiler goes to catch()
 	 */
 
 	@Override
@@ -64,10 +63,9 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to fetch Product details using product id...
 	 * 
-	 * 
-	 * @param Product id // Set Product id
-	 * @return ProductModel // ProductModel Details
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * @param productId // Set Product id
+	 * @return Product // ProductModel Details
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@ResponseStatus()
 	@Override
@@ -75,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product = null;
 		Optional<Product> productOptional = productRepository.findById(productId);
 		if (!productOptional.isPresent()) {
-			throw new ProductNotFoundException("Product id not Found" + productId);
+			throw new ProductNotFoundException("Product id "+productId+" not Found");
 		}
 		product = productOptional.get();
 		return product;
@@ -84,15 +82,15 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to fetch all Product details using user id...
 	 * 
-	 * @param User id // Set User id
+	 * @param userId // Set User id
 	 * @return ProductModel // ProductModel List<Product>
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public List<Product> findAllProductListByUserId(long userId) {
 		User user = userRepository.findUserById(userId);
 		if (user == null) {
-			throw new ProductNotFoundException("User id not Found" + userId);
+			throw new ProductNotFoundException("User id "+userId+" not Found" );
 		} else {
 			return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
 		}
@@ -101,9 +99,9 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to update Product details...
 	 * 
-	 * @param ProductModel // Set ProductModel Details
+	 * @param productModel // Set ProductModel Details
 	 * @return ProductModel // ProductModel String As action on DB
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public String updateProductDetails(ProductModel productModel) {
@@ -119,9 +117,9 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * This function is used to delete Product details using product id... /**
 	 * 
-	 * @param ProductModel id // Set ProductModel id
+	 * @param productId // Set ProductModel id
 	 * @return ProductModel // ProductModel String As action on DB
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public String deleteByProductId(long productId) {
@@ -138,9 +136,10 @@ public class ProductServiceImpl implements ProductService {
 	 * This function is used to get All Product details in respect of number of
 	 * Products ...
 	 * 
-	 * @param PageModel Details // Set ProductModel id
+	 * @param pageNumber // Set page number
+	 * @param noOfProducts // Set number of Products
 	 * @return Page<Product> // Page<Product>
-	 * @exception Exception // Exception If compiler goes to catch()
+	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
 	public Page<Product> findAllProduct(int pageNumber, int noOfProducts) {

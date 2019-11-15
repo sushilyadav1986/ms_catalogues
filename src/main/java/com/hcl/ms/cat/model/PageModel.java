@@ -12,7 +12,7 @@ public class PageModel {
 	private int noOfProducts;
 	
 	/**
-	 * @return
+	 * @return pageNumber
 	 */
 	public int getPageNumber() {
 		return pageNumber;
@@ -24,7 +24,7 @@ public class PageModel {
 		this.pageNumber = pageNumber;
 	}
 	/**
-	 * @return
+	 * @return noOfProducts
 	 */
 	public int getNoOfProducts() {
 		return noOfProducts;

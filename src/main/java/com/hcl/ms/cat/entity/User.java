@@ -37,7 +37,7 @@ public class User {
 	@JoinColumn(name = "cat_id")
 	private Catalogue catalogue;
 	
-	/** Create Constructor User
+	/** Create User Constructor 
 	 * @param userModel  // Change UserModel object into User
 	 * 
 	 */
@@ -94,7 +94,7 @@ public class User {
 	}
 
 	/**
-	 * @return Catalogue
+	 * @return Catalogue Obj
 	 */
 	public Catalogue getCatalogue() {
 		if(catalogue==null) {

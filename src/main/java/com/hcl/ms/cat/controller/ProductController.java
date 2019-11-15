@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.model.ResponseModel;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
+import com.hcl.ms.cat.validator.Validator;
 
 /**
  * Product controller class containing end-points for general product operations
@@ -73,7 +73,7 @@ public class ProductController {
 	 * 
 	 * @param productModel // Find all details from product model
 	 * @return ResponseEntity // Return Product details
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/findProductDetails")
 	public ResponseEntity<Object> findProductDetails(@RequestBody ProductModel productModel) {
@@ -96,7 +96,7 @@ public class ProductController {
 	 * 
 	 * @param userModel // Find all details from product model
 	 * @return ResponseEntity // Return List<Product> details
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/findAllProductByUserId")
 	public ResponseEntity<Object> findAllProductListByUserId(@RequestBody UserModel userModel) {
@@ -119,7 +119,7 @@ public class ProductController {
 	 * 
 	 * @param productModel // Update details in product
 	 * @return ResponseEntity // Return Product details
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/updateProductDetails")
 	public ResponseEntity<Object> updateProductDetail(@RequestBody ProductModel productModel) {
@@ -138,11 +138,11 @@ public class ProductController {
 	}
 
 	/**
-	 * Update Product Details in respect of Product Id
+	 * Delete Product Details in respect of Product Id
 	 * 
 	 * @param productModel // Delete Product
 	 * @return ResponseEntity // Return String as Action
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/deleteByProductId")
 	public ResponseEntity<Object> deleteProductDetail(@RequestBody ProductModel productModel) {
@@ -165,7 +165,7 @@ public class ProductController {
 	 * 
 	 * @param pageModel // Set Details of Paging
 	 * @return ResponseEntity // Return List<Product>
-	 * @exception Exception // Exception If JsonObject not proper
+	 * Exception // Exception If JsonObject not proper
 	 */
 	@PostMapping("/getByPagination")
 	public ResponseEntity<Object> findAllProductByPagination(@RequestBody PageModel pageModel) {

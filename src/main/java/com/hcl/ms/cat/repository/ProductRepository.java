@@ -23,13 +23,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	 * Fetch All Product List By User id
 	 * List should be Sorted By Name And Price in Ascending Order 
 	 * @param catalogId 
-	 * @return List
+	 * @return List<Product>
 	 */
 	List<Product> findByCatalogueCatIdOrderByNameAscPriceAsc(long catalogId);
 	
 	/**
 	 * Fetch All Product in Paging 
-	 * Each Product should be Belongs to Page 
+	 * Each Product should be belongs to Page 
 	 */
 	Page<Product> findAll(Pageable pageable);
 		

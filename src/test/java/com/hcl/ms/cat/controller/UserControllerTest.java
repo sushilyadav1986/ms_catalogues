@@ -12,11 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import com.hcl.ms.cat.CatalogueMsApplication;
-import com.hcl.ms.cat.controller.validator.Validator;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
+import com.hcl.ms.cat.validator.Validator;
 
 /**
  * Create UserControllerTest.class Test here UserController's function
