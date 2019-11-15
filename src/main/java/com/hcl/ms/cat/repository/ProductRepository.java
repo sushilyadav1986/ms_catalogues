@@ -25,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	 * @param catalogId 
 	 * @return List<Product>
 	 */
-	List<Product> findByCatalogueCatIdOrderByNameAscPriceAsc(long catalogId);
+	List<Product> findByCatalogueCatIdOrderByNameAscPriceDesc(long catalogId);
 	
 	/**
 	 * Fetch All Product in Paging 

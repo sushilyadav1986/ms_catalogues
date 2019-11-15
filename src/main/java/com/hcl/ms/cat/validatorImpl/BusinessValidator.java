@@ -226,7 +226,7 @@ public class BusinessValidator implements Validator {
 	@Override
 	public ResponseEntity<Object> hasSavedProduct(Product product) {
 		if (product != null && product.getProdId() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY),
+			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY,product),
 					HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED),

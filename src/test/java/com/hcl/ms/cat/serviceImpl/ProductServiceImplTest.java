@@ -121,7 +121,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 		User user = findUser();
 		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
-		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(pList);
+		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(Mockito.anyLong())).thenReturn(pList);
 		pList = pServiceImpl.findAllProductListByUserId(1);
 		assertEquals(7, pList.size());
 	}
@@ -135,7 +135,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 		User user = findUser();
 		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
-		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(Mockito.anyLong())).thenReturn(null);
+		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(Mockito.anyLong())).thenReturn(null);
 		pList = pServiceImpl.findAllProductListByUserId(1);
 		assertNull(pList);
 	}

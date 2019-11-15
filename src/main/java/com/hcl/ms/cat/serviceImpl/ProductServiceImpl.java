@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Autowired
 	ProductRepository productRepository;
+	
 	/**
 	 * Added repository to operate User related operation in DB
 	 */
@@ -92,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
 		if (user == null) {
 			throw new ProductNotFoundException("User id "+userId+" not Found" );
 		} else {
-			return productRepository.findByCatalogueCatIdOrderByNameAscPriceAsc(user.getCatalogue().getCatId());
+			return productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(user.getCatalogue().getCatId());
 		}
 	}
 

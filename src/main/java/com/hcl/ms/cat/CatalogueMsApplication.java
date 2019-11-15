@@ -22,8 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class CatalogueMsApplication {
 
-	/**Main() need to call as first function for java compiler
-	 * SpringApplication.run()will call first time to start Application
+	/**
 	 * Start CatalogMS Application  
 	 * Initialize AnnotationConfigApplicationContext class to create bean
 	 * Register Configuration classes

@@ -1,4 +1,4 @@
-package com.hcl.ms.cat.controller.validatorImpl;
+package com.hcl.ms.cat.validatorImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
