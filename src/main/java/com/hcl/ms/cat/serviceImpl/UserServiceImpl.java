@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.exception.UserNotFoundException;
-import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
 import com.hcl.ms.cat.service.UserService;
@@ -41,14 +40,13 @@ public class UserServiceImpl implements UserService {
 	 * used to save User details
 	 * 
 	 * 
-	 * @param userModel // Set Product Details
+	 * @param user // Set Product Details
 	 * @return User // Return Action on DB
 	 * Exception // Exception If compiler goes to catch()
 	 */
 	@Override
-	public User saveUser(UserModel userModel) {
-		User user = null;
-		user = userRepository.save(new User(userModel));
+	public User saveUser(User user) {
+		user = userRepository.save(user);
 		if (user == null) {
 			throw new UserNotFoundException(AppConstant.USER_DOES_NOT_ADDED);
 		}

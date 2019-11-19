@@ -15,7 +15,7 @@ import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
-import com.hcl.ms.cat.model.ResponseModel;
+import com.hcl.ms.cat.model.ObjectResponse;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.utils.AppConstant;
 
@@ -117,14 +117,14 @@ public class JUnitUtlils {
 	 * @return
 	 */
 	public ResponseEntity<Object> findResponseOnCatalogueIdBlank() {
-		return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
+		return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.CATALOGUE_ID_EMPTY), HttpStatus.OK);
 	}
 
 	/**
 	 * @return
 	 */
 	public ResponseEntity<Object> findResponseOnSaveProduct() {
-		return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY),
+		return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY),
 				HttpStatus.CREATED);
 	}
 
@@ -133,7 +133,7 @@ public class JUnitUtlils {
 	 */
 	public ResponseEntity<Object> findProductResponse() {
 		return new ResponseEntity<Object>(
-				new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, findProdModelWithId()), HttpStatus.OK);
+				new ObjectResponse(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, findProdModelWithId()), HttpStatus.OK);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class JUnitUtlils {
 	 */
 	public ResponseEntity<Object> findAllPageModelResponse() {
 		return new ResponseEntity<Object>(
-				new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, findAllProducts()), HttpStatus.OK);
+				new ObjectResponse(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, findAllProducts()), HttpStatus.OK);
 	}
 
 	/**
@@ -152,18 +152,6 @@ public class JUnitUtlils {
 			throw new IllegalArgumentException("a message");
 		});
 		return exception;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<ProductModel> findAllProductModel() {
-		List<ProductModel> pModelList = new ArrayList<ProductModel>();
-		for (int i = 0; i <= 6; i++) {
-			ProductModel productModel = new ProductModel();
-			pModelList.add(productModel);
-		}
-		return pModelList;
 	}
 
 	/**
@@ -222,14 +210,14 @@ public class JUnitUtlils {
 	 * @return
 	 */
 	public ResponseEntity<Object> findResponseWithoutEmail() {
-		return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
+		return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.ENTER_CORRECT_EMAIL), HttpStatus.OK);
 	}
 
 	/**
 	 * @return
 	 */
 	public ResponseEntity<Object> findResponseOnSavedUser() {
-		return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY),
+		return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.USER_ADDED_SUCCESSFULLY),
 				HttpStatus.CREATED);
 
 	}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.ms.cat.entity.User;
-import com.hcl.ms.cat.model.ResponseModel;
+import com.hcl.ms.cat.model.ObjectResponse;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.UserService;
 import com.hcl.ms.cat.validator.Validator;
@@ -51,11 +51,11 @@ public class UserController {
 		ResponseEntity<Object> responseEntity = businessValidator.validUserDetails(userModel);
 		if (responseEntity == null) {
 			try {
-				User savedUser = userService.saveUser(userModel);
+				User savedUser = userService.saveUser(businessValidator.fromUserModel(userModel));
 				ResponseEntity<Object> isSavedEntity=businessValidator.hasSavedUser(savedUser);
 				return isSavedEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {

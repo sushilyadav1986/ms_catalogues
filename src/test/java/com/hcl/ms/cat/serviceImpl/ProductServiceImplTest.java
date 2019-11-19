@@ -5,6 +5,7 @@ package com.hcl.ms.cat.serviceImpl;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
+import com.hcl.ms.cat.exception.ProductNotFoundException;
+import com.hcl.ms.cat.exception.UserNotFoundException;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
@@ -71,22 +74,24 @@ class ProductServiceImplTest extends JUnitUtlils {
 	}
 
 	/**
-	 * Test Function on save Product in Table If Product save, will return Exception
+	 * Test Function on save Product in Table If Product not save, will return
+	 * exception
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#saveProduct(com.hcl.ms.cat.model.ProductModel)}.
 	 */
 	@Test
 	void testSaveProductWhenFailure() {
 		ProductModel productModel = findProdutModel();
 		Product product = new Product(productModel);
-		Throwable exception = findException();
-		Mockito.when(productRepository.save(product)).thenThrow(exception);
-		Product hasSaved = pServiceImpl.saveProduct(product);
-		assertEquals(null, hasSaved);
+		Mockito.when(productRepository.save(product)).thenReturn(null);
+		Throwable exception = assertThrows(ProductNotFoundException.class, () -> {
+			pServiceImpl.saveProduct(product);
+		});
+		assertEquals(AppConstant.PRODUCT_ADDED_FAILED, exception.getMessage());
 	}
 
 	/**
 	 * Test method for FindProductDetails() When successfully execute
-	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductDetails(long)}.
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#findProductDetails(long)}.
 	 */
 
 	@Test
@@ -100,14 +105,16 @@ class ProductServiceImplTest extends JUnitUtlils {
 
 	/**
 	 * Test method for FindProductDetails() When object not get will return null
-	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#getProductDetails(long)}.
+	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#findProductDetails(long)}.
 	 */
 	@Test
 	void testFindProductDetailsWhenFailure() {
 		Optional<Product> optional = Optional.empty();
 		Mockito.when(productRepository.findById(1L)).thenReturn(optional);
-		Product pModel = pServiceImpl.findProductDetails(1);
-		assertNull(pModel);
+		Throwable exception = assertThrows(ProductNotFoundException.class, () -> {
+			pServiceImpl.findProductDetails(1);
+		});
+		assertEquals("Product id 1 not Found", exception.getMessage());
 	}
 
 	/**
@@ -121,7 +128,8 @@ class ProductServiceImplTest extends JUnitUtlils {
 		User user = findUser();
 		List<Product> pList = findAllProducts();
 		Mockito.when(userRepository.findUserById(Mockito.anyLong())).thenReturn(user);
-		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(Mockito.anyLong())).thenReturn(pList);
+		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(Mockito.anyLong()))
+				.thenReturn(pList);
 		pList = pServiceImpl.findAllProductListByUserId(1);
 		assertEquals(7, pList.size());
 	}
@@ -138,6 +146,11 @@ class ProductServiceImplTest extends JUnitUtlils {
 		Mockito.when(productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(Mockito.anyLong())).thenReturn(null);
 		pList = pServiceImpl.findAllProductListByUserId(1);
 		assertNull(pList);
+		Throwable exception = assertThrows(UserNotFoundException.class, () -> {
+			Mockito.when(userRepository.findUserById(1L)).thenReturn(null);
+			pServiceImpl.findAllProductListByUserId(1);
+		});
+		assertEquals("User id "+1+" not Found" , exception.getMessage());
 	}
 
 	/**
@@ -164,12 +177,14 @@ class ProductServiceImplTest extends JUnitUtlils {
 	void testUpdateProductDetailsWhenFailure() {
 		ProductModel productModel = findProdModelWithId();
 		Mockito.when(productRepository.existsById(1L)).thenReturn(false);
-		String hasUpdated = pServiceImpl.updateProductDetails(productModel);
-		assertEquals(AppConstant.PRODUCT_UPDATED_FAILED, hasUpdated);
+		Throwable exception = assertThrows(ProductNotFoundException.class, () -> {
+			pServiceImpl.updateProductDetails(productModel);
+		});
+		assertEquals(AppConstant.PRODUCT_UPDATED_FAILED, exception.getMessage());
 	}
 
 	/**
-	 * Test method for UpdateProductDetails() When product details get will return
+	 * Test method for DeleteByProductId() When product details get will return
 	 * failed string
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#deleteByProductI(long)}.
 	 */
@@ -183,7 +198,7 @@ class ProductServiceImplTest extends JUnitUtlils {
 	}
 
 	/**
-	 * Test method for UpdateProductDetails() When product details get will return
+	 * Test method for DeleteByProductId() When product details get will return
 	 * failed string
 	 * {@link com.hcl.ms.cat.serviceImpl.ProductServiceImpl#deleteByProductI(long)}.
 	 */
@@ -192,8 +207,10 @@ class ProductServiceImplTest extends JUnitUtlils {
 		Mockito.when(productRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 		Mockito.doNothing().when(productRepository).deleteById(1L);
 		Mockito.when(productRepository.existsById(1L)).thenReturn(true);
-		String hasDeleted = pServiceImpl.deleteByProductId(1L);
-		assertEquals(AppConstant.PRODUCT_NOT_DELETED, hasDeleted);
+		Throwable exception = assertThrows(ProductNotFoundException.class, () -> {
+			pServiceImpl.deleteByProductId(1L);
+		});
+		assertEquals(AppConstant.PRODUCT_NOT_DELETED, exception.getMessage());
 	}
 
 	/**
@@ -203,14 +220,13 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testFindAllProductWhenSuccess() {
-		//List<Product> productList = findAllProducts();
-		//Page<Product> pageList = new PageImpl<>(productList);
-		//Mockito.mock(PageRequest.class);
-		//Pageable pageable = PageRequest.of(1, 2);
-		//Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
-		//pageList = pServiceImpl.findAllProduct(1, 2);
-		//assertEquals(2, pageList.getSize());
-
+		 List<Product> productList = findAllProducts();
+		 Page<Product> pageList = new PageImpl<>(productList);
+		 Mockito.mock(PageRequest.class);
+		 Pageable pageable = PageRequest.of(1, 7);
+		 Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
+		 pageList = pServiceImpl.findAllProduct(1, 7);
+		 assertEquals(7, pageList.getContent().size());
 	}
 
 	/**
@@ -220,12 +236,12 @@ class ProductServiceImplTest extends JUnitUtlils {
 	 */
 	@Test
 	void testFindAllProductWhenFailure() {
-		List<Product> productList = findAllProducts();
-		Page<Product> pageList = new PageImpl<>(productList);
-		Pageable pageable = PageRequest.of(2, 3);
-		Mockito.when(productRepository.findAll(pageable)).thenReturn(pageList);
-		// List<ProductModel> productModels = pServiceImpl.findAllProduct(1, 2);
-		// assertEquals(0, productModels.size());
+		Mockito.mock(PageRequest.class);
+		Pageable pageable = PageRequest.of(1, 7);
+		Mockito.when(productRepository.findAll(pageable)).thenReturn(null);
+		Throwable exception = assertThrows(ProductNotFoundException.class, () -> {
+			pServiceImpl.findAllProduct(1, 7);
+		});
+		assertEquals(AppConstant.PRODUCT_NOT_AVAILABLE, exception.getMessage());
 	}
-
 }

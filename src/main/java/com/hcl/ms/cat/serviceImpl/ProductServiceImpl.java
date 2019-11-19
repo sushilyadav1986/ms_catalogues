@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.exception.ProductNotFoundException;
+import com.hcl.ms.cat.exception.UserNotFoundException;
 import com.hcl.ms.cat.model.ProductModel;
 import com.hcl.ms.cat.repository.ProductRepository;
 import com.hcl.ms.cat.repository.UserRepository;
@@ -91,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findAllProductListByUserId(long userId) {
 		User user = userRepository.findUserById(userId);
 		if (user == null) {
-			throw new ProductNotFoundException("User id "+userId+" not Found" );
+			throw new UserNotFoundException("User id "+userId+" not Found" );
 		} else {
 			return productRepository.findByCatalogueCatIdOrderByNameAscPriceDesc(user.getCatalogue().getCatId());
 		}

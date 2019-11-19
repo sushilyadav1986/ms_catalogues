@@ -8,7 +8,7 @@ package com.hcl.ms.cat.model;
  * @author SushilY
  *
  */
-public class ResponseModel {
+public class ObjectResponse {
 	
 	private Boolean status;
 	private String message;
@@ -61,7 +61,7 @@ public class ResponseModel {
 	 * @param message
 	 * @param productDetails
 	 */
-	public ResponseModel(Boolean status, String message, Object productDetails) {
+	public ObjectResponse(Boolean status, String message, Object productDetails) {
 		super();
 		this.status = status;
 		this.message = message;
@@ -71,7 +71,7 @@ public class ResponseModel {
 	 * @param status
 	 * @param message
 	 */
-	public ResponseModel(Boolean status, String message) {
+	public ObjectResponse(Boolean status, String message) {
 		super();
 		this.status = status;
 		this.message = message;

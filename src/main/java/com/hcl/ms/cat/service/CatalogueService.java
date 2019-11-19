@@ -13,7 +13,6 @@ public interface CatalogueService {
 	/**
 	 * Save Catalogue Details in respected Table
 	 * 
-	 * Fetch save Obj From Table
 	 * @param catalogueModel 
 	 * @return Catalogue
 	 */

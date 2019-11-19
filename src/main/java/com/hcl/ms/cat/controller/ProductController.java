@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
-import com.hcl.ms.cat.model.ResponseModel;
+import com.hcl.ms.cat.model.ObjectResponse;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.service.ProductService;
 import com.hcl.ms.cat.validator.Validator;
@@ -61,7 +61,7 @@ public class ProductController {
 				ResponseEntity<Object> savedEntity = businessValidator.hasSavedProduct(hasSaved);
 				return savedEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -84,7 +84,7 @@ public class ProductController {
 				Product model = productService.findProductDetails(productModel.getProductId());
 				return businessValidator.isProductNull(model);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -105,10 +105,10 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				List<Product> productList = productService.findAllProductListByUserId(userModel.getUserId());
-				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProdModel(productList);
+				ResponseEntity<Object> pModelListEntity = businessValidator.findAllProdModel(productList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(true, e.getMessage()),HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Object>(new ObjectResponse(true, e.getMessage()),HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			return responseEntity;
@@ -128,9 +128,9 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				String hasUpdated = productService.updateProductDetails(productModel);
-				return new ResponseEntity<Object>(new ResponseModel(true, hasUpdated), HttpStatus.OK);
+				return new ResponseEntity<Object>(new ObjectResponse(true, hasUpdated), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -151,9 +151,9 @@ public class ProductController {
 		if (responseEntity == null) {
 			try {
 				String hasDeleted = productService.deleteByProductId(productModel.getProductId());
-				return new ResponseEntity<Object>(new ResponseModel(true, hasDeleted), HttpStatus.OK);
+				return new ResponseEntity<Object>(new ObjectResponse(true, hasDeleted), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
@@ -175,10 +175,10 @@ public class ProductController {
 			try {
 				Page<Product> pageList = productService.findAllProduct(pageModel.getPageNumber(),
 						pageModel.getNoOfProducts());
-				ResponseEntity<Object> pModelListEntity = businessValidator.getAllProductByPageNumber(pageList);
+				ResponseEntity<Object> pModelListEntity = businessValidator.findAllProductByPageNumber(pageList);
 				return pModelListEntity;
 			} catch (Exception e) {
-				return new ResponseEntity<Object>(new ResponseModel(false, e.getMessage()),
+				return new ResponseEntity<Object>(new ObjectResponse(false, e.getMessage()),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {

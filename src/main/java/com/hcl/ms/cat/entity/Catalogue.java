@@ -59,45 +59,9 @@ public class Catalogue {
 	}
 
 	/**
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
 	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	/**
-	 * @return user
-	 */
-	public User getUser() {
-		return user;
-	}
-
-	/**
-	 * @param user
-	 */
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	/**
-	 * @return productList
-	 */
-	public List<Product> getProductList() {
-		return productList;
-	}
-
-	/**
-	 * @param productList
-	 */
-	public void setProductList(List<Product> productList) {
-		this.productList.addAll(productList);
-	}
-
 }

@@ -11,7 +11,7 @@ import com.hcl.ms.cat.entity.Product;
 import com.hcl.ms.cat.entity.User;
 import com.hcl.ms.cat.model.PageModel;
 import com.hcl.ms.cat.model.ProductModel;
-import com.hcl.ms.cat.model.ResponseModel;
+import com.hcl.ms.cat.model.ObjectResponse;
 import com.hcl.ms.cat.model.UserModel;
 import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.StringUtils;
@@ -34,10 +34,10 @@ public class BusinessValidator implements Validator {
 	@Override
 	public ResponseEntity<Object> validateProduct(ProductModel productModel) {
 		if (!isIdValid(productModel.getCatalogueId())) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.CATALOGUE_ID_EMPTY),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.CATALOGUE_ID_EMPTY),
 					HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(productModel.getProductName())) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PROD_NAME_BLANK), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PROD_NAME_BLANK), HttpStatus.OK);
 		} else {
 			return null;
 		}
@@ -47,14 +47,14 @@ public class BusinessValidator implements Validator {
 	 * Validate ProductModel 
 	 * 
 	 * @param productModel // Provide all required variable in this Obj
-	 * @return ResponseEntity<Object> // Check Obj is null or and Id is greater that
+	 * @return ResponseEntity<Object> // Check Obj is null or and Id is greater than
 	 *         0
 	 * 
 	 */
 	@Override
 	public ResponseEntity<Object> validateProductWithProdId(ProductModel productModel) {
 		if (!isIdValid(productModel.getProductId())) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.ENTER_ID_0), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.ENTER_ID_0), HttpStatus.OK);
 		} else {
 			return null;
 		}
@@ -64,7 +64,7 @@ public class BusinessValidator implements Validator {
 	 * Validate id
 	 * 
 	 * @param id // Set long Argument in param
-	 * @return // Return true if param is greater that 0
+	 * @return // Return true if param is greater than 0
 	 */
 	private boolean isIdValid(long id) {
 		if (id > 0) {
@@ -85,7 +85,7 @@ public class BusinessValidator implements Validator {
 		if (isIdValid(proId)) {
 			return null;
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.ENTER_ID_0), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.ENTER_ID_0), HttpStatus.OK);
 		}
 	}
 
@@ -97,10 +97,10 @@ public class BusinessValidator implements Validator {
 	 * 
 	 */
 	public ResponseEntity<Object> isValidPage(PageModel pageModel) {
-		if (pageModel.getPageNumber() > 0 && pageModel.getNoOfProducts() > 0) {
+		if (pageModel!=null && pageModel.getPageNumber() > 0 && pageModel.getNoOfProducts() > 0) {
 			return null;
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PAGE_AND_PROD_BLANK),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PAGE_AND_PROD_BLANK),
 					HttpStatus.OK);
 		}
 	}
@@ -114,13 +114,13 @@ public class BusinessValidator implements Validator {
 	 */
 	public ResponseEntity<Object> validUserDetails(UserModel userModel) {
 		if (!StringUtils.isEmailPattern(userModel.getEmail())) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.ENTER_CORRECT_EMAIL),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.ENTER_CORRECT_EMAIL),
 					HttpStatus.OK);
 		} else if (String.valueOf(userModel.getContactNumber()).length() != 10) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.ENTER_10_DIGIT_CONTACT_NUMBER),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.ENTER_10_DIGIT_CONTACT_NUMBER),
 					HttpStatus.OK);
 		} else if (StringUtils.isNullOrEmpty(userModel.getFirstName())) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.FIRST_NAME_EMPTY), HttpStatus.OK);
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.FIRST_NAME_EMPTY), HttpStatus.OK);
 		} else {
 			return null;
 		}
@@ -136,10 +136,10 @@ public class BusinessValidator implements Validator {
 	public ResponseEntity<Object> isProductNull(Product product) {
 		if (product != null) {
 			return new ResponseEntity<Object>(
-					new ResponseModel(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, new ProductModel(product)),
+					new ObjectResponse(true, AppConstant.PRODUCT_FIND_SUCCESSFULLY, new ProductModel(product)),
 					HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
 		}
 	}
@@ -154,11 +154,11 @@ public class BusinessValidator implements Validator {
 	 * 
 	 */
 	public ResponseEntity<Object> isProdModelListEmpty(List<ProductModel> pModelList) {
-		if (!pModelList.isEmpty() && pModelList.size() > 0) {
+		if (pModelList !=null && !pModelList.isEmpty() && pModelList.size() > 0) {
 			return new ResponseEntity<Object>(
-					new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, pModelList), HttpStatus.OK);
+					new ObjectResponse(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, pModelList), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
 		}
 	}
@@ -167,36 +167,36 @@ public class BusinessValidator implements Validator {
 	 * Change Product list into ProductModel list
 	 * 
 	 * @param productList // Set List of Product
-	 * @return List // Return List of ProductModel
+	 * @return ResponseEntity<Object> // Return List of ProductModel in Response Obj
 	 */
 	@Override
-	public ResponseEntity<Object> getAllProdModel(List<Product> productList) {
+	public ResponseEntity<Object> findAllProdModel(List<Product> productList) {
 		if (productList != null && !productList.isEmpty()) {
 			List<ProductModel> prodModelList = new ArrayList<>();
 			for (Product product : productList) {
 				prodModelList.add(new ProductModel(product));
 			}
 			return new ResponseEntity<Object>(
-					new ResponseModel(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, prodModelList), HttpStatus.OK);
+					new ObjectResponse(true, AppConstant.PRODUCT_LIST_FIND_SUCCESSFULLY, prodModelList), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_DOES_NOT_EXIST),
 					HttpStatus.OK);
 		}
 	}
 
 	/**
-	 * Change Product list into ProductModel list
+	 * Change Page Product list into ProductModel list
 	 * 
 	 * @param pageList
-	 * @return List
+	 * @return ResponseEntity<Object>
 	 */
 	@Override
-	public ResponseEntity<Object> getAllProductByPageNumber(Page<Product> pageList) {
+	public ResponseEntity<Object> findAllProductByPageNumber(Page<Product> pageList) {
 		List<Product> noOfProdList = new ArrayList<Product>();
 		if (noOfProdList != null && !noOfProdList.isEmpty()) {
-			noOfProdList = pageList.toList();
+			noOfProdList.addAll(pageList.toList());
 		}
-		return getAllProdModel(noOfProdList);
+		return findAllProdModel(noOfProdList);
 	}
 
 	/**
@@ -208,10 +208,10 @@ public class BusinessValidator implements Validator {
 	@Override
 	public ResponseEntity<Object> hasSavedUser(User user) {
 		if (user != null && user.get_id() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_ADDED_SUCCESSFULLY,user),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.USER_ADDED_SUCCESSFULLY,user),
 					HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.USER_DOES_NOT_ADDED),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.USER_DOES_NOT_ADDED),
 					HttpStatus.OK);
 
 		}
@@ -226,13 +226,14 @@ public class BusinessValidator implements Validator {
 	@Override
 	public ResponseEntity<Object> hasSavedProduct(Product product) {
 		if (product != null && product.getProdId() > 0) {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY,product),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_ADDED_SUCCESSFULLY,product),
 					HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<Object>(new ResponseModel(true, AppConstant.PRODUCT_DOES_NOT_ADDED),
+			return new ResponseEntity<Object>(new ObjectResponse(true, AppConstant.PRODUCT_DOES_NOT_ADDED),
 					HttpStatus.OK);
 		}
 	}
+	
 	/**
 	 * Change ProductModel Model into Product Obj
 	 * @param productModel
@@ -241,5 +242,14 @@ public class BusinessValidator implements Validator {
 	@Override
 	public Product fromProductModel(ProductModel productModel) {
 		return new Product(productModel);
+	}
+	/**
+	 * Change UserModel Model into User Obj
+	 * @param userModel
+	 * @return User
+	 */
+	@Override
+	public User fromUserModel(UserModel userModel) {
+		return new User(userModel);
 	}
 }

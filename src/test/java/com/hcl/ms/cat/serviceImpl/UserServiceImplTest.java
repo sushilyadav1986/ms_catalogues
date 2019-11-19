@@ -4,6 +4,7 @@
 package com.hcl.ms.cat.serviceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hcl.ms.cat.CatalogueMsApplication;
 import com.hcl.ms.cat.entity.Catalogue;
 import com.hcl.ms.cat.entity.User;
-import com.hcl.ms.cat.model.UserModel;
+import com.hcl.ms.cat.exception.UserNotFoundException;
 import com.hcl.ms.cat.repository.CatalogueRepository;
 import com.hcl.ms.cat.repository.UserRepository;
+import com.hcl.ms.cat.utils.AppConstant;
 import com.hcl.ms.cat.utils.test.JUnitUtlils;
 
 /**
@@ -56,21 +58,21 @@ class UserServiceImplTest extends JUnitUtlils {
 	@Test
 	void testSaveUserWhenSuccess() {
 		User user = findUser();
-		UserModel userModel=findUserModelWithUserId();	
 		Catalogue catalogue=new Catalogue();
 		Mockito.when(userRepository.save(user)).thenReturn(user);
 		Mockito.when(catalogueRepository.save(catalogue)).thenReturn(user.getCatalogue());
-		User user2= userServiceImpl.saveUser(userModel);
+		User user2= userServiceImpl.saveUser(user);
 		assertEquals(user,user2);
 	}
 	
 	@Test
 	void testSaveUserWhenFailure() {
 		User user = findUser();
-		UserModel userModel=findUserModelWithUserId();		
-		//Mockito.when(userRepository.save(user)).thenReturn(user);
+		Mockito.when(userRepository.save(user)).thenReturn(null);
 		Mockito.when(catalogueRepository.save(user.getCatalogue())).thenReturn(user.getCatalogue());
-		User user2 = userServiceImpl.saveUser(userModel);
-		assertEquals(user,user2);
+		Throwable exception = assertThrows(UserNotFoundException.class, () -> {
+			userServiceImpl.saveUser(user);
+		});
+		assertEquals(AppConstant.USER_DOES_NOT_ADDED, exception.getMessage());
 	}
 }

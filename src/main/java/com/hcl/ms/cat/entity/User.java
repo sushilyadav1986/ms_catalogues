@@ -114,13 +114,6 @@ public class User {
 	/**
 	 * @return long
 	 */
-	public long getId() {
-		return _id;
-	}
-
-	/**
-	 * @return long
-	 */
 	public long getContactNumber() {
 		return contactNumber;
 	}

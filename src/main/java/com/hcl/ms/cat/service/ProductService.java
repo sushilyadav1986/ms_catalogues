@@ -17,36 +17,37 @@ public interface ProductService {
 
 	
 	/**Save Product Details
+	 * 
 	 * @param product   // Get Product Details From Controller
 	 * @return Product	// Return Product Details From DB
 	 */
 	Product saveProduct(Product product);
 	
-	/**
+	/**Find Product Details using productId
 	 * @param productId
 	 * @return Product
 	 */
 	Product findProductDetails(long productId);
 
-	/**
+	/**Find Product Details List using userId
 	 * @param userId
 	 * @return List<Product>
 	 */
 	List<Product> findAllProductListByUserId(long userId);
 
-	/**
+	/**Update Product Details
 	 * @param productModel
 	 * @return String
 	 */
 	String updateProductDetails(ProductModel productModel);
 
-	/**
+	/**Delete Product Details using productId
 	 * @param productId
 	 * @return String
 	 */
 	String deleteByProductId(long productId);
 
-	/**
+	/**Find Product Details List in respect of Page number
 	 * @param pageNumber
 	 * @param noOfProducts
 	 * @return Page<Product>

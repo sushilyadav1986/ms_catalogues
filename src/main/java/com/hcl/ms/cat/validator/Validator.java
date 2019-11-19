@@ -82,7 +82,7 @@ public interface Validator {
 	 * @param productList
 	 * @return ResponseEntity<Object>
 	 */
-	public ResponseEntity<Object> getAllProdModel(List<Product> productList);
+	public ResponseEntity<Object> findAllProdModel(List<Product> productList);
 
 	/**
 	 * Change Page Product List into Response Entity using another function Validate
@@ -91,7 +91,7 @@ public interface Validator {
 	 * @param pageList
 	 * @return Response Entity
 	 */
-	public ResponseEntity<Object> getAllProductByPageNumber(Page<Product> pageList);
+	public ResponseEntity<Object> findAllProductByPageNumber(Page<Product> pageList);
 
 	/**
 	 * Check User Details has saved in Table Get USer Details From Controller
@@ -113,7 +113,14 @@ public interface Validator {
 	 * Change ProductModel Details in Product
 	 * 
 	 * @param productModel
-	 * @return Product Details
+	 * @return Product 
 	 */
 	public Product fromProductModel(ProductModel productModel);
+	/**
+	 * Change UserModel Details in User
+	 * 
+	 * @param userModel
+	 * @return User
+	 */
+	public User fromUserModel(UserModel userModel);
 }
